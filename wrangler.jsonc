@@ -4,9 +4,14 @@
   "main": "src/worker.ts",
   "compatibility_date": "2025-02-14",
   "compatibility_flags": ["nodejs_compat"],
+  "build": {
+    "command": "npm run build"
+  },
   "assets": {
     "directory": "./public",
     "binding": "ASSETS"
+  },
+  "observability": {
+    "enabled": true
   }
 }
-
