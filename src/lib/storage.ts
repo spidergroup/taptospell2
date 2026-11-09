@@ -8,6 +8,9 @@ import {
 
 export const PREF_GRADE_KEY = 't2s_pref_grade';
 export const SAVE_STATE_KEY = 't2s_save_state';
+export const PREF_KEYBOARD_LAYOUT_KEY = 't2s_pref_keyboard_layout';
+
+export type KeyboardLayout = 'bank' | 'qwerty';
 
 export interface GameState {
   isActive: boolean;
@@ -65,6 +68,19 @@ export function saveGradePref(grade: GradeLevel): void {
   const storage = getStorage();
   if (!storage) return;
   storage.setItem(PREF_GRADE_KEY, String(grade));
+}
+
+export function loadKeyboardLayoutPref(): KeyboardLayout {
+  const storage = getStorage();
+  if (!storage) return 'bank';
+  const saved = storage.getItem(PREF_KEYBOARD_LAYOUT_KEY);
+  return saved === 'qwerty' ? 'qwerty' : 'bank';
+}
+
+export function saveKeyboardLayoutPref(layout: KeyboardLayout): void {
+  const storage = getStorage();
+  if (!storage) return;
+  storage.setItem(PREF_KEYBOARD_LAYOUT_KEY, layout);
 }
 
 export function reconstructUsedKeyIndices(
@@ -164,4 +180,3 @@ export function loadSavedGame(): GameState | null {
     return null;
   }
 }
-

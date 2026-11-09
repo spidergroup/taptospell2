@@ -11,6 +11,7 @@ import {
   getWordsPerLevel,
 } from './data/words';
 import {
+  getAudioMuted,
   initSpeechVoices,
   playContinueGameSound,
   playExitHomeSound,
@@ -19,9 +20,12 @@ import {
   playStartGameSound,
   playTypeLetterSound,
   playUseHintSound,
+  playWordAudio,
   playWordCorrectFanfare,
   playWordWrongSound,
+  setAudioMuted,
   speakWord,
+  stopWordAudio,
 } from './lib/audio';
 import { resetConfetti, startLevelConfetti, startWordConfetti } from './lib/confetti';
 import {
@@ -40,23 +44,42 @@ import {
 } from './lib/seo';
 import {
   type GameState,
+  type KeyboardLayout,
   clearSaveState,
   createInitialGameState,
   loadGradePref,
+  loadKeyboardLayoutPref,
   loadSavedGame,
   saveGameState,
   saveGradePref,
+  saveKeyboardLayoutPref,
 } from './lib/storage';
 
-export interface AppProps {
-  initialPath?: string;
-}
-
-function deriveInitialRouteState(initialPath?: string): {
+export interface InitialRouteState {
   screen: 'home' | 'game';
   grade: GradeLevel;
   gameState: GameState;
-} {
+}
+
+export interface AppProps {
+  initialPath?: string;
+  initialRoute?: InitialRouteState;
+}
+
+export function deriveInitialRouteState(
+  initialPath?: string,
+  initialRoute?: InitialRouteState
+): InitialRouteState {
+  if (initialRoute) return initialRoute;
+  if (typeof window !== 'undefined') {
+    const scriptEl = document.getElementById('__INITIAL_STATE__');
+    if (scriptEl && scriptEl.textContent) {
+      try {
+        const parsed = JSON.parse(scriptEl.textContent);
+        if (parsed && parsed.gameState && parsed.screen) return parsed;
+      } catch {}
+    }
+  }
   const path =
     initialPath ?? (typeof window !== 'undefined' ? window.location.pathname : '/');
   const routeSeo = resolveSeoForPathname(path);
@@ -105,14 +128,20 @@ function deriveInitialRouteState(initialPath?: string): {
   };
 }
 
-export function App({ initialPath }: AppProps = {}) {
-  const initialRoute = deriveInitialRouteState(initialPath);
-  const [screen, setScreen] = useState<'home' | 'game'>(initialRoute.screen);
-  const [userPrefGrade, setUserPrefGrade] = useState<GradeLevel>(initialRoute.grade);
-  const [gameState, setGameState] = useState<GameState>(initialRoute.gameState);
+export function App({ initialPath, initialRoute }: AppProps = {}) {
+  const initialRouteState = deriveInitialRouteState(initialPath, initialRoute);
+  const [screen, setScreen] = useState<'home' | 'game'>(initialRouteState.screen);
+  const [userPrefGrade, setUserPrefGrade] = useState<GradeLevel>(initialRouteState.grade);
+  const [gameState, setGameState] = useState<GameState>(initialRouteState.gameState);
   const [savedGameBanner, setSavedGameBanner] = useState<GameState | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isShaking, setIsShaking] = useState(false);
+  const [isWordSuccess, setIsWordSuccess] = useState(false);
+  const [hintedKeyIndex, setHintedKeyIndex] = useState<number | null>(null);
+  const [isMuted, setIsMuted] = useState<boolean>(() => getAudioMuted());
+  const [keyboardLayout, setKeyboardLayout] = useState<KeyboardLayout>(() =>
+    loadKeyboardLayoutPref()
+  );
   const [overlayVisible, setOverlayVisible] = useState(false);
   const [overlayTimeLeft, setOverlayTimeLeft] = useState(5);
 
@@ -130,6 +159,23 @@ export function App({ initialPath }: AppProps = {}) {
   const checkWinTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const speakTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const shakeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hintPulseTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleToggleMute = useCallback(() => {
+    setIsMuted((prev) => {
+      const next = !prev;
+      setAudioMuted(next);
+      return next;
+    });
+  }, []);
+
+  const handleToggleKeyboardLayout = useCallback(() => {
+    setKeyboardLayout((prev) => {
+      const next = prev === 'qwerty' ? 'bank' : 'qwerty';
+      saveKeyboardLayoutPref(next);
+      return next;
+    });
+  }, []);
 
   const syncUrlAndSeo = useCallback(
     (nextScreen: 'home' | 'game', grade: GradeLevel, category?: CategoryName, level?: number) => {
@@ -176,6 +222,13 @@ export function App({ initialPath }: AppProps = {}) {
       clearTimeout(shakeTimeoutRef.current);
       shakeTimeoutRef.current = null;
     }
+    if (hintPulseTimeoutRef.current) {
+      clearTimeout(hintPulseTimeoutRef.current);
+      hintPulseTimeoutRef.current = null;
+    }
+    setIsWordSuccess(false);
+    setHintedKeyIndex(null);
+    stopWordAudio();
     resetConfetti();
   }, []);
 
@@ -189,9 +242,12 @@ export function App({ initialPath }: AppProps = {}) {
       saveGradePref(directSeoRoute.grade);
       saveGameState(gameStateRef.current);
       updateDocumentSeo(directSeoRoute);
-      const firstWord = gameStateRef.current.currentLevelWords[0]?.w;
-      if (firstWord) {
-        speakTimeoutRef.current = setTimeout(() => speakWord(firstWord), 300);
+      const firstWordObj = gameStateRef.current.currentLevelWords[0];
+      if (firstWordObj?.w) {
+        speakTimeoutRef.current = setTimeout(
+          () => playWordAudio(firstWordObj.w, firstWordObj.audio),
+          300
+        );
       }
     } else {
       const pref = directSeoRoute?.path === '/high-school' ? 'high_school' : loadGradePref();
@@ -210,12 +266,12 @@ export function App({ initialPath }: AppProps = {}) {
     };
   }, [clearAllTimers]);
 
-  const scheduleAutoSpeak = useCallback((word: string) => {
+  const scheduleAutoSpeak = useCallback((word: string, customAudio?: string) => {
     if (speakTimeoutRef.current) {
       clearTimeout(speakTimeoutRef.current);
     }
     speakTimeoutRef.current = setTimeout(() => {
-      speakWord(word);
+      playWordAudio(word, customAudio);
     }, 300);
   }, []);
 
@@ -223,6 +279,8 @@ export function App({ initialPath }: AppProps = {}) {
     (incomingState: GameState) => {
       setIsTransitioning(false);
       isTransitioningRef.current = false;
+      setIsWordSuccess(false);
+      setHintedKeyIndex(null);
 
       const prepared = initWordState(incomingState);
       setGameState(prepared);
@@ -230,9 +288,9 @@ export function App({ initialPath }: AppProps = {}) {
       saveGameState(prepared);
       syncUrlAndSeo('game', prepared.grade, prepared.category, prepared.level);
 
-      const currentWord = prepared.currentLevelWords[prepared.wordIndex]?.w;
-      if (currentWord) {
-        scheduleAutoSpeak(currentWord);
+      const currentWordObj = prepared.currentLevelWords[prepared.wordIndex];
+      if (currentWordObj?.w) {
+        scheduleAutoSpeak(currentWordObj.w, currentWordObj.audio);
       }
     },
     [scheduleAutoSpeak, syncUrlAndSeo]
@@ -269,6 +327,7 @@ export function App({ initialPath }: AppProps = {}) {
         resetConfetti();
         setOverlayVisible(false);
         overlayVisibleRef.current = false;
+        setIsWordSuccess(false);
 
         if (completedState.level >= TOTAL_LEVELS) {
           clearSaveState();
@@ -315,6 +374,7 @@ export function App({ initialPath }: AppProps = {}) {
           ...candidateState,
           showErrors: true,
         };
+        setIsWordSuccess(false);
         setGameState(erroredState);
         gameStateRef.current = erroredState;
         saveGameState(erroredState);
@@ -331,6 +391,7 @@ export function App({ initialPath }: AppProps = {}) {
       // Word Correct!
       setIsTransitioning(true);
       isTransitioningRef.current = true;
+      setIsWordSuccess(true);
       playWordCorrectFanfare();
 
       const nextScore = candidateState.score + 10;
@@ -493,21 +554,65 @@ export function App({ initialPath }: AppProps = {}) {
 
   const handleUseHint = useCallback(() => {
     if (isTransitioningRef.current) return;
-    const { state: updated, applied } = applySmartHintState(gameStateRef.current);
+    const { state: updated, applied, keyIndex } = applySmartHintState(gameStateRef.current);
     if (!applied) return;
 
     playUseHintSound();
+    if (keyIndex !== -1) {
+      setHintedKeyIndex(keyIndex);
+      if (hintPulseTimeoutRef.current) clearTimeout(hintPulseTimeoutRef.current);
+      hintPulseTimeoutRef.current = setTimeout(() => {
+        setHintedKeyIndex(null);
+      }, 800);
+    }
     setGameState(updated);
     gameStateRef.current = updated;
     saveGameState(updated);
     scheduleCheckWin(updated);
   }, [scheduleCheckWin]);
 
+  const handleSelectLevel = useCallback(
+    (targetLevel: number) => {
+      const current = gameStateRef.current;
+      if (targetLevel === current.level) return;
+
+      const clampedLevel = Math.max(1, Math.min(TOTAL_LEVELS, Math.floor(targetLevel)));
+      clearAllTimers();
+      playGradeSelectSound();
+
+      setOverlayVisible(false);
+      overlayVisibleRef.current = false;
+      setIsTransitioning(false);
+      isTransitioningRef.current = false;
+
+      const { words, wordPoolQueue } = generateLevelWords(
+        current.category,
+        current.grade,
+        clampedLevel,
+        current.wordPoolQueue
+      );
+
+      const nextState: GameState = {
+        ...current,
+        level: clampedLevel,
+        wordIndex: 0,
+        currentLevelWords: words,
+        wordPoolQueue,
+        filledSlots: [],
+        usedKeyIndices: [],
+        showErrors: false,
+      };
+
+      loadWordIntoGame(nextState);
+    },
+    [clearAllTimers, loadWordIntoGame]
+  );
+
   const handleSpeakCurrentWord = useCallback(() => {
     const current = gameStateRef.current;
-    const word = current.currentLevelWords[current.wordIndex]?.w;
-    if (word) {
-      speakWord(word);
+    const wordObj = current.currentLevelWords[current.wordIndex];
+    if (wordObj?.w) {
+      playWordAudio(wordObj.w, wordObj.audio);
     }
   }, []);
 
@@ -541,6 +646,8 @@ export function App({ initialPath }: AppProps = {}) {
         <HomeScreen
           selectedGrade={userPrefGrade}
           savedGame={savedGameBanner}
+          isMuted={isMuted}
+          onToggleMute={handleToggleMute}
           onSelectGradeAndStart={handleSelectGradeAndStart}
           onSelectHighSchool={handleSelectHighSchool}
           onStartHighSchoolCategory={handleStartHighSchoolCategory}
@@ -550,6 +657,13 @@ export function App({ initialPath }: AppProps = {}) {
         <GameScreen
           gameState={gameState}
           isShaking={isShaking}
+          isWordSuccess={isWordSuccess}
+          hintedKeyIndex={hintedKeyIndex}
+          isMuted={isMuted}
+          keyboardLayout={keyboardLayout}
+          onToggleMute={handleToggleMute}
+          onToggleKeyboardLayout={handleToggleKeyboardLayout}
+          onSelectLevel={handleSelectLevel}
           onExitToHome={handleExitToHome}
           onSpeakWord={handleSpeakCurrentWord}
           onTypeLetter={handleTypeLetter}

@@ -1,9 +1,13 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import {
+  getAudioMuted,
   playGradeSelectSound,
   playTone,
+  playWordAudio,
   resetAudioContextForTesting,
+  setAudioMuted,
   speakWord,
+  stopWordAudio,
 } from './audio';
 
 describe('audio.ts — Web Audio API Synthesizer & Web Speech API TTS', () => {
@@ -76,6 +80,26 @@ describe('audio.ts — Web Audio API Synthesizer & Web Speech API TTS', () => {
     expect(lastOsc.frequency.setValueAtTime).toHaveBeenCalledWith(400, 1.0);
   });
 
+  it('suppresses audio tones and speech when audio is muted', () => {
+    setAudioMuted(true);
+    expect(getAudioMuted()).toBe(true);
+
+    playTone(600, 'triangle', 0.2, 0.15);
+    expect(resumeSpy).not.toHaveBeenCalled();
+
+    const speakSpy = vi.fn();
+    Object.defineProperty(globalThis, 'speechSynthesis', {
+      value: { speak: speakSpy, cancel: vi.fn(), getVoices: () => [] },
+      configurable: true,
+      writable: true,
+    });
+    speakWord('CAT');
+    expect(speakSpy).not.toHaveBeenCalled();
+
+    setAudioMuted(false);
+    expect(getAudioMuted()).toBe(false);
+  });
+
   it('cancels active speech and speaks lowercase utterance at rate 0.85, pitch 1.2 with Google English voice', () => {
     const cancelSpy = vi.fn();
     const speakSpy = vi.fn();
@@ -120,5 +144,53 @@ describe('audio.ts — Web Audio API Synthesizer & Web Speech API TTS', () => {
     expect(spoken.pitch).toBe(1.2);
     expect(spoken.voice).toBe(googleVoice);
   });
-});
 
+  it('plays custom Audio when available and falls back to speakWord on error', async () => {
+    const playSpy = vi.fn().mockRejectedValue(new Error('File not found'));
+    const pauseSpy = vi.fn();
+    const eventListeners: Record<string, Function[]> = {};
+
+    class MockAudio {
+      src: string;
+      currentTime = 0;
+      play = playSpy;
+      pause = pauseSpy;
+      constructor(src: string) {
+        this.src = src;
+      }
+      addEventListener(event: string, handler: Function) {
+        if (!eventListeners[event]) eventListeners[event] = [];
+        eventListeners[event].push(handler);
+      }
+    }
+
+    Object.defineProperty(globalThis, 'Audio', {
+      value: MockAudio,
+      configurable: true,
+      writable: true,
+    });
+
+    const cancelSpy = vi.fn();
+    const speakSpy = vi.fn();
+    Object.defineProperty(globalThis, 'speechSynthesis', {
+      value: {
+        cancel: cancelSpy,
+        speak: speakSpy,
+        getVoices: () => [],
+      },
+      configurable: true,
+      writable: true,
+    });
+
+    playWordAudio('CAT');
+    expect(playSpy).toHaveBeenCalled();
+
+    // Trigger error listener fallback
+    if (eventListeners['error']) {
+      eventListeners['error'].forEach((cb) => cb());
+    }
+
+    expect(speakSpy).toHaveBeenCalled();
+    stopWordAudio();
+  });
+});

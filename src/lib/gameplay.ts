@@ -93,16 +93,17 @@ export interface SmartHintResult {
   state: GameState;
   applied: boolean;
   slotIndex: number;
+  keyIndex: number;
 }
 
 export function applySmartHintState(state: GameState): SmartHintResult {
   if (state.hintsRemaining <= 0) {
-    return { state, applied: false, slotIndex: -1 };
+    return { state, applied: false, slotIndex: -1, keyIndex: -1 };
   }
 
   const currentWordObj = state.currentLevelWords[state.wordIndex];
   if (!currentWordObj) {
-    return { state, applied: false, slotIndex: -1 };
+    return { state, applied: false, slotIndex: -1, keyIndex: -1 };
   }
 
   const targetWord = currentWordObj.w;
@@ -146,11 +147,12 @@ export function applySmartHintState(state: GameState): SmartHintResult {
         },
         applied: true,
         slotIndex: i,
+        keyIndex: keyIndex !== -1 ? keyIndex : -1,
       };
     }
   }
 
-  return { state, applied: false, slotIndex: -1 };
+  return { state, applied: false, slotIndex: -1, keyIndex: -1 };
 }
 
 export const useHint = applySmartHintState;

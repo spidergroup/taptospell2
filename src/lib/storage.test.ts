@@ -5,9 +5,11 @@ import {
   clearSaveState,
   createInitialGameState,
   loadGradePref,
+  loadKeyboardLayoutPref,
   loadSavedGame,
   saveGameState,
   saveGradePref,
+  saveKeyboardLayoutPref,
 } from './storage';
 
 class MemoryStorage implements Storage {
@@ -51,6 +53,16 @@ describe('storage.ts — LocalStorage Persistence & Recovery', () => {
     expect(loadGradePref()).toBe('high_school');
   });
 
+  it('persists and loads keyboard layout preferences (bank vs qwerty)', () => {
+    expect(loadKeyboardLayoutPref()).toBe('bank');
+
+    saveKeyboardLayoutPref('qwerty');
+    expect(loadKeyboardLayoutPref()).toBe('qwerty');
+
+    saveKeyboardLayoutPref('bank');
+    expect(loadKeyboardLayoutPref()).toBe('bank');
+  });
+
   it('saves and restores active game state and reconstructs missing usedKeyIndices', () => {
     const legacySave = {
       ...createInitialGameState(3),
@@ -89,4 +101,3 @@ describe('storage.ts — LocalStorage Persistence & Recovery', () => {
     expect(loadSavedGame()).toBeNull();
   });
 });
-

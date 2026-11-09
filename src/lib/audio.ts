@@ -1,6 +1,35 @@
 type OscillatorWaveType = OscillatorType;
 
+export const AUDIO_MUTED_KEY = 't2s_audio_muted';
+
 let sharedAudioCtx: AudioContext | null = null;
+let memoryMuted = false;
+
+export function getAudioMuted(): boolean {
+  if (typeof window !== 'undefined' && window.localStorage) {
+    try {
+      const val = window.localStorage.getItem(AUDIO_MUTED_KEY);
+      if (val !== null) return val === 'true';
+    } catch {
+      // ignore
+    }
+  }
+  return memoryMuted;
+}
+
+export function setAudioMuted(muted: boolean): void {
+  memoryMuted = muted;
+  if (typeof window !== 'undefined' && window.localStorage) {
+    try {
+      window.localStorage.setItem(AUDIO_MUTED_KEY, String(muted));
+    } catch {
+      // ignore
+    }
+  }
+  if (muted) {
+    stopWordAudio();
+  }
+}
 
 function getAudioContext(): AudioContext | null {
   if (typeof window === 'undefined' && typeof globalThis === 'undefined') {
@@ -21,6 +50,14 @@ function getAudioContext(): AudioContext | null {
 
 export function resetAudioContextForTesting(): void {
   sharedAudioCtx = null;
+  memoryMuted = false;
+  if (typeof window !== 'undefined' && window.localStorage) {
+    try {
+      window.localStorage.removeItem(AUDIO_MUTED_KEY);
+    } catch {
+      // ignore
+    }
+  }
 }
 
 export function playTone(
@@ -29,6 +66,8 @@ export function playTone(
   duration = 0.1,
   vol = 0.1
 ): void {
+  if (getAudioMuted()) return;
+
   const audioCtx = getAudioContext();
   if (!audioCtx) return;
 
@@ -85,6 +124,8 @@ export function playWordWrongSound(): void {
 }
 
 export function playWordCorrectFanfare(): ReturnType<typeof setTimeout>[] {
+  if (getAudioMuted()) return [];
+
   playTone(523.25, 'triangle', 0.1, 0.2); // C5
   const t1 = setTimeout(() => playTone(659.25, 'triangle', 0.1, 0.2), 100); // E5
   const t2 = setTimeout(() => playTone(783.99, 'triangle', 0.2, 0.2), 200); // G5
@@ -92,12 +133,11 @@ export function playWordCorrectFanfare(): ReturnType<typeof setTimeout>[] {
 }
 
 export function speakWord(word: string): void {
-  if (!word) return;
+  if (!word || getAudioMuted()) return;
   const g = (typeof window !== 'undefined' ? window : globalThis) as unknown as {
     speechSynthesis?: SpeechSynthesis;
     SpeechSynthesisUtterance?: typeof SpeechSynthesisUtterance;
   };
-
   const synth = g.speechSynthesis;
   const UtteranceCtor = g.SpeechSynthesisUtterance;
   if (!synth || !UtteranceCtor) return;
@@ -117,6 +157,69 @@ export function speakWord(word: string): void {
   synth.speak(utterance);
 }
 
+let activeAudio: HTMLAudioElement | null = null;
+
+export function stopWordAudio(): void {
+  if (activeAudio) {
+    try {
+      activeAudio.pause();
+      activeAudio.currentTime = 0;
+    } catch {
+      // ignore
+    }
+    activeAudio = null;
+  }
+  const g = (typeof window !== 'undefined' ? window : globalThis) as unknown as {
+    speechSynthesis?: SpeechSynthesis;
+  };
+  if (g.speechSynthesis) {
+    g.speechSynthesis.cancel();
+  }
+}
+
+export function playWordAudio(word: string, customAudioUrl?: string): void {
+  if (!word || getAudioMuted()) return;
+  stopWordAudio();
+
+  const g = (typeof window !== 'undefined' ? window : globalThis) as unknown as {
+    Audio?: typeof Audio;
+  };
+
+  const audioSrc = customAudioUrl || `/audio/words/${word.toLowerCase()}.mp3`;
+
+  if (g.Audio) {
+    try {
+      const audio = new g.Audio(audioSrc);
+      activeAudio = audio;
+
+      let fallbackTriggered = false;
+      const triggerFallback = () => {
+        if (!fallbackTriggered) {
+          fallbackTriggered = true;
+          if (activeAudio === audio) {
+            activeAudio = null;
+          }
+          speakWord(word);
+        }
+      };
+
+      audio.addEventListener('error', triggerFallback, { once: true });
+
+      const playPromise = audio.play();
+      if (playPromise !== undefined && typeof playPromise.catch === 'function') {
+        playPromise.catch(() => {
+          triggerFallback();
+        });
+      }
+      return;
+    } catch {
+      // Fall through to speakWord on instantiation failure
+    }
+  }
+
+  speakWord(word);
+}
+
 export function initSpeechVoices(): void {
   if (typeof window !== 'undefined' && window.speechSynthesis) {
     window.speechSynthesis.onvoiceschanged = () => {
@@ -124,4 +227,3 @@ export function initSpeechVoices(): void {
     };
   }
 }
-

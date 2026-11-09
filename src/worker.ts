@@ -1,6 +1,6 @@
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { App } from './App';
+import { App, deriveInitialRouteState, type InitialRouteState } from './App';
 import {
   type PageSeoMetadata,
   SITE_NAME,
@@ -54,7 +54,8 @@ const OG_IMAGE_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" heigh
 export function renderHtmlDocument(
   titleOrPage: string | PageSeoMetadata,
   bodyHtml: string,
-  origin: string = 'https://taptospell.com'
+  origin: string = 'https://taptospell.com',
+  initialState?: InitialRouteState
 ): Response {
   const defaultPage = getAllSeoPages()[0];
   const page: PageSeoMetadata =
@@ -99,6 +100,7 @@ export function renderHtmlDocument(
 </head>
 <body class="bg-slate-900 text-white h-[100dvh] w-screen overflow-hidden flex flex-col relative">
   <div id="root" class="flex-1 w-full h-full flex flex-col overflow-hidden relative">${bodyHtml}</div>
+  ${initialState ? `<script id="__INITIAL_STATE__" type="application/json">${JSON.stringify(initialState).replace(/</g, '\\u003c')}</script>` : ''}
   <script type="module" src="/app.js"></script>
 </body>
 </html>`;
@@ -113,7 +115,7 @@ export default {
     const url = new URL(request.url);
     const origin = url.origin;
 
-    if (request.method === 'GET') {
+    if (request.method === 'GET' || request.method === 'HEAD') {
       if (url.pathname === '/robots.txt') {
         return new Response(generateRobotsTxt(origin), {
           headers: {
@@ -161,8 +163,9 @@ export default {
 
       const seoPage = resolveSeoForPathname(url.pathname);
       if (seoPage) {
-        const html = renderToString(React.createElement(App, { initialPath: seoPage.path }));
-        return renderHtmlDocument(seoPage, html, origin);
+        const routeState = deriveInitialRouteState(seoPage.path);
+        const html = renderToString(React.createElement(App, { initialRoute: routeState }));
+        return renderHtmlDocument(seoPage, html, origin, routeState);
       }
     }
 

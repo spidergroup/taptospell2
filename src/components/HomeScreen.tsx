@@ -9,11 +9,13 @@ import {
 } from '../data/words';
 import { getAllSeoPages } from '../lib/seo';
 import type { GameState } from '../lib/storage';
-import { PlayIcon } from './Icons';
+import { PlayIcon, VolumeHighIcon, VolumeMuteIcon } from './Icons';
 
 export interface HomeScreenProps {
   selectedGrade: GradeLevel;
   savedGame: GameState | null;
+  isMuted?: boolean;
+  onToggleMute?: () => void;
   onSelectGradeAndStart: (grade: NumericGrade) => void;
   onSelectHighSchool: () => void;
   onStartHighSchoolCategory: (category: CategoryName) => void;
@@ -44,6 +46,8 @@ export function formatContinueDetails(savedGame: GameState): string {
 export function HomeScreen({
   selectedGrade,
   savedGame,
+  isMuted = false,
+  onToggleMute,
   onSelectGradeAndStart,
   onSelectHighSchool,
   onStartHighSchoolCategory,
@@ -59,9 +63,31 @@ export function HomeScreen({
       className="flex-1 flex flex-col items-center p-4 md:p-8 overflow-y-auto w-full h-full z-10 relative bg-slate-900"
     >
       <div className="w-full max-w-5xl flex flex-col items-center pb-12">
-        {/* Title Header */}
-        <header className="w-full flex flex-col items-center">
-          <h1 className="text-5xl md:text-7xl font-black mb-6 md:mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 drop-shadow-lg py-2">
+        {/* Title Header with optional sound toggle in corner */}
+        <header className="w-full flex flex-col items-center relative mb-4">
+          {onToggleMute && (
+            <div className="absolute right-0 top-0">
+              <button
+                type="button"
+                id="btn-home-toggle-sound"
+                aria-label={isMuted ? 'Unmute Sound' : 'Mute Sound'}
+                title={isMuted ? 'Unmute Sound' : 'Mute Sound'}
+                onClick={onToggleMute}
+                className={`btn-3d w-10 h-10 rounded-full flex items-center justify-center border-2 cursor-pointer transition-all ${
+                  isMuted
+                    ? 'bg-slate-800 text-slate-400 border-slate-600 shadow-[0_4px_0_#334155]'
+                    : 'bg-cyan-600 hover:bg-cyan-500 text-white border-cyan-300 shadow-[0_4px_0_#0e7490]'
+                }`}
+              >
+                {isMuted ? (
+                  <VolumeMuteIcon className="w-5 h-5" />
+                ) : (
+                  <VolumeHighIcon className="w-5 h-5" />
+                )}
+              </button>
+            </div>
+          )}
+          <h1 className="text-5xl md:text-7xl font-black mb-2 md:mb-4 text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 drop-shadow-lg py-2">
             TapToSpell!
           </h1>
         </header>
@@ -82,7 +108,7 @@ export function HomeScreen({
             <button
               type="button"
               onClick={onContinueGame}
-              className="btn-3d bg-white text-green-700 font-bold text-xl px-8 py-4 rounded-2xl shadow-[0_6px_0_#d1d5db] w-full md:w-auto flex-shrink-0 hover:bg-green-50 flex items-center justify-center gap-2 cursor-pointer"
+              className="btn-3d bg-white text-green-700 font-bold text-xl px-8 py-4 rounded-2xl shadow-[0_6px_0_#d1d5db] w-full md:w-auto flex-shrink-0 hover:bg-green-50 flex items-center justify-center gap-2 cursor-pointer touch-manipulation"
             >
               <PlayIcon className="w-5 h-5" />
               <span>Continue</span>
@@ -112,8 +138,8 @@ export function HomeScreen({
                   onClick={() => onSelectGradeAndStart(grade)}
                   className={
                     isSelected
-                      ? 'btn-3d py-4 px-3 rounded-2xl font-bold text-lg lg:text-xl bg-blue-600 text-white border-2 border-blue-400 shadow-[0_6px_0_#1e3a8a] transform scale-105 z-10 transition-all cursor-pointer'
-                      : 'btn-3d py-4 px-3 rounded-2xl font-bold text-lg lg:text-xl bg-slate-700 text-slate-300 border-2 border-slate-600 shadow-[0_4px_0_#334155] transition-all hover:bg-slate-600 cursor-pointer'
+                      ? 'btn-3d py-4 px-3 min-h-[56px] rounded-2xl font-bold text-lg lg:text-xl bg-blue-600 text-white border-2 border-blue-400 shadow-[0_6px_0_#1e3a8a] transform scale-105 z-10 transition-all cursor-pointer touch-manipulation select-none'
+                      : 'btn-3d py-4 px-3 min-h-[56px] rounded-2xl font-bold text-lg lg:text-xl bg-slate-700 text-slate-300 border-2 border-slate-600 shadow-[0_4px_0_#334155] transition-all hover:bg-slate-600 cursor-pointer touch-manipulation select-none'
                   }
                 >
                   {label}
@@ -123,7 +149,7 @@ export function HomeScreen({
                       isSelected ? 'text-blue-200' : 'text-slate-400'
                     }`}
                   >
-                    ({wordsCount} words / level)
+                    {`(${wordsCount} words / level)`}
                   </span>
                 </button>
               );
@@ -135,8 +161,8 @@ export function HomeScreen({
               onClick={onSelectHighSchool}
               className={
                 isHighSchoolSelected
-                  ? 'btn-3d col-span-2 sm:col-span-3 lg:col-span-2 py-4 px-3 rounded-2xl font-bold text-lg lg:text-xl bg-purple-600 text-white border-2 border-purple-400 shadow-[0_6px_0_#4c1d95] transform scale-105 z-10 transition-all cursor-pointer'
-                  : 'btn-3d col-span-2 sm:col-span-3 lg:col-span-2 py-4 px-3 rounded-2xl font-bold text-lg lg:text-xl bg-slate-700 text-slate-300 border-2 border-slate-600 shadow-[0_4px_0_#334155] transition-all hover:bg-slate-600 cursor-pointer'
+                  ? 'btn-3d col-span-2 sm:col-span-3 lg:col-span-2 py-4 px-3 min-h-[56px] rounded-2xl font-bold text-lg lg:text-xl bg-purple-600 text-white border-2 border-purple-400 shadow-[0_6px_0_#4c1d95] transform scale-105 z-10 transition-all cursor-pointer touch-manipulation select-none'
+                  : 'btn-3d col-span-2 sm:col-span-3 lg:col-span-2 py-4 px-3 min-h-[56px] rounded-2xl font-bold text-lg lg:text-xl bg-slate-700 text-slate-300 border-2 border-slate-600 shadow-[0_4px_0_#334155] transition-all hover:bg-slate-600 cursor-pointer touch-manipulation select-none'
               }
             >
               🎓 High School
@@ -146,7 +172,7 @@ export function HomeScreen({
                   isHighSchoolSelected ? 'text-purple-200' : 'text-slate-400'
                 }`}
               >
-                ({getWordsPerLevel('high_school')} words / level • 7 Categories)
+                {`(${getWordsPerLevel('high_school')} words / level • 7 Categories)`}
               </span>
             </button>
           </div>
@@ -169,7 +195,7 @@ export function HomeScreen({
                   type="button"
                   id={`btn-cat-${cat.key}`}
                   onClick={() => onStartHighSchoolCategory(cat.label)}
-                  className={`btn-3d flex flex-col items-center justify-center p-6 bg-gradient-to-b ${cat.gradientClass} rounded-3xl ${cat.shadowClass} border-2 ${cat.borderClass} hover:brightness-110 cursor-pointer`}
+                  className={`btn-3d flex flex-col items-center justify-center p-6 bg-gradient-to-b ${cat.gradientClass} rounded-3xl ${cat.shadowClass} border-2 ${cat.borderClass} hover:brightness-110 cursor-pointer touch-manipulation select-none`}
                 >
                   <span className="text-6xl mb-3" aria-hidden="true">
                     {cat.emoji}
