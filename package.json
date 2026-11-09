@@ -4,23 +4,30 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "npm run build:client && wrangler dev",
+    "dev": "npm run build && wrangler dev",
+    "build:fonts": "node -e \"const fs=require('fs'),path=require('path');fs.mkdirSync('public/fonts',{recursive:true});for(const w of [600,700,800,900]){for(const ext of ['woff2','woff']){const f='nunito-latin-'+w+'-normal.'+ext;fs.copyFileSync(path.join('node_modules/@fontsource/nunito/files',f),path.join('public/fonts',f));}}\"",
+    "build:css": "npm run build:fonts && tailwindcss -i src/styles.css -o public/styles.css --minify",
     "build:client": "esbuild src/client.tsx --bundle --format=esm --minify --outfile=public/app.js",
-    "build": "npm run build:client",
+    "build": "npm run build:css && npm run build:client",
     "start": "wrangler dev",
     "deploy": "wrangler deploy",
     "test": "vitest run",
     "test:watch": "vitest"
   },
   "dependencies": {
+    "@fontsource/nunito": "^5.3.0",
+    "@tailwindcss/cli": "^4.3.5",
     "@tanstack/react-router": "^1.114.0",
     "@tanstack/react-start": "^1.114.0",
+    "canvas-confetti": "^1.9.4",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "tailwindcss": "^4.3.5"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.7.0",
     "@cloudflare/workers-types": "^4.20250214.0",
+    "@types/canvas-confetti": "^1.9.0",
     "@types/node": "^22.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
@@ -33,4 +40,3 @@
     "wrangler": "^3.109.0"
   }
 }
-
