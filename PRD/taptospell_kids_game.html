@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>TapToSpell - Learning Game</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Canvas Confetti Library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            'nunito': ['Nunito', 'sans-serif'],
+          },
+          animation: {
+            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'bounce-slow': 'bounce 2s infinite',
+            'shake': 'shake 0.4s ease-in-out',
+          },
+          keyframes: {
+            'shake': {
+              '0%, 100%': { transform: 'translateX(0)' },
+              '25%': { transform: 'translateX(-10px)' },
+              '75%': { transform: 'translateX(10px)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Nunito', sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+
+    .btn-3d {
+      transition: transform 0.1s, box-shadow 0.1s;
+    }
+
+    .btn-3d:active {
+      transform: translateY(4px) !important;
+      box-shadow: 0 0px 0 0 transparent !important;
+    }
+
+    /* Hide scrollbar for cleaner look */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Word Box sizing using clamp for responsive single-row text */
+    .word-box-text {
+      font-size: clamp(1.2rem, 5vw, 2.5rem);
+    }
+  </style>
+</head>
+
+<body class="bg-slate-900 text-white h-[100dvh] w-screen overflow-hidden flex flex-col relative">
+
+  <!-- ========================================== -->
+  <!-- HOME SCREEN                                -->
+  <!-- ========================================== -->
+  <div id="home-screen"
+    class="flex-1 flex flex-col items-center p-4 md:p-8 overflow-y-auto w-full h-full z-10 relative bg-slate-900">
+
+    <div class="w-full max-w-5xl flex flex-col items-center pb-12">
+
+      <!-- Title -->
+      <h1
+        class="text-5xl md:text-7xl font-black mb-6 md:mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 drop-shadow-lg py-2">
+        TapToSpell!
+      </h1>
+
+      <!-- Continue Game Banner -->
+      <div id="continue-banner"
+        class="hidden mb-8 w-full max-w-2xl bg-gradient-to-r from-green-500 to-emerald-700 rounded-3xl p-6 shadow-[0_8px_0_#065f46] border-2 border-green-300 flex-col md:flex-row items-center justify-between gap-4">
+        <div class="text-center md:text-left">
+          <h2 class="text-2xl font-bold text-white mb-1">Game in Progress!</h2>
+          <p id="continue-details" class="text-green-100 font-semibold text-lg">Category • Grade 2 • Level 1</p>
+        </div>
+        <button onclick="continueGame()"
+          class="btn-3d bg-white text-green-700 font-bold text-xl px-8 py-4 rounded-2xl shadow-[0_6px_0_#d1d5db] w-full md:w-auto flex-shrink-0 hover:bg-green-50">
+          <i class="fa-solid fa-play mr-2"></i> Continue
+        </button>
+      </div>
+
+      <!-- Grade Selection -->
+      <div
+        class="bg-slate-800 p-6 rounded-3xl border-2 border-slate-700 shadow-xl mb-10 w-full max-w-3xl flex flex-col items-center">
+        <p class="text-xl text-slate-300 font-bold mb-4">Select Grade Level:</p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4 w-full">
+          <button onclick="setGradePref(1)" id="btn-pref-1"
+            class="btn-3d flex-1 py-4 rounded-2xl font-bold text-lg lg:text-xl bg-slate-700 text-slate-300 border-2 border-slate-600 shadow-[0_4px_0_#334155]">
+            1st Grade<br><span class="text-sm font-normal text-slate-400">(1 word / level)</span>
+          </button>
+          <button onclick="setGradePref(2)" id="btn-pref-2"
+            class="btn-3d flex-1 py-4 rounded-2xl font-bold text-lg lg:text-xl bg-slate-700 text-slate-300 border-2 border-slate-600 shadow-[0_4px_0_#334155]">
+            2nd Grade<br><span class="text-sm font-normal text-slate-400">(3 words / level)</span>
+          </button>
+          <button onclick="setGradePref(3)" id="btn-pref-3"
+            class="btn-3d flex-1 py-4 rounded-2xl font-bold text-lg lg:text-xl bg-slate-700 text-slate-300 border-2 border-slate-600 shadow-[0_4px_0_#334155]">
+            3rd Grade<br><span class="text-sm font-normal text-slate-400">(5 words / level)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Category Selection -->
+      <h2 class="text-3xl font-bold mb-6 text-slate-200">Start a New Game!</h2>
+      <div class="w-full max-w-4xl grid grid-cols-1 sm:grid-cols-3 gap-6">
+
+        <button onclick="startNewGame('Animals')"
+          class="btn-3d flex flex-col items-center justify-center p-8 bg-gradient-to-b from-orange-400 to-red-500 rounded-3xl shadow-[0_8px_0_#991b1b] border-2 border-orange-200 hover:brightness-110">
+          <span class="text-7xl mb-4">🦁</span>
+          <span class="font-black text-3xl drop-shadow-md">Animals</span>
+        </button>
+
+        <button onclick="startNewGame('Fry Words')"
+          class="btn-3d flex flex-col items-center justify-center p-8 bg-gradient-to-b from-blue-400 to-indigo-600 rounded-3xl shadow-[0_8px_0_#3730a3] border-2 border-blue-200 hover:brightness-110">
+          <span class="text-7xl mb-4">💬</span>
+          <span class="font-black text-3xl drop-shadow-md text-center leading-tight">Fry<br>Words</span>
+        </button>
+
+        <button onclick="startNewGame('Sight Words')"
+          class="btn-3d flex flex-col items-center justify-center p-8 bg-gradient-to-b from-green-400 to-teal-600 rounded-3xl shadow-[0_8px_0_#115e59] border-2 border-green-200 hover:brightness-110">
+          <span class="text-7xl mb-4">👀</span>
+          <span class="font-black text-3xl drop-shadow-md text-center leading-tight">Sight<br>Words</span>
+        </button>
+
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- GAME SCREEN                                -->
+  <!-- ========================================== -->
+  <div id="game-screen" class="hidden flex-1 w-full h-full flex-col bg-slate-900 z-10 relative">
+
+    <!-- Top HUD (Strict Shrink-0) -->
+    <div
+      class="shrink-0 w-full p-2 flex justify-between items-center bg-slate-800 shadow-md h-14 md:h-16 z-20 border-b border-slate-700">
+
+      <!-- Left: Progress -->
+      <div class="flex items-center gap-2">
+        <div class="bg-indigo-900/80 px-2 py-1 md:px-3 md:py-1.5 rounded-lg border border-indigo-500/50">
+          <span class="text-indigo-200 font-bold text-xs mr-1">LEVEL</span>
+          <span id="hud-level" class="text-white font-black text-sm md:text-base">1<span
+              class="text-xs text-indigo-300">/10</span></span>
+        </div>
+        <div class="bg-blue-900/80 px-2 py-1 md:px-3 md:py-1.5 rounded-lg border border-blue-500/50">
+          <span class="text-blue-200 font-bold text-xs mr-1">WORD</span>
+          <span id="hud-word" class="text-white font-black text-sm md:text-base">1/3</span>
+        </div>
+      </div>
+
+      <!-- Right: Score & Exit -->
+      <div class="flex items-center gap-2">
+        <div class="bg-yellow-900/80 px-2 py-1 md:px-3 md:py-1.5 rounded-lg border border-yellow-500/50">
+          <span class="text-yellow-200 font-bold text-xs mr-1">SCORE</span>
+          <span id="hud-score" class="text-yellow-400 font-black text-sm md:text-base">0</span>
+        </div>
+        <button onclick="exitToHome()"
+          class="btn-3d bg-rose-600 hover:bg-rose-500 text-white w-8 h-8 md:w-10 md:h-10 rounded-full shadow-[0_4px_0_#9f1239] flex items-center justify-center text-sm md:text-base border-2 border-rose-300">
+          <i class="fa-solid fa-house"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Middle Area (Flexible, Image + Slots) -->
+    <div class="flex-1 min-h-0 flex flex-col items-center justify-center p-2 w-full max-w-5xl mx-auto gap-2 md:gap-4">
+
+      <!-- Animated Image Container -->
+      <div class="flex-1 min-h-0 flex items-center justify-center w-full">
+        <div id="word-image" onclick="speakWord()"
+          class="cursor-pointer text-[12vh] md:text-[20vh] animate-pulse-slow drop-shadow-[0_15px_15px_rgba(0,0,0,0.6)] leading-none object-contain max-h-[40vh] flex items-center justify-center">
+          🍎
+        </div>
+      </div>
+
+      <!-- Word Slots container -->
+      <div id="word-slots" onclick="speakWord()"
+        class="cursor-pointer shrink-0 flex flex-row flex-nowrap w-full max-w-[90%] justify-center gap-1 sm:gap-2">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+
+    <!-- Bottom Controls (Strict Shrink-0, Keyboard + Hint/Sound) -->
+    <div class="shrink-0 flex flex-col items-center justify-end px-2 pb-2 md:pb-4 w-full gap-2">
+
+      <!-- Keyboard -->
+      <div id="keyboard" class="flex flex-wrap justify-center content-center gap-1 sm:gap-1.5 max-w-[700px] w-full">
+        <!-- Keys Injected via JS -->
+      </div>
+
+      <!-- Bottom Tool Bar -->
+      <div class="flex w-full max-w-[700px] justify-between items-center px-2 mt-1">
+        <!-- Hint Button -->
+        <button id="hint-button" onclick="useHint()"
+          class="btn-3d bg-amber-400 hover:bg-amber-300 text-amber-900 font-black py-2 px-4 rounded-xl shadow-[0_4px_0_#b45309] flex items-center justify-center gap-2 text-sm sm:text-base border-2 border-amber-100 min-w-[80px]">
+          <!-- Injected via JS -->
+        </button>
+
+        <!-- Sound Button -->
+        <button onclick="speakWord()"
+          class="btn-3d bg-cyan-500 hover:bg-cyan-400 text-white font-black py-2 px-4 rounded-xl shadow-[0_4px_0_#0891b2] flex items-center justify-center gap-2 text-sm sm:text-base border-2 border-cyan-200">
+          <i class="fa-solid fa-volume-high"></i> Listen
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================== -->
+  <!-- OVERLAYS                                   -->
+  <!-- ========================================== -->
+  <div id="level-overlay"
+    class="hidden fixed inset-0 bg-slate-900/95 z-50 flex-col items-center justify-center backdrop-blur-md">
+    <h1 id="overlay-title"
+      class="text-5xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-amber-500 drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)] mb-6 animate-bounce-slow text-center p-4">
+      Level Complete!
+    </h1>
+    <p id="overlay-subtitle" class="text-2xl md:text-3xl text-white font-bold mb-8 text-center px-4">Get ready for the
+      next level...</p>
+
+    <!-- Timer ring -->
+    <div
+      class="relative w-32 h-32 flex items-center justify-center rounded-full bg-slate-800 border-8 border-slate-700 shadow-2xl">
+      <span id="overlay-timer" class="text-6xl font-black text-amber-400">5</span>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- JAVASCRIPT LOGIC                           -->
+  <!-- ========================================== -->
+  <script>
+    // --- Word Databases ---
+    const WORD_POOLS = {
+      'Animals': [
+        { w: 'CAT', i: '🐱' }, { w: 'DOG', i: '🐶' }, { w: 'COW', i: '🐮' }, { w: 'PIG', i: '🐷' },
+        { w: 'BIRD', i: '🐦' }, { w: 'BEAR', i: '🐻' }, { w: 'LION', i: '🦁' }, { w: 'FISH', i: '🐟' },
+        { w: 'FROG', i: '🐸' }, { w: 'DUCK', i: '🦆' }, { w: 'HORSE', i: '🐴' }, { w: 'SHEEP', i: '🐑' },
+        { w: 'FOX', i: '🦊' }, { w: 'WOLF', i: '🐺' }, { w: 'TIGER', i: '🐯' }, { w: 'ZEBRA', i: '🦓' },
+        { w: 'MOUSE', i: '🐭' }, { w: 'SNAKE', i: '🐍' }, { w: 'CRAB', i: '🦀' }, { w: 'SEAL', i: '🦭' }
+      ],
+      'Fry Words': [
+        { w: 'THE', i: '💬' }, { w: 'AND', i: '💬' }, { w: 'THAT', i: '💬' }, { w: 'HAVE', i: '💬' },
+        { w: 'THEY', i: '💬' }, { w: 'WITH', i: '💬' }, { w: 'THIS', i: '💬' }, { w: 'FROM', i: '💬' },
+        { w: 'WORD', i: '📝' }, { w: 'WHAT', i: '❓' }, { w: 'SOME', i: '💬' }, { w: 'TIME', i: '⏱️' },
+        { w: 'MORE', i: '➕' }, { w: 'LOOK', i: '👀' }, { w: 'MAKE', i: '🛠️' }, { w: 'THEM', i: '💬' }
+      ],
+      'Sight Words': [
+        { w: 'SEE', i: '👀' }, { w: 'PLAY', i: '⚽' }, { w: 'JUMP', i: '🏃' }, { w: 'RUN', i: '💨' },
+        { w: 'STOP', i: '🛑' }, { w: 'GO', i: '🟢' }, { w: 'FAST', i: '🚀' }, { w: 'SLOW', i: '🐢' },
+        { w: 'UP', i: '⬆️' }, { w: 'DOWN', i: '⬇️' }, { w: 'HERE', i: '👇' }, { w: 'HELP', i: '🤝' }
+      ]
+    };
+
+    // --- State & Config ---
+    const TOTAL_LEVELS = 10;
+
+    // Preferences (Stored independently of active game)
+    let userPrefGrade = 2; // Default 2nd Grade
+
+    // Active Game State
+    let gameState = {
+      isActive: false,
+      category: '',
+      grade: 2,
+      level: 1,
+      score: 0,
+      wordIndex: 0,
+      currentLevelWords: [],
+      keyboardKeys: [],
+      filledSlots: [],
+      usedKeyIndices: [],
+      hintsRemaining: 0,
+      showErrors: false
+    };
+
+    // --- Audio System ---
+    const synth = window.speechSynthesis;
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    const audioCtx = new AudioContext();
+
+    function playTone(freq, type, duration = 0.1, vol = 0.1) {
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+
+      gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration);
+    }
+
+    // --- Initialization ---
+    function init() {
+      // Load Preferences
+      const savedGrade = localStorage.getItem('t2s_pref_grade');
+      if (savedGrade) userPrefGrade = parseInt(savedGrade);
+      updateGradeUI();
+
+      // Check for saved active game
+      const savedGame = localStorage.getItem('t2s_save_state');
+      if (savedGame) {
+        try {
+          const parsed = JSON.parse(savedGame);
+          if (parsed && parsed.isActive) {
+            // Provide default hints remaining for backward compatibility with old saves
+            if (parsed.hintsRemaining === undefined) {
+              const wordsCount = getWordsPerLevel(parsed.grade);
+              parsed.hintsRemaining = Math.max(0, wordsCount - 1);
+            }
+            gameState = parsed;
+            showContinueBanner();
+          }
+        } catch (e) {
+          console.error("Corrupted save state", e);
+          clearSaveState();
+        }
+      }
+    }
+
+    // --- Navigation System ---
+    // A robust way to switch screens without CSS conflicts
+    function showScreen(screenId) {
+      const home = document.getElementById('home-screen');
+      const game = document.getElementById('game-screen');
+
+      if (screenId === 'home-screen') {
+        game.classList.remove('flex');
+        game.classList.add('hidden');
+
+        home.classList.remove('hidden');
+        home.classList.add('flex');
+      } else if (screenId === 'game-screen') {
+        home.classList.remove('flex');
+        home.classList.add('hidden');
+
+        game.classList.remove('hidden');
+        game.classList.add('flex');
+      }
+    }
+
+    // --- Home Screen Logic ---
+    function updateGradeUI() {
+      [1, 2, 3].forEach(grade => {
+        const btn = document.getElementById(`btn-pref-${grade}`);
+        if (grade === userPrefGrade) {
+          btn.className = "btn-3d flex-1 py-4 rounded-2xl font-bold text-lg lg:text-xl bg-blue-600 text-white border-2 border-blue-400 shadow-[0_6px_0_#1e3a8a] transform scale-105 z-10 transition-all";
+          btn.innerHTML = btn.innerHTML.replace('text-slate-400', 'text-blue-200');
+        } else {
+          btn.className = "btn-3d flex-1 py-4 rounded-2xl font-bold text-lg lg:text-xl bg-slate-700 text-slate-300 border-2 border-slate-600 shadow-[0_4px_0_#334155] transition-all hover:bg-slate-600";
+          btn.innerHTML = btn.innerHTML.replace('text-blue-200', 'text-slate-400');
+        }
+      });
+    }
+
+    function setGradePref(grade) {
+      userPrefGrade = grade;
+      localStorage.setItem('t2s_pref_grade', grade);
+      playTone(400, 'sine', 0.1, 0.1);
+      updateGradeUI();
+    }
+
+    function showContinueBanner() {
+      const banner = document.getElementById('continue-banner');
+      const details = document.getElementById('continue-details');
+      details.innerText = `${gameState.category} • Grade ${gameState.grade} • Level ${gameState.level}`;
+      banner.classList.remove('hidden');
+      banner.classList.add('flex');
+    }
+
+    function hideContinueBanner() {
+      const banner = document.getElementById('continue-banner');
+      banner.classList.add('hidden');
+      banner.classList.remove('flex');
+    }
+
+    // --- Game Navigation & Setup ---
+    function getWordsPerLevel(grade) {
+      const g = parseInt(grade); // Ensure grade is treated as a number
+      if (g === 1) return 1;
+      if (g === 2) return 3;
+      if (g === 3) return 5;
+      return 3;
+    }
+
+    function startNewGame(category) {
+      playTone(600, 'triangle', 0.2, 0.1);
+
+      gameState = {
+        isActive: true,
+        category: category,
+        grade: userPrefGrade,
+        level: 1,
+        score: 0,
+        wordIndex: 0,
+        currentLevelWords: [],
+        keyboardKeys: [],
+        filledSlots: [],
+        hintsRemaining: 0,
+        showErrors: false
+      };
+
+      generateLevelWords();
+      saveGameState();
+      enterGameMode();
+    }
+
+    function continueGame() {
+      playTone(500, 'square', 0.2, 0.1);
+      enterGameMode();
+    }
+
+    function exitToHome() {
+      playTone(300, 'sawtooth', 0.2, 0.1);
+      isTransitioning = false;
+      if (countdownInterval) clearInterval(countdownInterval);
+      if (levelConfettiInterval) clearInterval(levelConfettiInterval);
+      if (typeof confetti === 'function' && confetti.reset) confetti.reset();
+      saveGameState();
+      showScreen('home-screen');
+      init(); // refresh UI
+    }
+
+    function enterGameMode() {
+      showScreen('game-screen');
+      loadCurrentWord();
+    }
+
+    // --- Core Game Logic ---
+    function generateLevelWords() {
+      const pool = WORD_POOLS[gameState.category];
+      const count = getWordsPerLevel(gameState.grade);
+
+      let shuffled = [...pool].sort(() => 0.5 - Math.random());
+
+      // Pad if needed
+      while (shuffled.length < count) {
+        shuffled = shuffled.concat([...pool].sort(() => 0.5 - Math.random()));
+      }
+
+      gameState.currentLevelWords = shuffled.slice(0, count);
+      gameState.wordIndex = 0;
+    }
+
+    function generateKeyboard(targetWord) {
+      const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      let keys = targetWord.split('');
+
+      const maxKeys = Math.max(12, targetWord.length + 5); // Add 5 extra random letters, minimum 12
+      while (keys.length < maxKeys) {
+        keys.push(alphabet[Math.floor(Math.random() * alphabet.length)]);
+      }
+
+      gameState.keyboardKeys = keys.sort(() => 0.5 - Math.random());
+    }
+
+    function loadCurrentWord() {
+      isTransitioning = false;
+      const currentWordObj = gameState.currentLevelWords[gameState.wordIndex];
+      const targetWord = currentWordObj.w;
+
+      // If starting fresh on this word
+      if (!gameState.filledSlots || gameState.filledSlots.length !== targetWord.length) {
+        gameState.filledSlots = new Array(targetWord.length).fill(null);
+        gameState.usedKeyIndices = new Array(targetWord.length).fill(null);
+        gameState.hintsRemaining = Math.max(0, targetWord.length - 1);
+        gameState.showErrors = false;
+        generateKeyboard(targetWord);
+      } else if (!gameState.usedKeyIndices || gameState.usedKeyIndices.length !== targetWord.length) {
+        gameState.usedKeyIndices = new Array(targetWord.length).fill(null);
+        gameState.filledSlots.forEach((char, slotIdx) => {
+          if (char) {
+            const keyIdx = gameState.keyboardKeys.findIndex((k, idx) => k === char && !gameState.usedKeyIndices.includes(idx));
+            if (keyIdx !== -1) gameState.usedKeyIndices[slotIdx] = keyIdx;
+          }
+        });
+      }
+
+      updateHUD();
+      renderHints();
+      document.getElementById('word-image').innerText = currentWordObj.i;
+
+      renderSlots();
+      renderKeyboard();
+      saveGameState();
+
+      setTimeout(speakWord, 300);
+    }
+
+    function updateHUD() {
+      document.getElementById('hud-level').innerHTML = `${gameState.level}<span class="text-xs text-indigo-300">/10</span>`;
+
+      const totalWords = getWordsPerLevel(gameState.grade);
+      document.getElementById('hud-word').innerText = `${gameState.wordIndex + 1}/${totalWords}`;
+
+      document.getElementById('hud-score').innerText = gameState.score;
+    }
+
+    function renderHints() {
+      const btn = document.getElementById('hint-button');
+      if (!btn) return;
+
+      const svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6 sm:w-7 sm:h-7 drop-shadow-md"><path d="M12 2.25a7.5 7.5 0 0 0-7.5 7.5c0 2.278 1.018 4.316 2.627 5.717.394.343.627.842.627 1.365v1.418a2.25 2.25 0 0 0 2.25 2.25h3.992a2.25 2.25 0 0 0 2.25-2.25v-1.418c0-.523.233-1.022.627-1.365A7.495 7.495 0 0 0 19.5 9.75a7.5 7.5 0 0 0-7.5-7.5Zm-.75 19.5a2.25 2.25 0 0 0-1.897 1.053A3.75 3.75 0 0 0 12 24a3.75 3.75 0 0 0 1.897-1.197A2.25 2.25 0 0 0 11.25 21.75Z" /></svg>`;
+
+      if (gameState.hintsRemaining <= 0) {
+        btn.innerHTML = `<div class="flex items-center gap-2 opacity-50 grayscale">${svgIcon}<span class="text-xl sm:text-2xl font-black">0</span></div>`;
+        btn.disabled = true;
+        btn.classList.add('cursor-not-allowed', 'opacity-80');
+      } else {
+        btn.disabled = false;
+        btn.classList.remove('cursor-not-allowed', 'opacity-80');
+        btn.innerHTML = `<div class="flex items-center gap-2">${svgIcon}<span class="text-xl sm:text-2xl font-black">${gameState.hintsRemaining}</span></div>`;
+      }
+    }
+
+    // --- Rendering ---
+    function renderSlots() {
+      const container = document.getElementById('word-slots');
+      container.innerHTML = '';
+
+      const currentWordObj = gameState.currentLevelWords[gameState.wordIndex];
+      const wordLen = currentWordObj.w.length;
+
+      for (let i = 0; i < wordLen; i++) {
+        const letter = gameState.filledSlots[i];
+        const slotEl = document.createElement('div');
+
+        // Use aspect-square, flex-1, and max-w bounds for perfect dynamic scaling
+        slotEl.className = `aspect-square flex-1 max-w-[3rem] sm:max-w-[4rem] rounded-xl flex flex-col items-center justify-center font-black text-white word-box-text shadow-inner transition-all duration-200`;
+
+        if (letter) {
+          slotEl.innerText = letter;
+
+          if (gameState.showErrors && letter !== currentWordObj.w[i]) {
+            slotEl.classList.add('bg-blue-600', 'border-4', 'border-red-500', 'shadow-[0_0_10px_rgba(239,68,68,0.8)]', 'cursor-pointer');
+          } else {
+            slotEl.classList.add('bg-blue-600', 'border-2', 'md:border-4', 'border-blue-400', 'shadow-[0_0_10px_rgba(37,99,235,0.8)]', 'cursor-pointer');
+          }
+
+          slotEl.onclick = (e) => { e.stopPropagation(); removeLetter(i); };
+        } else {
+          // Empty state
+          slotEl.classList.add('bg-slate-800/80', 'border-2', 'border-slate-600');
+          slotEl.innerHTML = `<div class="w-1/2 h-1 md:h-1.5 bg-slate-600 rounded-full mt-auto mb-2 md:mb-4"></div>`;
+        }
+
+        container.appendChild(slotEl);
+      }
+    }
+
+    function renderKeyboard() {
+      const container = document.getElementById('keyboard');
+      container.innerHTML = '';
+
+      // Adaptive sizing based on key count (scaled down slightly to prevent overflow on landscape)
+      const keyCount = gameState.keyboardKeys.length;
+      const keySizeClasses = keyCount > 14
+        ? "w-8 h-10 sm:w-10 sm:h-12 text-lg sm:text-xl"
+        : "w-10 h-12 sm:w-12 sm:h-14 text-xl sm:text-2xl";
+
+      gameState.keyboardKeys.forEach((keyChar, index) => {
+        const btn = document.createElement('button');
+
+        const isUsed = gameState.usedKeyIndices && gameState.usedKeyIndices.includes(index);
+
+        if (isUsed) {
+          btn.className = `${keySizeClasses} bg-slate-800 rounded-xl font-bold text-slate-700 border-2 border-slate-700 cursor-pointer opacity-40`;
+          btn.innerText = keyChar;
+          btn.onclick = () => {
+            const slotIdx = gameState.usedKeyIndices ? gameState.usedKeyIndices.indexOf(index) : -1;
+            if (slotIdx !== -1) removeLetter(slotIdx);
+          };
+        } else {
+          btn.className = `btn-3d ${keySizeClasses} bg-gradient-to-b from-slate-100 to-slate-300 rounded-xl font-black text-slate-800 shadow-[0_5px_0_#94a3b8] border-2 border-white flex items-center justify-center active:shadow-none active:translate-y-[5px]`;
+          btn.innerText = keyChar;
+          btn.onclick = () => typeLetter(keyChar, index);
+        }
+
+        container.appendChild(btn);
+      });
+    }
+
+    // --- Interactions ---
+    let isTransitioning = false;
+
+    function typeLetter(char, keyIndex) {
+      if (isTransitioning) return;
+      const firstEmpty = gameState.filledSlots.indexOf(null);
+      if (firstEmpty !== -1) {
+        gameState.filledSlots[firstEmpty] = char;
+        gameState.usedKeyIndices[firstEmpty] = keyIndex;
+        playTone(400 + firstEmpty * 50, 'sine', 0.1, 0.1);
+
+        renderSlots();
+        renderKeyboard();
+        saveGameState();
+
+        setTimeout(checkWin, 100);
+      }
+    }
+
+    function removeLetter(index) {
+      if (isTransitioning) return;
+      if (gameState.filledSlots[index] !== null && gameState.filledSlots[index] !== undefined) {
+        gameState.filledSlots[index] = null;
+        if (gameState.usedKeyIndices) gameState.usedKeyIndices[index] = null;
+        gameState.showErrors = false;
+        playTone(300, 'triangle', 0.1, 0.1);
+        renderSlots();
+        renderKeyboard();
+        saveGameState();
+      }
+    }
+
+    function useHint() {
+      if (isTransitioning || gameState.hintsRemaining <= 0) return;
+
+      const targetWord = gameState.currentLevelWords[gameState.wordIndex].w;
+      for (let i = 0; i < targetWord.length; i++) {
+        if (gameState.filledSlots[i] !== targetWord[i]) {
+          const neededChar = targetWord[i];
+          gameState.filledSlots[i] = null;
+          if (gameState.usedKeyIndices) gameState.usedKeyIndices[i] = null;
+
+          let keyIndex = gameState.keyboardKeys.findIndex(
+            (k, idx) => k === neededChar && !gameState.usedKeyIndices.includes(idx)
+          );
+
+          if (keyIndex === -1) {
+            const wrongSlotIdx = gameState.filledSlots.findIndex(
+              (c, sIdx) => sIdx !== i && c === neededChar && c !== targetWord[sIdx]
+            );
+            if (wrongSlotIdx !== -1) {
+              keyIndex = gameState.usedKeyIndices[wrongSlotIdx];
+              gameState.filledSlots[wrongSlotIdx] = null;
+              gameState.usedKeyIndices[wrongSlotIdx] = null;
+            }
+          }
+
+          gameState.filledSlots[i] = neededChar;
+          gameState.usedKeyIndices[i] = keyIndex !== -1 ? keyIndex : null;
+          gameState.hintsRemaining--;
+          gameState.showErrors = false;
+          playTone(800, 'sine', 0.15, 0.1);
+          renderSlots();
+          renderKeyboard();
+          renderHints();
+          saveGameState();
+          setTimeout(checkWin, 100);
+          return;
+        }
+      }
+    }
+
+    function checkWin() {
+      if (!gameState.filledSlots.includes(null)) {
+        const currentSpelling = gameState.filledSlots.join('');
+        const targetWord = gameState.currentLevelWords[gameState.wordIndex].w;
+
+        if (currentSpelling === targetWord) {
+          // Word Correct!
+          isTransitioning = true;
+          playTone(523.25, 'triangle', 0.1, 0.2); // C
+          setTimeout(() => playTone(659.25, 'triangle', 0.1, 0.2), 100); // E
+          setTimeout(() => playTone(783.99, 'triangle', 0.2, 0.2), 200); // G
+
+          gameState.score += 10;
+          gameState.wordIndex++;
+          updateHUD();
+
+          const totalWords = getWordsPerLevel(gameState.grade);
+
+          if (gameState.wordIndex >= totalWords) {
+            saveGameState();
+            // Trigger level complete and its confetti immediately after completing the level
+            triggerLevelComplete();
+          } else {
+            // 1 second of slow confetti for the correct word
+            const duration = 1000;
+            const end = Date.now() + duration;
+            const fireWordConfetti = () => {
+              confetti({
+                particleCount: 20,
+                spread: 360,
+                startVelocity: 15,
+                gravity: 0.4,
+                ticks: 300,
+                origin: { x: Math.random(), y: Math.random() - 0.2 },
+                colors: ['#facc15', '#4ade80', '#22d3ee', '#f472b6', '#a78bfa'],
+                zIndex: 9999
+              });
+            };
+            fireWordConfetti();
+            const wordConfetti = setInterval(() => {
+              if (Date.now() > end) return clearInterval(wordConfetti);
+              fireWordConfetti();
+            }, 250);
+
+            // Next Word
+            gameState.filledSlots = [];
+        gameState.usedKeyIndices = [];
+            gameState.showErrors = false;
+            saveGameState();
+            // Wait for the confetti before loading the next word
+            setTimeout(() => {
+              clearInterval(wordConfetti);
+              if (typeof confetti === 'function' && confetti.reset) confetti.reset();
+              loadCurrentWord();
+            }, duration);
+          }
+        } else {
+          // Wrong Word
+          gameState.showErrors = true;
+          renderSlots();
+
+          playTone(200, 'sawtooth', 0.3, 0.2);
+          const slotsContainer = document.getElementById('word-slots');
+          slotsContainer.classList.add('animate-shake');
+          setTimeout(() => slotsContainer.classList.remove('animate-shake'), 400);
+        }
+      }
+    }
+
+    // --- Transitions & Effects ---
+    let countdownInterval;
+    let levelConfettiInterval;
+
+    function triggerLevelComplete() {
+      const overlay = document.getElementById('level-overlay');
+      const title = document.getElementById('overlay-title');
+      const subtitle = document.getElementById('overlay-subtitle');
+      const timerEl = document.getElementById('overlay-timer');
+
+      overlay.classList.remove('hidden');
+      overlay.classList.add('flex');
+
+      if (gameState.level >= TOTAL_LEVELS) {
+        title.innerText = "Game Complete!";
+        title.className = "text-5xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-300 to-emerald-500 drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)] mb-6 animate-pulse-slow text-center p-4";
+        subtitle.innerText = `Final Score: ${gameState.score}`;
+      } else {
+        title.innerText = "Level Complete!";
+        title.className = "text-5xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-amber-500 drop-shadow-[0_5px_5px_rgba(0,0,0,0.8)] mb-6 animate-bounce-slow text-center p-4";
+        subtitle.innerText = "Get ready for the next level...";
+      }
+
+      // 5 Seconds Full-Screen Confetti
+      const duration = 5 * 1000;
+      const animationEnd = Date.now() + duration;
+      let timeLeft = 5;
+
+      timerEl.innerText = timeLeft;
+
+      if (countdownInterval) clearInterval(countdownInterval);
+      if (levelConfettiInterval) clearInterval(levelConfettiInterval);
+      if (typeof confetti === 'function' && confetti.reset) confetti.reset();
+
+      countdownInterval = setInterval(() => {
+        timeLeft--;
+        if (timeLeft >= 0) timerEl.innerText = timeLeft;
+      }, 1000);
+
+      const fireLevelConfetti = () => {
+        // Launch a few confetti from the left edge
+        confetti({
+          particleCount: 15,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0, y: 0.5 },
+          colors: ['#facc15', '#4ade80', '#22d3ee', '#f472b6', '#a78bfa'],
+          zIndex: 9999
+        });
+
+        // Launch a few confetti from the right edge
+        confetti({
+          particleCount: 15,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1, y: 0.5 },
+          colors: ['#facc15', '#4ade80', '#22d3ee', '#f472b6', '#a78bfa'],
+          zIndex: 9999
+        });
+      };
+
+      // Fire immediately upon completing the level
+      fireLevelConfetti();
+
+      // Continuous Confetti Loop using setInterval (safe and reliable)
+      levelConfettiInterval = setInterval(() => {
+        if (Date.now() > animationEnd) {
+          clearInterval(levelConfettiInterval);
+          clearInterval(countdownInterval);
+          endTransition();
+          return;
+        }
+
+        fireLevelConfetti();
+      }, 250);
+    }
+
+    function endTransition() {
+      if (typeof confetti === 'function' && confetti.reset) confetti.reset();
+      const overlay = document.getElementById('level-overlay');
+      overlay.classList.add('hidden');
+      overlay.classList.remove('flex');
+
+      if (gameState.level >= TOTAL_LEVELS) {
+        // Game Won! Reset and go home
+        clearSaveState();
+        showScreen('home-screen');
+        init();
+      } else {
+        // Next Level setup
+        gameState.level++;
+        gameState.filledSlots = [];
+        gameState.usedKeyIndices = [];
+        generateLevelWords();
+        saveGameState();
+        loadCurrentWord();
+        renderHints(); // Explicitly force a UI refresh for the new level
+      }
+    }
+
+    // --- Utilities ---
+    function speakWord() {
+      if (!synth || !gameState.isActive) return;
+      if (synth.speaking) synth.cancel();
+
+      const wordObj = gameState.currentLevelWords[gameState.wordIndex];
+      if (!wordObj) return;
+
+      const utterance = new SpeechSynthesisUtterance(wordObj.w);
+      // Kid friendly voice settings
+      utterance.rate = 0.85;
+      utterance.pitch = 1.2;
+
+      // Try to find a good English voice
+      const voices = synth.getVoices();
+      const englishVoice = voices.find(v => v.lang.startsWith('en-') && v.name.includes('Google'));
+      if (englishVoice) {
+        utterance.voice = englishVoice;
+      }
+
+      synth.speak(utterance);
+    }
+
+    function saveGameState() {
+      if (gameState.isActive) {
+        localStorage.setItem('t2s_save_state', JSON.stringify(gameState));
+      }
+    }
+
+    function clearSaveState() {
+      gameState.isActive = false;
+      localStorage.removeItem('t2s_save_state');
+      hideContinueBanner();
+    }
+
+    // Ensure voices are loaded (browser quirk)
+    if (speechSynthesis.onvoiceschanged !== undefined) {
+      speechSynthesis.onvoiceschanged = () => synth.getVoices();
+    }
+
+    // Physical Keyboard Support
+    window.addEventListener('keydown', (e) => {
+      if (!gameState.isActive || isTransitioning) return;
+      if (e.ctrlKey || e.altKey || e.metaKey || e.repeat) return;
+
+      const gameScreen = document.getElementById('game-screen');
+      const levelOverlay = document.getElementById('level-overlay');
+      if (!gameScreen || gameScreen.classList.contains('hidden')) return;
+      if (levelOverlay && !levelOverlay.classList.contains('hidden')) return;
+
+      if (e.key === 'Backspace' || e.key === 'Delete') {
+        e.preventDefault();
+        for (let i = gameState.filledSlots.length - 1; i >= 0; i--) {
+          if (gameState.filledSlots[i] !== null) {
+            removeLetter(i);
+            break;
+          }
+        }
+        return;
+      }
+
+      if (/^[a-zA-Z]$/.test(e.key)) {
+        const char = e.key.toUpperCase();
+        const hasEmptySlot = gameState.filledSlots.includes(null);
+        const keyIndex = gameState.keyboardKeys.findIndex(
+          (k, idx) => k === char && (!gameState.usedKeyIndices || !gameState.usedKeyIndices.includes(idx))
+        );
+
+        if (hasEmptySlot && keyIndex !== -1) {
+          typeLetter(char, keyIndex);
+        } else {
+          // If no unused key for this letter (or slots full), remove the last matching answer character
+          const slotIdx = gameState.filledSlots.lastIndexOf(char);
+          if (slotIdx !== -1) {
+            removeLetter(slotIdx);
+          }
+        }
+      }
+    });
+
+    // Start App
+    window.onload = init;
+
+  </script>
+</body>
+
+</html>
