@@ -64,7 +64,8 @@ Build **TapToSpell 2** as a modular **React 19 + TypeScript** application runnin
        - **Places (`places`, 🗺️ — 320 words)**: `level_1` (38), `level_2` (76), `level_3` (103), `level_4` (103).
        - **Movies (`movies`, 🎬 — 250 words)**: `level_1` (39), `level_2` (73), `level_3` (80), `level_4` (58).
        - **Fruits (`fruits`, 🍎 — 231 words)**: `level_1` (20), `level_2` (46), `level_3` (59), `level_4` (106).
-   - **Word Item Schema**: Every entry in both `data/grade16.json` and `data/others.json` follows `{ w: string, i: string, examples?: string[] }`, where `w` is the uppercase target word to spell and `i` is the emoji visual cue.
+   - **Word Item Schema**: Every entry in both `data/grade16.json` and `data/others.json` follows `{ w: string, i: string, examples?: string[], audio?: string }`, where `w` is the uppercase target word to spell, `i` is the emoji visual cue, `examples` are optional contextual sentences, and `audio` is an optional custom audio file path (e.g. `/audio/words/apple.mp3`).
+   - **Icon & Visual Quality Audit**: All words in `data/grade16.json` (387 updated icons) and `data/others.json` (106 updated icons) have undergone a full visual audit to replace corrupted character sequences (e.g., Chinese characters or truncated words like `andeliers` -> `💡`, `鑷` -> `✂️`, `亭` -> `🏛️`, `枣` -> `🍒`, flag `🇯🇲` -> `🍈`), fix misleading noun associations (e.g. `AN: 🍎` -> `💬`, `ANOTHER: 🍪` -> `💬`, `EACH: 🍎` -> `💬`, `BIG: 🐘` -> `💬`, `DRAGONFLY: 🐉` -> `🪰`, `AARDVARK: 🐜` -> `🐾`, `KIWI: 🥝` -> `🐦`, `DURIAN: 🦔` -> `🍈`), and standardize abstract words, prepositions, and adverbs to speech bubble `💬`.
 
 ### 4.2. Home Screen (`HomeScreen`)
 2. **FR-2**: The Home Screen must display a centered, vertically scrollable container (`max-w-5xl`) with the gradient heading **"TapToSpell!"**.
@@ -118,16 +119,21 @@ Build **TapToSpell 2** as a modular **React 19 + TypeScript** application runnin
 ### 4.4. Game Screen HUD & Layout (`GameScreen`)
 8. **FR-8 (Top HUD Bar)**:
    - Fixed-height top bar (`shrink-0 h-14 md:h-16`) containing:
-     - **LEVEL badge**: Displays `<level>/10`.
+     - **Interactive LEVEL Selector**:
+       - Displays `LEVEL <level> ▾` in an accessible 3D-styled badge (with `/10` removed for a cleaner, modern look).
+       - Tapping or clicking the badge opens a native/accessible level selector allowing the player to select any level from **Level 1** through **Level 10** at any time.
+       - Selecting a new level clears active timers/speech/overlays, plays an audio selection tone, generates words for the chosen level, resets the slot/keyboard states, and immediately loads the new level into play.
      - **WORD badge**: Displays `<wordIndex + 1>/<wordsPerLevel>`.
      - **SCORE badge**: Displays current `score` (`+10` points awarded per completed word).
-     - **Home / Exit Button**: Red circular 3D button with a house icon. Clicking it plays a `300Hz` sawtooth tone (`0.2s`), cancels any active countdown/confetti intervals, resets active confetti particles, saves the current `gameState` to `localStorage`, and returns to the Home Screen (where the Continue Banner reflects the latest progress).
+     - **Sound Mute / Unmute Toggle Button (`#btn-toggle-sound`)**: Toggles audio on or off (`isMuted`), changes icon between `VolumeHighIcon` and `VolumeMuteIcon`, and persists preference to `localStorage`.
+     - **Keyboard Layout Toggle Button (`#btn-toggle-layout`)**: Toggles between the adaptive letter bank (`bank`) and full QWERTY layout (`qwerty`), and persists preference to `localStorage`.
+     - **Home / Exit Button**: Red circular 3D button with a house icon. Clicking it plays a `300Hz` sawtooth tone (`0.2s`), cancels any active countdown/confetti intervals, stops playing custom audio/speech, resets active confetti particles, saves the current `gameState` to `localStorage`, and returns to the Home Screen (where the Continue Banner reflects the latest progress).
 9. **FR-9 (Middle Play Area)**:
-   - **Animated Word Emoji**: Displays the current word's emoji (`currentWordObj.i`) with a slow pulse animation. Clicking/tapping the emoji calls `speakWord()`.
+   - **Animated Word Emoji**: Displays the current word's emoji (`currentWordObj.i`) with a slow pulse animation. Clicking/tapping the emoji calls `playWordAudio()`.
    - **Answer Box / Word Slots**:
      - Renders one square slot per character of `targetWord` in a single non-wrapping horizontal row.
-     - **Empty Slot**: Displays a dark translucent box with a bottom dash indicator. Clicking the empty slots container calls `speakWord()`.
-     - **Filled Slot**: Displays the uppercase letter inside a bright blue tile. Clicking a filled slot calls `e.stopPropagation()` and `removeLetter(slotIndex)` (does **not** trigger `speakWord()`).
+     - **Empty Slot**: Displays a dark translucent box with a bottom dash indicator. Clicking the empty slots container calls `playWordAudio()`.
+     - **Filled Slot**: Displays the uppercase letter inside a bright blue tile. Clicking a filled slot calls `e.stopPropagation()` and `removeLetter(slotIndex)` (does **not** trigger audio playback).
      - **Wrong Spelling Highlight**: When `showErrors === true`, any filled slot whose letter does not match `targetWord[i]` displays a glowing red border (`border-red-500 shadow-[0_0_10px_rgba(239,68,68,0.8)]`), and the `#word-slots` container plays the horizontal `animate-shake` animation for `400ms`.
 
 ### 4.5. On-Screen Keyboard & Duplicate Key Tracking
@@ -156,8 +162,13 @@ Build **TapToSpell 2** as a modular **React 19 + TypeScript** application runnin
       - Otherwise (if no unused key for `char` remains on the keyboard or all slots are full), find the last filled slot containing `char` (`filledSlots.lastIndexOf(char)`) and call `removeLetter(slotIdx)`.
 
 ### 4.7. Bottom Toolbar: Smart Hint System & Listen Button
-13. **FR-13 (Hint Allocation & Button State)**:
-    - Each word starts with `hintsRemaining = Math.max(0, targetWord.length - 1)`.
+13. **FR-13 (Progressive Hint Allocation & Button State)**:
+    - Each word dynamically computes initial hints via `calculateInitialHints(targetWord.length, level)`:
+      - **Game Levels 1–4**: `hintsRemaining = wordLength - 1`
+      - **Game Levels 5–6**: `hintsRemaining = wordLength - 2`
+      - **Game Levels 7–8**: `hintsRemaining = wordLength - 3`
+      - **Game Levels 9–10**: `hintsRemaining = wordLength - 4`
+      - **Floor**: A minimum floor of 1 hint remaining is guaranteed whenever `targetWord.length >= 2` (`wordLength <= 1 ? 0 : Math.max(1, wordLength - reduction)`).
     - The Hint button displays a lightbulb SVG icon and the numeric `hintsRemaining` count.
     - When `hintsRemaining <= 0`, the button is disabled (`disabled = true`) and styled with reduced opacity and grayscale.
 14. **FR-14 (Smart Hint Execution — `useHint()`)**:
@@ -168,8 +179,12 @@ Build **TapToSpell 2** as a modular **React 19 + TypeScript** application runnin
       3. **Key Reclamation**: If no unused key is available (`keyIndex === -1`) because all instances of `neededChar` were placed in other wrong slots (`sIdx !== i && filledSlots[sIdx] === neededChar && filledSlots[sIdx] !== targetWord[sIdx]`), reclaim `keyIndex = usedKeyIndices[wrongSlotIdx]` and clear `filledSlots[wrongSlotIdx] = null` and `usedKeyIndices[wrongSlotIdx] = null`.
       4. Set `filledSlots[i] = neededChar` and `usedKeyIndices[i] = keyIndex`.
       5. Decrement `hintsRemaining` by `1`, set `showErrors = false`, play an `800Hz` sine tone (`0.15s`), save state, and trigger `checkWin()` after `100ms`.
-15. **FR-15 (Listen Button)**:
-    - Clicking the **Listen** button speaks the current target word via `speakWord()`.
+15. **FR-15 (Listen Button & Custom Audio Playback)**:
+    - Clicking the **Listen** button invokes `playWordAudio(targetWord, customAudioUrl)`:
+      - Automatically checks whether custom recorded pronunciation audio exists (from `currentWordObj.audio` or `/audio/words/<word_lowercase>.mp3`).
+      - If custom audio exists, plays the audio file via HTML5 Audio.
+      - If no custom file exists or if playback encounters an error, seamlessly falls back to Web Speech API `speakWord()`.
+      - User actions that dismiss or leave the word (e.g. Home button, changing level, win transition) immediately halt playback via `stopWordAudio()`.
 
 ### 4.8. Win Validation, Confetti & Level Transitions (`checkWin()`)
 16. **FR-16**: `100ms` after the last empty slot is filled (`!filledSlots.includes(null)`), evaluate `currentSpelling = filledSlots.join('')`:
@@ -224,19 +239,33 @@ Build **TapToSpell 2** as a modular **React 19 + TypeScript** application runnin
       | Use Hint | `800` | `sine` | `0.15` | `0.1` |
       | Word Correct | `523.25` → `659.25` → `783.99` | `triangle` | `0.1`, `0.1`, `0.2` | `0.2` |
       | Word Wrong | `200` | `sawtooth` | `0.3` | `0.2` |
-20. **FR-20 (Web Speech API Text-to-Speech)**:
-    - Automatically speak the current word `300ms` after loading a word.
-    - Cancel any in-progress speech (`speechSynthesis.cancel()`) before speaking a new utterance.
-    - Configure `SpeechSynthesisUtterance` with `rate = 0.85` and `pitch = 1.2`.
-    - Select an English Google voice (`v.lang.startsWith('en-') && v.name.includes('Google')`) when available, falling back gracefully to the browser's default English voice.
+20. **FR-20 (Audio Pronunciation & Speech Synthesis)**:
+    - Custom human audio recordings in `public/audio/words/<word_lowercase>.mp3` (or specified in `WordEntry.audio`) take precedence.
+    - If custom audio is absent or fails to load, the system seamlessly falls back to the **Web Speech API (`window.speechSynthesis`)**:
+      - Automatically pronounce the current word `300ms` after loading.
+      - Cancel any in-progress speech (`speechSynthesis.cancel()`) before speaking a new utterance.
+      - Configure `SpeechSynthesisUtterance` with `rate = 0.85` and `pitch = 1.2`.
+      - Select an English Google voice (`v.lang.startsWith('en-') && v.name.includes('Google')`) when available, falling back gracefully to the browser's default English voice.
 
 ### 4.10. LocalStorage Persistence & Recovery
-21. **FR-21**: Persist two keys in `window.localStorage`:
+21. **FR-21**: Persist keys in `window.localStorage`:
     - `t2s_pref_grade`: Stores `"1"`, `"2"`, `"3"`, `"4"`, `"5"`, `"6"`, or `"high_school"` (or `"7"`).
     - `t2s_save_state`: JSON string of the active `GameState` (`isActive`, `category`, `grade`, `level`, `score`, `wordIndex`, `currentLevelWords`, `wordPoolQueue`, `keyboardKeys`, `filledSlots`, `usedKeyIndices`, `hintsRemaining`, `showErrors`).
+    - `t2s_pref_muted`: Boolean flag (`"true"` / `"false"`) indicating whether sound output is muted.
+    - `t2s_pref_layout`: String (`"bank"` or `"qwerty"`) indicating the active keyboard layout preference.
 22. **FR-22**: Gracefully handle corrupted JSON or legacy save payloads:
     - If `JSON.parse` fails, clear `t2s_save_state` and start clean without crashing.
     - If `usedKeyIndices` is missing or mismatched on a saved word with filled slots, reconstruct `usedKeyIndices` by matching each character in `filledSlots` to the first available matching index in `keyboardKeys`.
+
+### 4.11. SEO, Metadata & Search Discoverability
+23. **FR-23 (Comprehensive SEO & Structured Data)**:
+    - Render descriptive HTML document metadata via `src/lib/seo.ts`:
+      - Dynamic `<title>`: `"TapToSpell - Fun Word Spelling & Vocabulary Game for Kids"`.
+      - Meta description targeting elementary and high school spelling learners, teachers, and parents.
+      - Open Graph (`og:type`, `og:title`, `og:description`, `og:image`, `og:url`) and Twitter Card tags.
+      - Schema.org JSON-LD structured data for `SoftwareApplication` and `LearningResource`.
+      - Canonical links and mobile viewport tags.
+    - Cloudflare Worker (`src/worker.ts`) serves both `GET` and `HEAD` requests for the root application shell, `/sitemap.xml`, and `/robots.txt`.
 
 ---
 
@@ -244,7 +273,7 @@ Build **TapToSpell 2** as a modular **React 19 + TypeScript** application runnin
 
 1. **No Backend Database or User Accounts**: All state is stored locally in `localStorage`. No D1 database tables, server-side sessions, or login screens are required for this version.
 2. **No External CDN Scripts or Stylesheets**: Do not load Tailwind, FontAwesome, Google Fonts, or `canvas-confetti` from external CDNs (`cdn.tailwindcss.com`, `cdnjs`, `jsdelivr`, `fonts.googleapis.com`). All libraries and fonts/icons must be installed and bundled locally via `npm`.
-3. **No External MP3/WAV Audio Files**: All sound effects and speech must use the browser's native Web Audio API and Web Speech API.
+3. **No External Third-Party Audio Hosting**: Sound effects and default speech synthesis run 100% locally on the device (Web Audio API & Web Speech API). Custom recorded pronunciation files are served directly from the local `public/audio/words/` folder without external hosting dependencies.
 4. **No Custom Word List Editor**: Only the built-in curriculum (`data/grade16.json` for Grades 1–6) and the 7 High School categories (`data/others.json`) are included in scope.
 
 ---
@@ -271,29 +300,40 @@ Build **TapToSpell 2** as a modular **React 19 + TypeScript** application runnin
   - `animate-shake`: `shake 0.4s ease-in-out` (`0%, 100%: translateX(0)`, `25%: translateX(-10px)`, `75%: translateX(10px)`)
 
 ### 6.3. Icons
-- Replace the 3 FontAwesome icons from the HTML prototype (`fa-play`, `fa-house`, `fa-volume-high`) and the lightbulb SVG with clean inline SVG components or a local icon package (e.g., `lucide-react` or `@fortawesome/fontawesome-free` / inline SVGs) so zero external CDN stylesheets are needed.
+- Clean inline SVG components in `src/components/Icons.tsx`:
+  - `PlayIcon`
+  - `HouseIcon`
+  - `VolumeHighIcon` & `VolumeMuteIcon` (Sound toggle)
+  - `KeyboardIcon` (Layout toggle)
+  - `LightbulbIcon` (Hint button)
+  - `ChevronDownIcon` (Level dropdown indicator)
+  Zero external font or icon stylesheets are required.
 
 ---
 
 ## 7. Technical Considerations
 
-### 7.1. Stack & Project Structure (`D:\Projects\TAPTOSPELL2`)
-- **Framework**: React 19 + TypeScript running on the existing Cloudflare Worker (`src/worker.ts`) and client bundle (`src/client.tsx`).
-- **Local Dependencies to Install via `npm`**:
+### 7.1. Stack & Project Structure (`d:\aSam\PROJECTS\TAPTOSPELL2`)
+- **Framework**: React 19 + TypeScript running on the Cloudflare Worker (`src/worker.ts`) and client bundle (`src/client.tsx`).
+- **Local Dependencies via `npm`**:
   - `canvas-confetti` and `@types/canvas-confetti`
-  - `tailwindcss` (or `@tailwindcss/cli` / PostCSS / esbuild CSS bundling)
-  - `@fontsource/nunito` (or local font files in `public/fonts/`)
-- **Suggested Modular Directory Layout (`src/`)**:
-  - `src/data/words.ts` — Imports `data/grade16.json` and `data/others.json`, defines `WORD_POOLS`, types (`CategoryName`, `GradeLevel`, `WordItem`), `getWordsPerLevel(grade)` (`2`–`8`), and progressive difficulty level word generator (`generateLevelWords`) with non-repeating pool-cycling logic.
-  - `src/lib/audio.ts` — Web Audio API `playTone` helper, sound effect wrappers, and Web Speech API `speakWord` utility.
-  - `src/lib/storage.ts` — `localStorage` load/save/clear helpers for `t2s_pref_grade` and `t2s_save_state`.
-  - `src/components/HomeScreen.tsx` — Title, Continue Game Banner, Grade Level Selector (Grades 1–6 direct start + High School toggle), and the 7 High School Category Cards (`Colors`, `Animals`, `Everyday Life`, `Nature`, `Places`, `Movies`, `Fruits`).
-  - `src/components/GameScreen.tsx` — Top HUD, Animated Word Emoji, Word Slots, On-Screen Keyboard, and Bottom Toolbar (Hint & Listen buttons).
+  - `tailwindcss` and `@tailwindcss/cli`
+  - `@fontsource/nunito`
+- **Modular Directory Layout (`src/`)**:
+  - `src/data/words.ts` — Imports `data/grade16.json` and `data/others.json`, defines `WORD_POOLS`, types (`CategoryName`, `GradeLevel`, `WordEntry`), `getWordsPerLevel(grade)` (`2`–`8`), keyboard generator, and progressive difficulty tier queue cycler (`generateLevelWords`).
+  - `src/lib/audio.ts` — Web Audio API `playTone` synthesizer, sound effect triggers, custom human pronunciation player (`playWordAudio` & `stopWordAudio`), and Web Speech API `speakWord` fallback.
+  - `src/lib/storage.ts` — `localStorage` persistence helpers (`loadGradePref`, `saveGradePref`, `loadSavedGame`, `saveGameState`, `clearSaveState`, `calculateInitialHints`, mute and keyboard layout state).
+  - `src/lib/seo.ts` — SEO metadata builder, Open Graph, Twitter cards, JSON-LD Schema (`SoftwareApplication` / `LearningResource`), sitemap, and robots.txt.
+  - `src/components/Icons.tsx` — Local SVG icons (`Play`, `House`, `VolumeHigh`, `VolumeMute`, `Keyboard`, `Lightbulb`, `ChevronDown`).
+  - `src/components/HomeScreen.tsx` — Title, Continue Game Banner, Grade Level Selector (Grades 1–6 direct start + High School toggle), and the 7 High School Category Cards.
+  - `src/components/GameScreen.tsx` — Top HUD (interactive Level selector 1–10, word counter, score, audio toggle, layout toggle, home button), Middle Play Area (pulsing emoji, answer slots), and Bottom Controls (adaptive On-Screen Keyboard / QWERTY layout, Hint button, Listen button).
   - `src/components/LevelOverlay.tsx` — Level Complete / Game Complete modal overlay with 5-second countdown ring.
-  - `src/App.tsx` — Top-level state machine coordinating screen navigation, keyboard listener, win checks, and confetti intervals.
+  - `src/App.tsx` — Top-level state machine coordinating screen navigation, level jumping, keyboard listener, win checks, audio playback, and confetti intervals.
+  - `public/audio/words/` — Directory for optional custom human word pronunciations (`<word>.mp3`).
 
 ### 7.2. Build & Asset Serving
-- Ensure `npm run build` compiles both the TypeScript/React client (`public/app.js`, bundling `data/grade16.json` and `data/others.json`) and local styles/fonts (`public/styles.css` and font assets) so `src/worker.ts` serves them locally without any external `https://` links in the HTML `<head>`.
+- Running `npm run build` compiles both the TypeScript/React client (`public/app.js`, bundling `data/grade16.json` and `data/others.json`) and local styles/fonts (`public/styles.css` and font assets).
+- `src/worker.ts` handles both `GET` and `HEAD` requests, serving static assets locally and rendering SEO-optimized HTML with JSON-LD, `/sitemap.xml`, and `/robots.txt` without any external `https://` CDN links.
 
 ---
 

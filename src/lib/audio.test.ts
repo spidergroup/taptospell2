@@ -193,4 +193,81 @@ describe('audio.ts — Web Audio API Synthesizer & Web Speech API TTS', () => {
     expect(speakSpy).toHaveBeenCalled();
     stopWordAudio();
   });
+
+  it('unlocks audio context, primes speech synthesis, and sets iOS audioSession to playback', () => {
+    const audioSessionObj = { type: 'ambient' };
+    Object.defineProperty(globalThis, 'navigator', {
+      value: { audioSession: audioSessionObj },
+      configurable: true,
+      writable: true,
+    });
+
+    const speakSpy = vi.fn();
+    Object.defineProperty(globalThis, 'speechSynthesis', {
+      value: {
+        speak: speakSpy,
+        cancel: vi.fn(),
+        getVoices: () => [],
+      },
+      configurable: true,
+      writable: true,
+    });
+
+    class MockUtterance {
+      text: string;
+      volume = 1;
+      constructor(text: string) {
+        this.text = text;
+      }
+    }
+    Object.defineProperty(globalThis, 'SpeechSynthesisUtterance', {
+      value: MockUtterance,
+      configurable: true,
+      writable: true,
+    });
+
+    import('./audio').then(({ unlockAudio }) => {
+      unlockAudio();
+      expect(audioSessionObj.type).toBe('playback');
+      expect(speakSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it('skips new Audio network requests and speaks directly when manifest is loaded and word has no custom audio', () => {
+    const playSpy = vi.fn();
+    class MockAudio {
+      src: string;
+      play = playSpy;
+      constructor(src: string) {
+        this.src = src;
+      }
+      addEventListener() {}
+    }
+    Object.defineProperty(globalThis, 'Audio', {
+      value: MockAudio,
+      configurable: true,
+      writable: true,
+    });
+
+    const speakSpy = vi.fn();
+    Object.defineProperty(globalThis, 'speechSynthesis', {
+      value: {
+        cancel: vi.fn(),
+        speak: speakSpy,
+        getVoices: () => [],
+      },
+      configurable: true,
+      writable: true,
+    });
+
+    import('./audio').then(({ registerCustomWordAudio, playWordAudio }) => {
+      // Manifest loaded with only 'dog'
+      registerCustomWordAudio(['dog']);
+
+      // 'cat' is not in manifest -> should call speakWord directly without calling new Audio play
+      playWordAudio('CAT');
+      expect(playSpy).not.toHaveBeenCalled();
+      expect(speakSpy).toHaveBeenCalled();
+    });
+  });
 });

@@ -4,6 +4,16 @@ export const AUDIO_MUTED_KEY = 't2s_audio_muted';
 
 let sharedAudioCtx: AudioContext | null = null;
 let memoryMuted = false;
+let isAudioUnlocked = false;
+let unlockListenersAttached = false;
+let manifestLoaded = false;
+let customAudioWords = new Set<string>();
+let activeUtterance: SpeechSynthesisUtterance | null = null;
+let activeAudio: HTMLAudioElement | null = null;
+
+// Silent 1-sample WAV data URI to switch iOS Safari's audio session to Media/Playback
+const SILENT_WAV_DATA_URI =
+  'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA';
 
 export function getAudioMuted(): boolean {
   if (typeof window !== 'undefined' && window.localStorage) {
@@ -31,7 +41,7 @@ export function setAudioMuted(muted: boolean): void {
   }
 }
 
-function getAudioContext(): AudioContext | null {
+export function getAudioContext(): AudioContext | null {
   if (typeof window === 'undefined' && typeof globalThis === 'undefined') {
     return null;
   }
@@ -48,9 +58,125 @@ function getAudioContext(): AudioContext | null {
   return sharedAudioCtx;
 }
 
+export function registerCustomWordAudio(words: string[]): void {
+  manifestLoaded = true;
+  for (const w of words) {
+    if (w) customAudioWords.add(w.toLowerCase());
+  }
+}
+
+export function hasCustomAudio(word: string, customAudioUrl?: string): boolean {
+  if (customAudioUrl) return true;
+  return customAudioWords.has(word.toLowerCase());
+}
+
+/**
+ * Unlocks iOS/iPadOS Safari Web Audio and Web Speech engines.
+ * Must be triggered by a user interaction (touchstart, touchend, click, keydown).
+ */
+export function unlockAudio(): void {
+  if (typeof window === 'undefined') return;
+
+  // 1. Tell iOS WebKit to use 'playback' session so hardware silent switch does not mute Web Audio
+  if (typeof navigator !== 'undefined' && 'audioSession' in navigator) {
+    try {
+      (navigator as unknown as { audioSession: { type: string } }).audioSession.type = 'playback';
+    } catch {
+      // ignore
+    }
+  }
+
+  // 2. Play a brief inaudible HTML5 audio element to force iOS into AVAudioSessionCategoryPlayback
+  try {
+    const silentAudio = new Audio(SILENT_WAV_DATA_URI);
+    silentAudio.volume = 0.01;
+    const p = silentAudio.play();
+    if (p && typeof p.catch === 'function') {
+      p.catch(() => {});
+    }
+  } catch {
+    // ignore
+  }
+
+  // 3. Unlock Web Audio Context by playing a 1-sample silent buffer
+  const ctx = getAudioContext();
+  if (ctx) {
+    if (ctx.state === 'suspended') {
+      const resumePromise = ctx.resume();
+      if (resumePromise && typeof resumePromise.catch === 'function') {
+        resumePromise.catch(() => {});
+      }
+    }
+    try {
+      const buffer = ctx.createBuffer(1, 1, 22050);
+      const source = ctx.createBufferSource();
+      source.buffer = buffer;
+      source.connect(ctx.destination);
+      source.start(0);
+    } catch {
+      // ignore
+    }
+  }
+
+  // 4. Prime the Web Speech API on iOS Safari with an empty utterance
+  if ('speechSynthesis' in window) {
+    try {
+      const empty = new SpeechSynthesisUtterance('');
+      empty.volume = 0;
+      window.speechSynthesis.speak(empty);
+    } catch {
+      // ignore
+    }
+  }
+
+  isAudioUnlocked = true;
+}
+
+/**
+ * Sets up global one-time interaction listeners to unlock audio on mobile devices (iOS/iPad/Android).
+ */
+export function setupAudioUnlockListeners(): void {
+  if (typeof window === 'undefined' || unlockListenersAttached) return;
+  unlockListenersAttached = true;
+
+  const events = ['touchstart', 'touchend', 'pointerdown', 'mousedown', 'keydown'];
+  const handler = () => {
+    unlockAudio();
+    if (isAudioUnlocked) {
+      events.forEach((evt) => {
+        window.removeEventListener(evt, handler, true);
+        document.removeEventListener(evt, handler, true);
+      });
+    }
+  };
+
+  events.forEach((evt) => {
+    window.addEventListener(evt, handler, { capture: true, passive: true });
+    document.addEventListener(evt, handler, { capture: true, passive: true });
+  });
+
+  // Automatically fetch custom audio manifest if available
+  if (typeof fetch === 'function') {
+    fetch('/audio/words/manifest.json')
+      .then((res) => (res.ok ? res.json() : []))
+      .then((list) => {
+        if (Array.isArray(list)) {
+          registerCustomWordAudio(list);
+        }
+      })
+      .catch(() => {});
+  }
+}
+
 export function resetAudioContextForTesting(): void {
   sharedAudioCtx = null;
   memoryMuted = false;
+  isAudioUnlocked = false;
+  unlockListenersAttached = false;
+  manifestLoaded = false;
+  customAudioWords = new Set<string>();
+  activeUtterance = null;
+  activeAudio = null;
   if (typeof window !== 'undefined' && window.localStorage) {
     try {
       window.localStorage.removeItem(AUDIO_MUTED_KEY);
@@ -71,24 +197,38 @@ export function playTone(
   const audioCtx = getAudioContext();
   if (!audioCtx) return;
 
+  const executeTone = () => {
+    try {
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      const startTime = audioCtx.currentTime;
+
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, startTime);
+
+      gain.gain.setValueAtTime(vol, startTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start(startTime);
+      osc.stop(startTime + duration);
+    } catch {
+      // ignore
+    }
+  };
+
   if (audioCtx.state === 'suspended') {
-    audioCtx.resume();
+    const resumePromise = audioCtx.resume();
+    if (resumePromise && typeof resumePromise.then === 'function') {
+      resumePromise.then(executeTone).catch(() => {});
+    } else {
+      executeTone();
+    }
+  } else {
+    executeTone();
   }
-
-  const osc = audioCtx.createOscillator();
-  const gain = audioCtx.createGain();
-
-  osc.type = type;
-  osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-
-  gain.gain.setValueAtTime(vol, audioCtx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-
-  osc.connect(gain);
-  gain.connect(audioCtx.destination);
-
-  osc.start();
-  osc.stop(audioCtx.currentTime + duration);
 }
 
 export function playGradeSelectSound(): void {
@@ -142,22 +282,57 @@ export function speakWord(word: string): void {
   const UtteranceCtor = g.SpeechSynthesisUtterance;
   if (!synth || !UtteranceCtor) return;
 
-  synth.cancel();
-
-  const utterance = new UtteranceCtor(word.toLowerCase());
-  utterance.rate = 0.85;
-  utterance.pitch = 1.2;
-
-  const voices = synth.getVoices ? synth.getVoices() : [];
-  const enVoice = voices.find((v) => v.lang.startsWith('en-') && v.name.includes('Google'));
-  if (enVoice) {
-    utterance.voice = enVoice;
+  // On iOS Safari, wake up the audio context if suspended
+  if (sharedAudioCtx && sharedAudioCtx.state === 'suspended') {
+    const p = sharedAudioCtx.resume();
+    if (p && typeof p.catch === 'function') {
+      p.catch(() => {});
+    }
   }
 
-  synth.speak(utterance);
-}
+  if (typeof synth.cancel === 'function') {
+    try {
+      synth.cancel();
+    } catch {
+      // ignore
+    }
+  }
 
-let activeAudio: HTMLAudioElement | null = null;
+  try {
+    const utterance = new UtteranceCtor(word.toLowerCase());
+    utterance.lang = 'en-US';
+    utterance.rate = 0.85;
+    utterance.pitch = 1.2;
+
+    const voices = synth.getVoices ? synth.getVoices() : [];
+    const chosenVoice =
+      voices.find((v) => v.lang.startsWith('en-') && v.name.includes('Google')) ||
+      voices.find((v) => v.lang === 'en-US' && !v.name.toLowerCase().includes('compact')) ||
+      voices.find((v) => v.lang === 'en-US') ||
+      voices.find((v) => v.lang.startsWith('en'));
+
+    if (chosenVoice) {
+      utterance.voice = chosenVoice;
+    }
+
+    // Store in activeUtterance and window to prevent WebKit premature GC bug
+    activeUtterance = utterance;
+    if (typeof window !== 'undefined') {
+      (window as unknown as { __t2s_utterance?: SpeechSynthesisUtterance | null }).__t2s_utterance = utterance;
+    }
+
+    utterance.onend = () => {
+      if (activeUtterance === utterance) activeUtterance = null;
+    };
+    utterance.onerror = () => {
+      if (activeUtterance === utterance) activeUtterance = null;
+    };
+
+    synth.speak(utterance);
+  } catch {
+    // ignore
+  }
+}
 
 export function stopWordAudio(): void {
   if (activeAudio) {
@@ -169,11 +344,16 @@ export function stopWordAudio(): void {
     }
     activeAudio = null;
   }
+  activeUtterance = null;
   const g = (typeof window !== 'undefined' ? window : globalThis) as unknown as {
     speechSynthesis?: SpeechSynthesis;
   };
-  if (g.speechSynthesis) {
-    g.speechSynthesis.cancel();
+  if (g.speechSynthesis && typeof g.speechSynthesis.cancel === 'function') {
+    try {
+      g.speechSynthesis.cancel();
+    } catch {
+      // ignore
+    }
   }
 }
 
@@ -184,6 +364,14 @@ export function playWordAudio(word: string, customAudioUrl?: string): void {
   const g = (typeof window !== 'undefined' ? window : globalThis) as unknown as {
     Audio?: typeof Audio;
   };
+
+  // If manifest is loaded and we know this word has no custom audio, directly speak!
+  // This skips the 404 network request and preserves user activation on iOS Safari.
+  const hasCustom = hasCustomAudio(word, customAudioUrl);
+  if (manifestLoaded && !hasCustom) {
+    speakWord(word);
+    return;
+  }
 
   const audioSrc = customAudioUrl || `/audio/words/${word.toLowerCase()}.mp3`;
 
@@ -221,6 +409,7 @@ export function playWordAudio(word: string, customAudioUrl?: string): void {
 }
 
 export function initSpeechVoices(): void {
+  setupAudioUnlockListeners();
   if (typeof window !== 'undefined' && window.speechSynthesis) {
     window.speechSynthesis.onvoiceschanged = () => {
       window.speechSynthesis.getVoices();
