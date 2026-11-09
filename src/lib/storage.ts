@@ -12,6 +12,21 @@ export const PREF_KEYBOARD_LAYOUT_KEY = 't2s_pref_keyboard_layout';
 
 export type KeyboardLayout = 'bank' | 'qwerty';
 
+/**
+ * Calculates initial hints for a word based on difficulty progression across levels:
+ * - Level 1 to 4: hints = wordLength - 1
+ * - Level 5 to 6: hints = wordLength - 2
+ * - Level 7 to 8: hints = wordLength - 3
+ * - Level 9 to 10: hints = wordLength - 4
+ * With a floor of 1 hint remaining (unless wordLength <= 1 where hints = 0).
+ */
+export function calculateInitialHints(wordLength: number, level: number = 1): number {
+  if (wordLength <= 1) return 0;
+  const clampedLevel = Math.max(1, Math.floor(level || 1));
+  const reduction = clampedLevel <= 4 ? 1 : 1 + Math.ceil((clampedLevel - 4) / 2);
+  return Math.max(1, wordLength - reduction);
+}
+
 export interface GameState {
   isActive: boolean;
   category: CategoryName;
@@ -138,11 +153,12 @@ export function loadSavedGame(): GameState | null {
 
     let hintsRemaining = parsed.hintsRemaining;
     if (typeof hintsRemaining !== 'number') {
+      const level = typeof parsed.level === 'number' ? parsed.level : 1;
       if (targetLen > 0) {
-        hintsRemaining = Math.max(0, targetLen - 1);
+        hintsRemaining = calculateInitialHints(targetLen, level);
       } else {
         const wordsCount = getWordsPerLevel(grade);
-        hintsRemaining = Math.max(0, wordsCount - 1);
+        hintsRemaining = calculateInitialHints(wordsCount, level);
       }
     }
 

@@ -1,7 +1,11 @@
 import { generateKeyboard } from '../data/words';
-import { type GameState, reconstructUsedKeyIndices } from './storage';
+import {
+  calculateInitialHints,
+  type GameState,
+  reconstructUsedKeyIndices,
+} from './storage';
 
-export { reconstructUsedKeyIndices, generateKeyboard };
+export { reconstructUsedKeyIndices, generateKeyboard, calculateInitialHints };
 
 export interface TypeLetterResult {
   state: GameState;
@@ -19,7 +23,7 @@ export function initWordState(state: GameState): GameState {
       ...state,
       filledSlots: new Array(targetWord.length).fill(null),
       usedKeyIndices: new Array(targetWord.length).fill(null),
-      hintsRemaining: Math.max(0, targetWord.length - 1),
+      hintsRemaining: calculateInitialHints(targetWord.length, state.level),
       showErrors: false,
       keyboardKeys: generateKeyboard(targetWord),
     };

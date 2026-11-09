@@ -85,8 +85,14 @@ describe('storage.ts — LocalStorage Persistence & Recovery', () => {
     expect(loaded).not.toBeNull();
     expect(loaded!.grade).toBe(3);
     expect(loaded!.level).toBe(4);
-    expect(loaded!.hintsRemaining).toBe(4); // targetWord.length - 1 = 4
+    expect(loaded!.hintsRemaining).toBe(4); // targetWord.length - 1 = 4 at level 4
     expect(loaded!.usedKeyIndices).toEqual([1, 0, 3, null, null]);
+
+    // Also verify recovery at level 7 uses level-based hint calculation (length 5 - 3 = 2)
+    const level7Save = { ...legacySave, level: 7 };
+    globalThis.localStorage.setItem(SAVE_STATE_KEY, JSON.stringify(level7Save));
+    const loadedLvl7 = loadSavedGame();
+    expect(loadedLvl7!.hintsRemaining).toBe(2);
   });
 
   it('gracefully clears corrupted JSON in t2s_save_state without crashing', () => {
