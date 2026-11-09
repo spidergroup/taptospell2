@@ -1,0 +1,74 @@
+## Relevant Files
+
+- `package.json` - Local npm dependencies (`tailwindcss`, `@tailwindcss/cli`, `canvas-confetti`, `@types/canvas-confetti`, `@fontsource/nunito`) and scripts for building client JS (`public/app.js`) and CSS/font assets (`public/styles.css`, `public/fonts/`).
+- `.gitignore` - Ignore generated build artifacts (`public/app.js`, `public/styles.css`, `public/fonts/`).
+- `src/styles.css` - Local Tailwind CSS configuration, `@fontsource/nunito` font-face rules, `.btn-3d` active state styles, `.word-box-text` clamp sizing, scrollbar hiding, and custom keyframe animations (`animate-pulse-slow`, `animate-bounce-slow`, `animate-shake`).
+- `src/worker.ts` - Cloudflare Worker SSR entry serving the HTML shell with local `/styles.css` and `/app.js` and zero external CDN links.
+- `src/data/words.ts` - Built-in `WORD_POOLS` (`Animals`, `Fry Words`, `Sight Words`), `TOTAL_LEVELS = 10`, `getWordsPerLevel(grade)`, shuffled non-repeating category queue cycling (`generateLevelWordsWithQueue`), and `generateKeyboard(targetWord)`.
+- `src/data/words.test.ts` - Unit tests verifying word pools, grade word counts (`1`, `3`, `5`), non-repeating shuffled queue cycling across 10 levels, and keyboard generation (`Math.max(12, targetWord.length + 5)`).
+- `src/lib/storage.ts` - `GameState` TypeScript interface and `localStorage` persistence helpers (`loadGradePref`, `saveGradePref`, `loadSavedGame`, `saveGameState`, `clearSaveState`) with legacy/corrupted JSON recovery and `usedKeyIndices` reconstruction.
+- `src/lib/storage.test.ts` - Unit tests for `localStorage` grade preferences, active game state persistence, corrupted JSON fallback, and `usedKeyIndices` reconstruction.
+- `src/lib/audio.ts` - Web Audio API synthesizer (`playTone`, grade select, start game, continue, exit, type letter, remove letter, hint chime, 3-note C5–E5–G5 win fanfare, 200Hz sawtooth error buzz) and Web Speech API (`speakWord`) with `rate = 0.85`, `pitch = 1.2`, and Google English voice selection.
+- `src/lib/audio.test.ts` - Unit tests for Web Audio API tone synthesis and Web Speech API utterance configuration.
+- `src/lib/confetti.ts` - Local `canvas-confetti` helpers for the 1-second word completion burst (`250ms` interval, `zIndex: 9999`), 5-second dual-edge level/game complete cannons (`angle: 60` at `x: 0` and `angle: 120` at `x: 1`), and `resetConfetti()` cleanup.
+- `src/lib/gameplay.ts` - Pure state functions for `typeLetter` (with `usedKeyIndices` tracking), `removeLetter`, `useHint` (smart first-wrong/empty slot detection + reclaiming needed keys from other wrong slots), `handlePhysicalKeyAction`, and `evaluateSpelling`.
+- `src/lib/gameplay.test.ts` - Unit tests for duplicate letter key tracking (`usedKeyIndices`), smart hints with key reclamation, physical keyboard input rules, and spelling win/error evaluation.
+- `src/components/Icons.tsx` - Local inline SVG icon components (`PlayIcon`, `HouseIcon`, `VolumeHighIcon`, `LightbulbIcon`) replacing external FontAwesome CDN icons.
+- `src/components/HomeScreen.tsx` - Home Screen UI with gradient `"TapToSpell!"` heading, conditional `"Game in Progress!"` Continue Banner, 3-button Grade Level Selector, and 3-column Category Selection cards.
+- `src/components/GameScreen.tsx` - Full-viewport locked Game Screen (`h-[100dvh] w-screen overflow-hidden`) with Top HUD (`LEVEL`, `WORD`, `SCORE`, red Home button), Middle Play Area (pulsing clickable emoji and interactive Answer Slots with error glow & shake), and Bottom Controls (adaptive On-Screen Keyboard, Hint button with badge, and Listen button).
+- `src/components/LevelOverlay.tsx` - Full-screen blurred modal (`#level-overlay`) for `"Level Complete!"` (Levels 1–9) and `"Game Complete!"` (Level 10) with the 5-second circular countdown timer badge.
+- `src/App.tsx` - Main application state container connecting `HomeScreen`, `GameScreen`, and `LevelOverlay`, managing transition locks (`isTransitioning`), countdown/confetti intervals, auto-TTS after `300ms`, and the window `keydown` listener.
+
+### Notes
+
+- Unit tests should be placed alongside the code files they are testing (e.g., `src/data/words.ts` and `src/data/words.test.ts` in the same directory).
+- Use `npm test` (or `npx vitest run [optional/path/to/test/file]`) to run tests.
+
+## Instructions for Completing Tasks
+
+**IMPORTANT:** As you complete each task, you must check it off in this markdown file by changing `- [ ]` to `- [x]`. This helps track progress and ensures you don't skip any steps.
+
+Example:
+- `- [ ] 1.1 Read file` → `- [x] 1.1 Read file` (after completing)
+
+Update the file after completing each sub-task, not just after completing an entire parent task.
+
+## Tasks
+
+- [ ] 0.0 Create feature branch
+  - [ ] 0.1 Create and checkout a new feature branch (e.g., `git checkout -b feature/taptospell2-game`).
+- [ ] 1.0 Install local dependencies, configure Tailwind CSS, local Nunito font, and build pipeline (zero external CDNs)
+  - [ ] 1.1 Install `canvas-confetti`, `@types/canvas-confetti`, `tailwindcss`, `@tailwindcss/cli`, and `@fontsource/nunito` as local npm packages in `package.json`.
+  - [ ] 1.2 Create `src/styles.css` importing Tailwind CSS and local `Nunito` font weights (`600`, `700`, `800`, `900`), and define custom theme animations (`animate-pulse-slow`, `animate-bounce-slow`, `animate-shake` with `0%, 100%: translateX(0)`, `25%: translateX(-10px)`, `75%: translateX(10px)`), `.btn-3d` tactile button styles, `.word-box-text` (`font-size: clamp(1.2rem, 5vw, 2.5rem)`), `user-select: none`, `touch-action: manipulation`, and hidden scrollbars.
+  - [ ] 1.3 Update `package.json` build scripts (`build:css`, `build:client`, `build`, `dev`) so that local CSS (`public/styles.css`), local font files, and the client JS bundle (`public/app.js`) are compiled into `public/`, and add generated assets to `.gitignore`.
+  - [ ] 1.4 Update `src/worker.ts` HTML document shell (`renderHtmlDocument`) to include `<link rel="stylesheet" href="/styles.css" />`, proper mobile viewport meta tags (`width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no`), and root body classes (`bg-slate-900 text-white h-[100dvh] w-screen overflow-hidden flex flex-col relative`) with zero external `https://` CDN links.
+- [ ] 2.0 Implement Word Pools, Shuffled Category Queue Cycling, Keyboard Generation, and LocalStorage Persistence
+  - [ ] 2.1 Create `src/data/words.ts` defining `TOTAL_LEVELS = 10`, TypeScript types (`CategoryName`, `GradeLevel`, `WordEntry`), and `WORD_POOLS` with all 20 **Animals** words, 16 **Fry Words**, and 12 **Sight Words** mapped to their exact uppercase strings (`w`) and emojis (`i`).
+  - [ ] 2.2 Implement `getWordsPerLevel(grade)` returning `1` for 1st Grade, `3` for 2nd Grade, and `5` for 3rd Grade (defaulting to `3`).
+  - [ ] 2.3 Implement shuffled category queue cycling (`generateLevelWords(category, grade, existingQueue)`) that draws `wordsPerLevel` unique words from a shuffled category queue and only reshuffles/replenishes from `WORD_POOLS[category]` when the queue runs low—ensuring every word in the category is presented before any word repeats across levels and no duplicate word appears within the same level.
+  - [ ] 2.4 Implement `generateKeyboard(targetWord)` in `src/data/words.ts` that includes all uppercase letters of `targetWord` plus random uppercase distractor letters (`A–Z`) up to `Math.max(12, targetWord.length + 5)` total keys, shuffled randomly.
+  - [ ] 2.5 Create `src/lib/storage.ts` defining the `GameState` interface (`isActive`, `category`, `grade`, `level`, `score`, `wordIndex`, `currentLevelWords`, `wordPoolQueue`, `keyboardKeys`, `filledSlots`, `usedKeyIndices`, `hintsRemaining`, `showErrors`) and helper functions for `t2s_pref_grade` and `t2s_save_state` (including fallback defaults for missing `hintsRemaining`, automatic reconstruction of `usedKeyIndices` from `filledSlots`, and safe cleanup of corrupted JSON).
+- [ ] 3.0 Implement Web Audio API Synthesizer, Web Speech API (TTS), and Confetti Celebration Utilities
+  - [ ] 3.1 Create `src/lib/audio.ts` implementing `playTone(freq, type, duration, vol)` using `window.AudioContext` (or `webkitAudioContext`), resuming suspended contexts automatically and applying an exponential gain ramp down to `0.001`.
+  - [ ] 3.2 Add dedicated sound helper functions in `src/lib/audio.ts` matching exact specifications: grade change (`400Hz` sine, `0.1s`), start game (`600Hz` triangle, `0.2s`), continue game (`500Hz` square, `0.2s`), exit to home (`300Hz` sawtooth, `0.2s`), type letter (`400 + slotIndex * 50 Hz` sine, `0.1s`), remove letter (`300Hz` triangle, `0.1s`), use hint (`800Hz` sine, `0.15s`), wrong word (`200Hz` sawtooth, `0.3s`, vol `0.2`), and correct word 3-note fanfare (`523.25Hz` at `0ms`, `659.25Hz` at `100ms`, `783.99Hz` at `200ms`, triangle, vol `0.2`).
+  - [ ] 3.3 Implement `speakWord(word)` in `src/lib/audio.ts` using `window.speechSynthesis` (canceling active speech first, setting `rate = 0.85` and `pitch = 1.2`, preferring an `en-*` voice containing `"Google"` when available, and handling `onvoiceschanged`).
+  - [ ] 3.4 Create `src/lib/confetti.ts` wrapping local `canvas-confetti` to provide: (a) a 1-second word win confetti burst firing immediately and every `250ms` (`particleCount: 20`, `spread: 360`, `startVelocity: 15`, `gravity: 0.4`, `ticks: 300`, `zIndex: 9999`), (b) continuous 5-second dual-edge level complete cannons firing immediately and every `250ms` (`angle: 60` at `x: 0, y: 0.5` and `angle: 120` at `x: 1, y: 0.5`, `particleCount: 15`, `spread: 55`, `zIndex: 9999`), and (c) `resetConfetti()` that clears active intervals and calls `confetti.reset()`.
+- [ ] 4.0 Implement Core Gameplay Mechanics (Duplicate-Key Tracking, Smart Hints with Key Reclamation, and Win/Error Logic)
+  - [ ] 4.1 Create `src/lib/gameplay.ts` and implement `typeLetterState(state, char, keyIndex)` which places `char` into the first `null` slot of `filledSlots`, records `keyIndex` at the corresponding index of `usedKeyIndices`, and returns the updated state and `slotIndex`.
+  - [ ] 4.2 Implement `removeLetterState(state, slotIndex)` which clears both `filledSlots[slotIndex] = null` and `usedKeyIndices[slotIndex] = null` and resets `showErrors = false`.
+  - [ ] 4.3 Implement `applySmartHintState(state)` for `useHint()`: locate the first slot `i` where `filledSlots[i] !== targetWord[i]`, clear any wrong letter in slot `i`, find an unused key in `keyboardKeys` matching `targetWord[i]` (or if all matching keys are currently placed in other wrong slots `sIdx !== i`, reclaim `usedKeyIndices[wrongSlotIdx]` and clear `wrongSlotIdx`), place `targetWord[i]` into `filledSlots[i]`, record its key index in `usedKeyIndices[i]`, decrement `hintsRemaining`, and set `showErrors = false`.
+  - [ ] 4.4 Implement `resolvePhysicalKeyAction(state, key)` to support physical keyboard input: `Backspace`/`Delete` removes the rightmost filled slot; `A–Z` types the first unused matching key if an empty slot exists, or removes the last filled occurrence of that letter (`filledSlots.lastIndexOf(char)`) if no unused key remains or all slots are full.
+- [ ] 5.0 Build Home Screen, Game Screen, Level/Game Complete Overlay, and Physical Keyboard Support in React
+  - [ ] 5.1 Create `src/components/Icons.tsx` with clean inline SVG components for `PlayIcon`, `HouseIcon`, `VolumeHighIcon`, and `LightbulbIcon`.
+  - [ ] 5.2 Create `src/components/HomeScreen.tsx` implementing the scrollable container (`#home-screen`), gradient `"TapToSpell!"` title, conditional `"Game in Progress!"` Continue Banner (`#continue-banner`, `#continue-details`, 3D Continue button), 3-option Grade Level Selector (`#btn-pref-1`, `#btn-pref-2`, `#btn-pref-3` with active blue highlight and scale), and 3D Category Cards (**Animals**, **Fry Words**, **Sight Words**).
+  - [ ] 5.3 Create `src/components/GameScreen.tsx` implementing the 3-section non-scrolling flex layout (`#game-screen`):
+    - Top HUD Bar (`#hud-level`, `#hud-word`, `#hud-score`, and red circular Home/Exit button).
+    - Middle Play Area with pulsing clickable emoji (`#word-image`) and single-row Answer Box (`#word-slots`) supporting empty dash slots, blue filled slots (`e.stopPropagation()` + `removeLetter`), glowing red mismatched error borders, and `animate-shake`.
+    - Bottom Controls with adaptive On-Screen Keyboard (`#keyboard`, `w-8 h-10` when `> 14` keys else `w-10 h-12`, dimmed used keys that remove their corresponding slot when clicked) and Bottom Toolbar (`#hint-button` with lightbulb SVG + count, and cyan `"Listen"` button).
+  - [ ] 5.4 Create `src/components/LevelOverlay.tsx` (`#level-overlay`) rendering `"Level Complete!"` (Levels 1–9, yellow-to-amber bouncing title, `"Get ready for the next level..."`) or `"Game Complete!"` (Level 10, green-to-emerald pulsing title, `"Final Score: <score>"`) and the circular 5-second countdown timer ring (`#overlay-timer`).
+  - [ ] 5.5 Update `src/App.tsx` to coordinate screen navigation (`home` vs. `game`), initialize state from `localStorage`, trigger `speakWord()` `300ms` after loading each word, run `checkWin()` `100ms` after filling the last slot, manage the `1s` word transition and `5s` level overlay countdown, clean up confetti/timers on exit or transition end, and attach the `window` `keydown` listener.
+- [ ] 6.0 Write Unit Tests and Verify Zero-CDN Build & Responsive Gameplay
+  - [ ] 6.1 Create `src/data/words.test.ts` testing word pool counts, grade-to-words-per-level mapping, 10-level shuffled queue cycling without premature repeats, and keyboard distractor generation.
+  - [ ] 6.2 Create `src/lib/gameplay.test.ts` and `src/lib/storage.test.ts` testing duplicate key index tracking (`usedKeyIndices`), smart hint key reclamation from wrong slots, physical keyboard action resolution, win/error detection, and `localStorage` persistence/recovery.
+  - [ ] 6.3 Create `src/lib/audio.test.ts` testing `playTone` oscillator/gain setup and `speakWord` utterance parameters with mocked Web Audio / Speech APIs.
+  - [ ] 6.4 Run `npm test` and `npm run build`, verify all unit tests pass and zero external CDN requests exist in the rendered HTML/CSS/JS output.
