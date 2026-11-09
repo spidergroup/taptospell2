@@ -226,7 +226,7 @@
         },
         {
           "w": "BEIGE",
-          "i": "📜",
+          "i": "🟫",
           "examples": [
             "We painted the living room walls a soft beige.",
             "He bought a light beige coat for the autumn."
@@ -290,7 +290,7 @@
         },
         {
           "w": "IVORY",
-          "i": "🦷",
+          "i": "🤍",
           "examples": [
             "The old piano has smooth ivory keys that shine.",
             "She bought an ivory blouse made of soft silk."
@@ -298,7 +298,7 @@
         },
         {
           "w": "KHAKI",
-          "i": "👖",
+          "i": "🟤",
           "examples": [
             "He wears khaki pants and a blue shirt to work.",
             "The soldiers wore dusty khaki uniforms in the desert."
@@ -394,7 +394,7 @@
         },
         {
           "w": "PLUM",
-          "i": "🫐",
+          "i": "🟣",
           "examples": [
             "She chose a deep purple plum lipstick for tonight.",
             "Rich plum velvet curtains hung in the dining room."
@@ -402,7 +402,7 @@
         },
         {
           "w": "RUST",
-          "i": "🧱",
+          "i": "🟫",
           "examples": [
             "Autumn leaves turned a warm reddish brown rust color.",
             "She draped a cozy rust blanket over the couch."
@@ -410,7 +410,7 @@
         },
         {
           "w": "SALMON",
-          "i": "🍣",
+          "i": "🟧",
           "examples": [
             "He wore a light pinkish orange salmon cotton shirt.",
             "The evening clouds reflected a warm salmon pink glow."
@@ -418,7 +418,7 @@
         },
         {
           "w": "TAN",
-          "i": "👜",
+          "i": "🟤",
           "examples": [
             "She carried a light brown tan leather shoulder bag.",
             "The cowboy wore dusty tan boots and a hat."
@@ -460,7 +460,7 @@
         },
         {
           "w": "AQUAMARINE",
-          "i": "🌊",
+          "i": "🩵",
           "examples": [
             "The tropical lagoon sparkled with clear, greenish-blue aquamarine water under the sun.",
             "She wore a pale blue-green aquamarine gemstone that matched the shallow ocean."
@@ -468,7 +468,7 @@
         },
         {
           "w": "CANARY",
-          "i": "🐤",
+          "i": "🟡",
           "examples": [
             "The sports car was painted a bright, cheerful canary yellow like the songbird.",
             "She wore a vivid canary dress that stood out like a yellow finch."
@@ -476,7 +476,7 @@
         },
         {
           "w": "CERULEAN",
-          "i": "💠",
+          "i": "🔵",
           "examples": [
             "Not a single cloud marred the deep, tranquil cerulean blue of the autumn sky.",
             "The artist mixed cyan and ultramarine to capture the bright cerulean ocean horizon."
@@ -492,7 +492,7 @@
         },
         {
           "w": "CHARTREUSE",
-          "i": "🍏",
+          "i": "🟩",
           "examples": [
             "Safety vests often use neon chartreuse because the vivid yellow-green shade is highly visible.",
             "Fresh spring moss and new leaves glowed a bright greenish-yellow chartreuse in the forest."
@@ -556,7 +556,7 @@
         },
         {
           "w": "JADE",
-          "i": "🐉",
+          "i": "💚",
           "examples": [
             "The ancient Chinese carving was made from smooth, milky green jade stone.",
             "Succulent plants have thick leaves of a muted, bluish-green jade color."
@@ -604,7 +604,7 @@
         },
         {
           "w": "PERIWINKLE",
-          "i": "🫐",
+          "i": "🩵",
           "examples": [
             "Delicate periwinkle wildflowers carpeted the forest floor in a pastel blend of blue and lavender.",
             "Her sweater was a soft, dusty violet-blue periwinkle that matched her pale blue eyes."
@@ -620,7 +620,7 @@
         },
         {
           "w": "ROSEWOOD",
-          "i": "🎸",
+          "i": "🪵",
           "examples": [
             "The acoustic guitar fretboard was made of dark, richly grained reddish-brown rosewood.",
             "She chose a warm, deep purplish-brown rosewood stain for the dining room cabinets."
@@ -652,7 +652,7 @@
         },
         {
           "w": "SEPIA",
-          "i": "📜",
+          "i": "🟫",
           "examples": [
             "Nineteenth-century photographs often have a warm, brownish-gray sepia tone that looks antique.",
             "The artist sketched the old village using reddish-brown sepia ink from cuttlefish pigment."
@@ -660,7 +660,7 @@
         },
         {
           "w": "SIENNA",
-          "i": "🧱",
+          "i": "🟤",
           "examples": [
             "Tuscan rooftops and clay soil glow with a warm, rusty orange-brown sienna hue.",
             "The painter mixed burnt sienna earth pigment to create a rich reddish-brown shadow."
@@ -676,7 +676,7 @@
         },
         {
           "w": "TAUPE",
-          "i": "👜",
+          "i": "🟫",
           "examples": [
             "The interior designer selected a neutral, dark brownish-gray taupe carpet for the hallway.",
             "Her leather handbag was a versatile, muted mole-colored taupe between brown and gray."
@@ -726,7 +726,7 @@
         },
         {
           "w": "CELADON",
-          "i": "🍵",
+          "i": "🟢",
           "examples": [
             "The antique Song dynasty vase was coated in a translucent celadon glaze that mimicked the pale, misty green of jade.",
             "Painting the sunroom walls a soothing celadon gave the interior a calm, gray-green elegance."
@@ -734,7 +734,7 @@
         },
         {
           "w": "CERISE",
-          "i": "🍒",
+          "i": "🔴",
           "examples": [
             "Her bright cerise lipstick stood out vividly against the monochrome black-and-white outfit, echoing the color of ripe cherries.",
             "A flash of deep pinkish-red cerise silk lined the inside of the tailored evening cloak."
@@ -742,7 +742,7 @@
         },
         {
           "w": "COQUELICOT",
-          "i": "🌺",
+          "i": "🔴",
           "examples": [
             "Across the summer fields of Flanders, wild poppies bloomed in a dazzling display of orange-tinted coquelicot red.",
             "The military uniform featured bold coquelicot lapels, a fiery scarlet shade named after the French word for the corn poppy."
@@ -750,7 +750,7 @@
         },
         {
           "w": "ECRU",
-          "i": "📜",
+          "i": "🟫",
           "examples": [
             "Instead of stark white paper, the calligrapher selected heavy ecru stationery that retained the warm, pale beige of unbleached linen.",
             "She wore a vintage lace blouse in soft ecru, matching the natural creamy-tan shade of raw silk."
@@ -758,7 +758,7 @@
         },
         {
           "w": "FALU",
-          "i": "🏠",
+          "i": "🟥",
           "examples": [
             "Traditional wooden cottages across the Swedish countryside are famously painted in falu, a deep, earthy barn red derived from copper mine tailings.",
             "The mineral-rich falu pigment not only gave the timber shed a rustic brick-red color but also preserved the wood against harsh winters."
@@ -766,7 +766,7 @@
         },
         {
           "w": "FULVOUS",
-          "i": "🦆",
+          "i": "🟨",
           "examples": [
             "The fulvous whistling duck takes its name from the tawny, dull brownish-yellow plumage covering its head and underparts.",
             "Autumn transformed the dry prairie grasses into a vast expanse of fulvous gold and russet."
@@ -774,7 +774,7 @@
         },
         {
           "w": "GAMBOGE",
-          "i": "🧡",
+          "i": "🟠",
           "examples": [
             "Extracted from the resin of Southeast Asian trees, gamboge yields a deep saffron-mustard yellow traditionally used to dye Buddhist monks' robes.",
             "When dissolved in water, the raw brownish lump of gamboge turns into a radiant, transparent golden-orange pigment."
@@ -782,7 +782,7 @@
         },
         {
           "w": "GLAUCOUS",
-          "i": "🫐",
+          "i": "🩵",
           "examples": [
             "Succulent leaves and ripe blueberries are often coated in a powdery wax that gives them a pale, bluish-gray glaucous sheen.",
             "From the cliffside, the winter sea appeared cold and glaucous, shifting between frosted sage green and slate blue."
@@ -790,7 +790,7 @@
         },
         {
           "w": "HELIOTROPE",
-          "i": "🔮",
+          "i": "🟣",
           "examples": [
             "The Victorian parlor was draped in heliotrope velvet, a vivid pinkish-purple shade inspired by the fragrant garden flower.",
             "As twilight deepened, the clouds along the horizon flushed with a soft heliotrope violet."
@@ -798,7 +798,7 @@
         },
         {
           "w": "INCARNADINE",
-          "i": "🩸",
+          "i": "🔴",
           "examples": [
             "In Shakespeare's tragedy, Macbeth fears that all the ocean's water could never wash the blood from his hands without turning the green sea incarnadine.",
             "The setting sun cast an incarnadine glow over the snowpeaks, staining the white ice a dramatic flesh-red crimson."
@@ -806,7 +806,7 @@
         },
         {
           "w": "ISABELLINE",
-          "i": "🐎",
+          "i": "🤍",
           "examples": [
             "The desert wheatear blends seamlessly into sandy dunes thanks to its pale, greyish-yellow isabelline feathers.",
             "Breeders admired the stallion's creamy isabelline coat, a muted parchment-fawn hue lighter than buckskin."
@@ -822,7 +822,7 @@
         },
         {
           "w": "MALACHITE",
-          "i": "💚",
+          "i": "🟢",
           "examples": [
             "Carved from banded copper carbonate, the jewelry box displayed swirling veins of rich, saturated malachite green.",
             "The beetle's carapace gleamed with a metallic malachite hue that rivaled the deepest emerald."
@@ -830,7 +830,7 @@
         },
         {
           "w": "MURREY",
-          "i": "🍇",
+          "i": "🟣",
           "examples": [
             "In English heraldry, murrey is a stately mulberry-brownish purple that sits between crimson and violet on noble coats of arms.",
             "The Tudor courtier wore a doublet of dark murrey wool, dyed to the deep reddish-purple color of ripe mulberries."
@@ -838,7 +838,7 @@
         },
         {
           "w": "NACARAT",
-          "i": "🦐",
+          "i": "🟠",
           "examples": [
             "The silk ribbon was dyed a lively nacarat, a bright orange-red shade infused with a delicate rosy cast.",
             "Fashionable eighteenth-century salons favored nacarat fabrics for their warm, carmine-tinted scarlet brilliance."
@@ -854,7 +854,7 @@
         },
         {
           "w": "PUCE",
-          "i": "🍷",
+          "i": "🟫",
           "examples": [
             "Marie Antoinette reportedly popularized puce—meaning 'flea-colored' in French—afterwearing a gown of dark purplish-brown taffeta.",
             "The dried rose petals had lost their bright crimson and settled into a muted, dusty puce."
@@ -862,7 +862,7 @@
         },
         {
           "w": "SINOPER",
-          "i": "🧱",
+          "i": "🔴",
           "examples": [
             "Renaissance fresco painters sketched their underlying compositions in sinoper, a warm, earthy reddish-brown iron oxide pigment.",
             "The ancient terracotta pottery retained traces of sinoper slip, glowing with a rusty Venetian red."
@@ -870,7 +870,7 @@
         },
         {
           "w": "SMALT",
-          "i": "💙",
+          "i": "🔵",
           "examples": [
             "When lapis lazuli proved too expensive, Baroque artists turned to smalt, a deep cobalt-blue pigment made from pulverized potassium glass.",
             "The ceramic tiles were glazed with coarse smalt, producing a rich, gritty sapphire blue across the courtyard wall."
@@ -878,7 +878,7 @@
         },
         {
           "w": "SOLFERINO",
-          "i": "💗",
+          "i": "💖",
           "examples": [
             "Named after an 1859 battle in Lombardy, solferino is an intense, purplish-pink magenta discovered shortly before the conflict.",
             "Theopera singer's dramatic solferino sash added a electric burst of fuchsia-rose to her stage costume."
@@ -886,7 +886,7 @@
         },
         {
           "w": "ULTRAMARINE",
-          "i": "🌊",
+          "i": "🔵",
           "examples": [
             "Imported 'beyond the sea' from mines in Afghanistan, natural ultramarine was once more precious than gold for painting the Virgin Mary's deep blue robes.",
             "Twentieth-century artist Yves Klein patented his own vivid, velvety formulation of ultramarine blue to evoke boundless space."
@@ -894,7 +894,7 @@
         },
         {
           "w": "VERDIGRIS",
-          "i": "🗽",
+          "i": "🟢",
           "examples": [
             "Decades of exposure to salty air had coated the bronze statue and copper roof in a crusty, bluish-green patina of verdigris.",
             "Early oil painters prized verdigris for its vibrant turquoise-green tint, though the copper-based pigment often darkened over time."
@@ -902,7 +902,7 @@
         },
         {
           "w": "VERMILION",
-          "i": "⛩️",
+          "i": "🔴",
           "examples": [
             "Originally ground from the mineral cinnabar, brilliant vermilion gives traditional Japanese torii gates their iconic orange-red glow.",
             "The emperor's official seal was stamped in bright vermilion ink, a vivid scarlet hue associated with vitality and good fortune."
@@ -910,7 +910,7 @@
         },
         {
           "w": "VIRIDIAN",
-          "i": "🌲",
+          "i": "🟢",
           "examples": [
             "Impressionist painters relied on viridian, a hydrated chromium oxide pigment, to capture cool, dark blue-green shadows in foliage and water.",
             "Unlike brighter emerald greens, viridian offers a deep, stable forest-teal tone that never fades in sunlight."
@@ -926,7 +926,7 @@
         },
         {
           "w": "WISTERIA",
-          "i": "💜",
+          "i": "🟣",
           "examples": [
             "Cascading blossoms along the garden pergola inspired the room's wisteria palette, a light, dreamy lavender-violet.",
             "She chose a bridesmaid dress in soft wisteria, balancing pale lilac undertones with a gentle hint of blue."
@@ -934,7 +934,7 @@
         },
         {
           "w": "XANTHIC",
-          "i": "🌼",
+          "i": "🟡",
           "examples": [
             "Botanists classify flowers with predominantly yellow pigmentation—ranging from lemon to goldenrod—as belonging to the xanthic color series.",
             "A rare genetic mutation caused the normally green tree frog to display a bright xanthic skin of canary yellow."
@@ -942,7 +942,7 @@
         },
         {
           "w": "ZOMP",
-          "i": "🌿",
+          "i": "🟢",
           "examples": [
             "The digital palette included zomp, a calm, muted bluish-green shade reminiscent of eucalyptus leaves and seafoam.",
             "Mid-century kitchen appliances in soft zomp brought a refreshing sage-cyan accent to the retro home."
@@ -1670,7 +1670,7 @@
         },
         {
           "w": "ARMADILLO",
-          "i": "🛡️",
+          "i": "🐾",
           "examples": [
             "When threatened by predators, the three-banded armadillo rolls into a tight armored ball.",
             "Leathery bony plates protect the burrowing armadillo as it digs for grubs."
@@ -1734,7 +1734,7 @@
         },
         {
           "w": "CANARY",
-          "i": "🐦",
+          "i": "🟡",
           "examples": [
             "The bright yellow canary filled the sunny room with its cheerful trilling song.",
             "Coal miners historically carried a caged canary underground to detect toxic gases."
@@ -1798,7 +1798,7 @@
         },
         {
           "w": "CRANE",
-          "i": "🦩",
+          "i": "🐦",
           "examples": [
             "The tall wading crane stood motionless in the shallow marsh waiting for frogs.",
             "With its long neck extended, the migrating sandhill crane bugled loudly overhead."
@@ -1814,7 +1814,7 @@
         },
         {
           "w": "DRAGONFLY",
-          "i": "🐉",
+          "i": "🪰",
           "examples": [
             "Two pairs of transparent wings allowed the iridescent dragonfly to hover over water.",
             "The swift dragonflydarted across the pond to snatch mosquitoes in midair."
@@ -1822,7 +1822,7 @@
         },
         {
           "w": "EEL",
-          "i": "🐍",
+          "i": "🐟",
           "examples": [
             "The ribbon-like moray eel hid inside a dark crevice of the coral reef.",
             "Slithering through the kelp forest, the slimy eel hunted small crustaceans at night."
@@ -1870,7 +1870,7 @@
         },
         {
           "w": "FLEA",
-          "i": "🪳",
+          "i": "💬",
           "examples": [
             "The tiny wingless flea leaped onto the shaggy dog to feed on blood.",
             "Medicated collars protect household pets from the itchy bite of a parasitic flea."
@@ -2166,7 +2166,7 @@
         },
         {
           "w": "SALMON",
-          "i": "🐟",
+          "i": "🟧",
           "examples": [
             "Driven by instinct, spawning salmon leap upstream over raging waterfalls to lay eggs.",
             "Grizzly bears gathered at the river rapids to catch migrating silver salmon."
@@ -2190,7 +2190,7 @@
         },
         {
           "w": "SEAHORSE",
-          "i": "🪸",
+          "i": "🐟",
           "examples": [
             "The tiny upright seahorse anchored its curly tail around a swaying seagrass blade.",
             "Uniquely among marine fish, the male seahorse incubates fertilized eggs inside his pouch."
@@ -2270,7 +2270,7 @@
         },
         {
           "w": "TICK",
-          "i": "🕷️",
+          "i": "💬",
           "examples": [
             "After hiking through tall grass, he found a blood-sucking tick embedded in skin.",
             "The tiny parasitic tick can transmit Lyme disease while feeding on woodland mammals."
@@ -2360,7 +2360,7 @@
       "level_4": [
         {
           "w": "AARDVARK",
-          "i": "🐜",
+          "i": "🐾",
           "examples": [
             "The nocturnal aardvark uses its powerful, shovel-like claws to excavate hardened termite mounds across the African savanna.",
             "Equipped with a long, sticky tongue, the burrowing aardvark can consume tens of thousands of insects in a single night."
@@ -2432,7 +2432,7 @@
         },
         {
           "w": "BARNACLE",
-          "i": "🪨",
+          "i": "🐚",
           "examples": [
             "Once a free-swimming larva, the adult barnacle secretes a remarkably resilient calcium plate and cements itself permanently to ship hulls, pier pilings, or whale skin.",
             "When the tide comes in, the sessile barnacle extends its feathery cirri from its shell to filter microscopic plankton from the turbulent coastal water."
@@ -2624,7 +2624,7 @@
         },
         {
           "w": "GENET",
-          "i": "🐈",
+          "i": "🐾",
           "examples": [
             "With its spotted coat, ringed tail, and elongated body, the nocturnal genet is frequently mistaken for a small wild cat as it stalks rodents through African scrublands.",
             "Agile enough to squeeze through any opening wider than its skull, the solitary genet hunts insects, reptiles, and roosting birds under the cover of darkness."
@@ -2712,7 +2712,7 @@
         },
         {
           "w": "KIWI",
-          "i": "🥝",
+          "i": "🐦",
           "examples": [
             "Native to New Zealand, the flightless kiwi forages on the forest floor at night, using nostrils at the tip of its long beak to sniff out earthworms.",
             "Covered in hair-like feathers and lacking a visible tail, the shy kiwi lays one of the largest eggs in proportion to its body size of any bird."
@@ -3484,7 +3484,7 @@
         },
         {
           "w": "TABLE",
-          "i": "🪵",
+          "i": "🪑",
           "examples": [
             "We sit around the kitchen dinner table.",
             "Put the water glasses on the table."
@@ -3564,7 +3564,7 @@
         },
         {
           "w": "WATCH",
-          "i": "⌚",
+          "i": "👀",
           "examples": [
             "We watch a funny movie at home.",
             "He looks at his watch for time."
@@ -3654,7 +3654,7 @@
         },
         {
           "w": "BELT",
-          "i": "🥋",
+          "i": "💬",
           "examples": [
             "He wore a brown leather belt to hold his pants.",
             "She tightened her belt by one notch after losing weight."
@@ -3798,7 +3798,7 @@
         },
         {
           "w": "CURTAIN",
-          "i": "🎭",
+          "i": "🪟",
           "examples": [
             "She opened the bedroom curtain to let in the morning sunlight.",
             "Pull the heavy curtain closed so neighbors cannot see inside tonight."
@@ -4480,7 +4480,7 @@
         },
         {
           "w": "CHANDELIER",
-          "i": "andeliers",
+          "i": "💡",
           "examples": [
             "A sparkling crystal chandelier hung from the high ceiling above the dining table.",
             "Carefully cleaning each glass bulb on the antique chandelier took nearly three hours."
@@ -5112,7 +5112,7 @@
         },
         {
           "w": "TWEEZERS",
-          "i": "鑷",
+          "i": "✂️",
           "examples": [
             "Use a pair of fine-pointed metal tweezers to pull the tiny splinter out.",
             "She shaped her eyebrows carefully in front of the mirror with stainless tweezers."
@@ -5386,7 +5386,7 @@
         },
         {
           "w": "CREDENCE",
-          "i": "🤝",
+          "i": "💬",
           "examples": [
             "New scientific studies lend credence to the claim that regular brisk walks improve long-term memory.",
             "You should not give any credence to unverified neighborhood gossip that lacks reliable evidence."
@@ -5474,7 +5474,7 @@
         },
         {
           "w": "ERGONOMICS",
-          "i": "📐",
+          "i": "💬",
           "examples": [
             "Poor workspace ergonomics can lead to repetitive strain injuries for employees who spend eight hours a day at a computer.",
             "When designing the new kitchen, the architect studied the ergonomics of counter heights to minimize unnecessary bending while cooking."
@@ -5562,7 +5562,7 @@
         },
         {
           "w": "MINIMALISM",
-          "i": "🪴",
+          "i": "💬",
           "examples": [
             "Embracing minimalism helped them declutter their apartment, leaving only essential furniture and items that served a clear daily purpose.",
             "The living room reflects Scandinavian minimalism, featuring clean lines, neutral walls, and completely unadorned surfaces."
@@ -5578,7 +5578,7 @@
         },
         {
           "w": "MUNDANE",
-          "i": "🧹",
+          "i": "💬",
           "examples": [
             "Listening to upbeat podcasts makes mundane household chores like folding laundry and scrubbing dishes feel much less tedious.",
             "After an exciting two-week vacation abroad, returning to the mundane routine of commuting and answering emails was a shock."
@@ -5610,7 +5610,7 @@
         },
         {
           "w": "OBSOLESCENCE",
-          "i": "📱",
+          "i": "💬",
           "examples": [
             "Consumers often complain about planned obsolescence when smartphone batteries degrade just as a newer model hits the market.",
             "The rapid pace of software updates pushed the five-year-old laptop into technological obsolescence, making it too slow for modern applications."
@@ -5674,7 +5674,7 @@
         },
         {
           "w": "PLACEBO",
-          "i": "🍬",
+          "i": "💊",
           "examples": [
             "In the clinical trial, half the participants received the active pain reliever while the control group took an inert sugar pill as a placebo.",
             "The smart thermostat's disconnected dial acted as a placebo, making office workers feel warmer simply because they believed they had raised the temperature."
@@ -5682,7 +5682,7 @@
         },
         {
           "w": "PLEASANTRIES",
-          "i": "🤝",
+          "i": "💬",
           "examples": [
             "Before diving into the contract negotiations, the colleagues exchanged brief pleasantries about their weekend plans and the sunny weather.",
             "Even when rushing to catch the morning train, she always paused to exchange polite pleasantries with the building's doorman."
@@ -5818,7 +5818,7 @@
         },
         {
           "w": "VERNACULAR",
-          "i": "🗣️",
+          "i": "💬",
           "examples": [
             "Instead of using formal legal jargon, the counselor explained the contract in the everyday vernacular of the neighborhood.",
             "Moving to a new region meant learning the local vernacular, including unique slang terms for common foods."
@@ -6584,7 +6584,7 @@
         },
         {
           "w": "SEED",
-          "i": "🌰",
+          "i": "🌱",
           "examples": [
             "She planted a tiny tomato seed in the pot.",
             "With water and sunlight, the seed began to sprout."
@@ -7050,7 +7050,7 @@
         },
         {
           "w": "EUCALYPTUS",
-          "i": "🐨",
+          "i": "🌿",
           "examples": [
             "Koalas feed almost exclusively on the fragrant, oil-rich leaves of the eucalyptus tree.",
             "Tall Australian eucalyptus trees shed strips of bark to reveal smooth trunks underneath."
@@ -7434,7 +7434,7 @@
         },
         {
           "w": "SAVANNA",
-          "i": "🦁",
+          "i": "🌾",
           "examples": [
             "Zebras and giraffes graze together across the warm, grassy African savanna dotted with acacias.",
             "Seasonal rains transform the dry tropical savanna into a lush green pasture for wildlife."
@@ -7482,7 +7482,7 @@
         },
         {
           "w": "STEPPE",
-          "i": "🐎",
+          "i": "🌾",
           "examples": [
             "Nomadic herders guided their horses across the vast, dry grassland of the Eurasian steppe.",
             "Cold winter winds sweep unimpeded across the flat, treeless steppe of central Mongolia."
@@ -7530,7 +7530,7 @@
         },
         {
           "w": "WETLAND",
-          "i": "🐸",
+          "i": "🏞️",
           "examples": [
             "Herons and frogs thrive in the marshy wetland where water covers the spongy soil.",
             "Protecting the coastal wetland helps filter pollutants and prevents severe flooding during heavy storms."
@@ -7636,7 +7636,7 @@
         },
         {
           "w": "BRACKISH",
-          "i": "🐊",
+          "i": "💧",
           "examples": [
             "Mangrove trees thrive in the brackish water of coastal estuaries where freshwater rivers mix with the salty ocean.",
             "Only specially adapted fish can tolerate the fluctuating salinity of a brackish marsh."
@@ -7676,7 +7676,7 @@
         },
         {
           "w": "COMMENSALISM",
-          "i": "🐋",
+          "i": "💬",
           "examples": [
             "Barnacles riding on a whale's skin demonstrate commensalism, gaining free transport to food-rich waters without harming or helping their host.",
             "In a classic example of commensalism, cattle egrets follow grazing cows to catch insects stirred up from the grass while the cattle remain unaffected."
@@ -7700,7 +7700,7 @@
         },
         {
           "w": "CREPUSCULAR",
-          "i": "🦌",
+          "i": "🌅",
           "examples": [
             "Deer and rabbits are crepuscular animals that are most active during the dim twilight hours of dawn and dusk.",
             "By adopting a crepuscular schedule, desert rodents avoid both the scorching midday heat and nocturnal predators."
@@ -7724,7 +7724,7 @@
         },
         {
           "w": "DIURNAL",
-          "i": "🐦",
+          "i": "☀️",
           "examples": [
             "Most songbirds are diurnal creatures that forage for seeds and insects throughout the daylight hours and sleep at night.",
             "While owls hunt in the dark, hawks are diurnal raptors that rely on keen daytime vision to spot prey."
@@ -7732,7 +7732,7 @@
         },
         {
           "w": "DOLDRUMS",
-          "i": "⛵",
+          "i": "🌊",
           "examples": [
             "Wooden sailing ships often became stranded for weeks in the doldrums, an equatorial ocean belt known for windless, becalmed weather.",
             "Rising warm air near the equator creates the low-pressure zone of calm breezes that mariners call the doldrums."
@@ -7756,7 +7756,7 @@
         },
         {
           "w": "ENDEMISM",
-          "i": "🦎",
+          "i": "💬",
           "examples": [
             "Isolated oceanic islands often exhibit high levels of endemism, hosting unique species found nowhere else on Earth.",
             "Madagascar is famous for its remarkable endemism, as lemurs and baobab species evolved there in complete geographic isolation."
@@ -7956,7 +7956,7 @@
         },
         {
           "w": "MUTUALISM",
-          "i": "🐝",
+          "i": "💬",
           "examples": [
             "Bees and flowering plants are a classic example of mutualism, as the insects gather sweet nectar while spreading pollen.",
             "In a remarkable display of mutualism, the tiny cleaner fish removes parasites from the shark's skin and gets a free meal in return."
@@ -7980,7 +7980,7 @@
         },
         {
           "w": "NOCTURNAL",
-          "i": "🦉",
+          "i": "🌙",
           "examples": [
             "Owls and bats are nocturnal hunters that sleep through the daylight hours and emerge at dusk to search for prey.",
             "Large, sensitive eyes help nocturnal mammals navigate through the dark forest under the faint glow of moonlight."
@@ -7996,7 +7996,7 @@
         },
         {
           "w": "PELAGIC",
-          "i": "🐟",
+          "i": "🌊",
           "examples": [
             "Bluefin tuna and albatrosses are pelagic species that spend their lives roaming the open ocean far from any coastline.",
             "Unlike bottom-dwelling crabs, pelagic fish swim continuously through the vast midwater expanses of the sea."
@@ -9508,7 +9508,7 @@
         },
         {
           "w": "GAZEBO",
-          "i": "亭",
+          "i": "🏛️",
           "examples": [
             "We sought shelter from the summer sun beneath the wooden garden gazebo.",
             "A charming octagonal gazebo stood in the park overlooking the peaceful lake."
@@ -9692,7 +9692,7 @@
         },
         {
           "w": "ORCHARD",
-          "i": "🍎",
+          "i": "🌳",
           "examples": [
             "Workers climbed ladders to pick ripe red apples in the sunny fruit orchard.",
             "Rows of blooming cherry and peach trees filled the fragrant spring orchard."
@@ -9716,7 +9716,7 @@
         },
         {
           "w": "PASTURE",
-          "i": "🐄",
+          "i": "🌾",
           "examples": [
             "Dairy cows grazed peacefully on the lush green grass of the fenced pasture.",
             "The shepherd led his flock of sheep across the rolling hillside pasture."
@@ -9796,7 +9796,7 @@
         },
         {
           "w": "RANCH",
-          "i": "🐄",
+          "i": "🏡",
           "examples": [
             "Cowboys on horseback herded hundreds of grazing cattle across the sprawling Texas ranch.",
             "She inherited a working sheep ranch spanning five thousand acres of open grassland."
@@ -9836,7 +9836,7 @@
         },
         {
           "w": "SANCTUARY",
-          "i": "🦢",
+          "i": "🛡️",
           "examples": [
             "Injured birds found safe refuge from poachers inside the protected wildlife sanctuary.",
             "The ancient cathedral offered peaceful sanctuary to weary travelers seeking shelter and quiet prayer."
@@ -10614,7 +10614,7 @@
         },
         {
           "w": "NUNCIATURE",
-          "i": "🇻🇦",
+          "i": "🏛️",
           "examples": [
             "The papal ambassador hosted foreign diplomats at the apostolic nunciature, which functions as the Vatican's embassy in the capital.",
             "Protesters gathered outside the gates of the nunciature to deliver a petition addressed directly to the Pope."
@@ -10890,7 +10890,7 @@
         },
         {
           "w": "CARTOON",
-          "i": "🐭",
+          "i": "🎨",
           "examples": [
             "Kids love to watch this funny cartoon.",
             "The cartoon cat chases the little mouse."
@@ -10922,7 +10922,7 @@
         },
         {
           "w": "FAN",
-          "i": "🪭",
+          "i": "🤩",
           "examples": [
             "She is a big fan of cartoons.",
             "Every fan wants to meet the actor."
@@ -11154,7 +11154,7 @@
         },
         {
           "w": "WATCH",
-          "i": "⌚",
+          "i": "👀",
           "examples": [
             "We watch a funny movie together tonight.",
             "Do you want to watch a cartoon?"
@@ -12270,7 +12270,7 @@
         },
         {
           "w": "SLAPSTICK",
-          "i": "🍌",
+          "i": "🎭",
           "examples": [
             "Silent comedies relied on physical slapstick like slipping on peels and throwing pies.",
             "Children laughed at the clumsy burglar's slapstick antics as he bumped into doors."
@@ -12656,7 +12656,7 @@
         },
         {
           "w": "NEOREALISM",
-          "i": "🚲",
+          "i": "🎬",
           "examples": [
             "Italian Neorealism revolutionized postwar cinema by abandoning studio sets to film working-class non-actors on the rubble-strewn streets of Rome.",
             "Guided by the principles of neorealism, the director used natural lighting and local residents to capture an unflinching portrait of economic hardship."
@@ -12832,7 +12832,7 @@
         },
         {
           "w": "WRANGLER",
-          "i": "🐎",
+          "i": "🤠",
           "examples": [
             "An experienced animal wrangler stood just off camera using hand signals to guide the trained wolf through the snowy forest scene.",
             "On a period drama featuring dozens of horse-drawn carriages, the head wrangler is responsible for the safety and care of every animal on set."
@@ -12916,7 +12916,7 @@
         },
         {
           "w": "KIWI",
-          "i": "🥝",
+          "i": "🐦",
           "examples": [
             "A kiwi has fuzzy brown skin and green fruit.",
             "I slice the sweet green kiwi with a spoon."
@@ -12988,7 +12988,7 @@
         },
         {
           "w": "PLUM",
-          "i": "🫐",
+          "i": "🟣",
           "examples": [
             "She bit into a sweet and juicy purple plum.",
             "The round dark plum has a smooth skin."
@@ -13078,7 +13078,7 @@
         },
         {
           "w": "CORE",
-          "i": "🍎",
+          "i": "🍏",
           "examples": [
             "Please remove the tough apple core before baking the pie.",
             "He ate the juicy pear and threw away the core."
@@ -13126,7 +13126,7 @@
         },
         {
           "w": "FIG",
-          "i": "🪴",
+          "i": "🍈",
           "examples": [
             "The soft purple fig is filled with tiny crunchy seeds.",
             "We picked a sweet ripe fig directly from the tree."
@@ -13134,7 +13134,7 @@
         },
         {
           "w": "FRESH",
-          "i": "🍓",
+          "i": "✨",
           "examples": [
             "We bought a basket of fresh strawberries at the market.",
             "Nothing beats the taste of fresh fruit picked in summer."
@@ -13504,7 +13504,7 @@
         },
         {
           "w": "DURIAN",
-          "i": "🦔",
+          "i": "🍈",
           "examples": [
             "Hotels across Southeast Asia ban the spiky durian because its pungent odor lingers.",
             "Beneath the thorny durian husk lies rich, custard-like segments that fans adore."
@@ -13592,7 +13592,7 @@
         },
         {
           "w": "JUJUBE",
-          "i": "枣",
+          "i": "🍒",
           "examples": [
             "Fresh green jujube fruits crunch like apples, but wrinkled red ones taste date-like.",
             "Traditional herbalists simmer dried red jujube dates in hot tea to soothe throats."
@@ -13882,7 +13882,7 @@
         },
         {
           "w": "ACKEE",
-          "i": "🇯🇲",
+          "i": "🍈",
           "examples": [
             "Although it is the national fruit of Jamaica, ackee must be allowed to split open naturally on the tree before harvesting to ensure the toxic compounds have dissipated.",
             "When cooked with salted cod, the creamy yellow arils of the ackee fruit resemble scrambled eggs in both texture and appearance."
@@ -13954,7 +13954,7 @@
         },
         {
           "w": "BAEL",
-          "i": "🪵",
+          "i": "🍈",
           "examples": [
             "The woody outer shell of the bael fruit is so hard that it must be cracked open with a hammer or machete to reach the aromatic orange pulp inside.",
             "During scorching summer months in India, the sweet, mucilaginous flesh of the bael is blended with water and sugar to create a cooling beverage."
@@ -14050,7 +14050,7 @@
         },
         {
           "w": "CLIMACTERIC",
-          "i": "🍌",
+          "i": "💬",
           "examples": [
             "Bananas, peaches, and avocados are classified as climacteric fruits because they continue to ripen and soften after being harvested from the plant.",
             "Placing a climacteric fruit in a paper bag traps the ethylene gas it releases, which significantly speeds up the ripening process."
@@ -14466,7 +14466,7 @@
         },
         {
           "w": "PARTHENOCARPY",
-          "i": "🍌",
+          "i": "💬",
           "examples": [
             "Through the botanical process of parthenocarpy, plants like commercial bananas and seedless watermelons develop full fruits without prior fertilization of the ovules.",
             "Fruit breeders often select for natural parthenocarpy to cultivate consumer-friendly varieties of grapes and citrus that contain no hard seeds."
