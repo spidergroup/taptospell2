@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 600;
+  src: url('/fonts/nunito-latin-600-normal.woff2') format('woff2'),
+       url('/fonts/nunito-latin-600-normal.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 700;
+  src: url('/fonts/nunito-latin-700-normal.woff2') format('woff2'),
+       url('/fonts/nunito-latin-700-normal.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 800;
+  src: url('/fonts/nunito-latin-800-normal.woff2') format('woff2'),
+       url('/fonts/nunito-latin-800-normal.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Nunito';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 900;
+  src: url('/fonts/nunito-latin-900-normal.woff2') format('woff2'),
+       url('/fonts/nunito-latin-900-normal.woff') format('woff');
+}
+
+@theme {
+  --font-nunito: 'Nunito', sans-serif;
+  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-bounce-slow: bounce 2s infinite;
+  --animate-shake: shake 0.4s ease-in-out;
+
+  @keyframes shake {
+    0%, 100% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-10px);
+    }
+    75% {
+      transform: translateX(10px);
+    }
+  }
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.btn-3d {
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+.btn-3d:active {
+  transform: translateY(4px) !important;
+  box-shadow: 0 0px 0 0 transparent !important;
+}
+
+/* Hide scrollbar for cleaner look */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Word Box sizing using clamp for responsive single-row text */
+.word-box-text {
+  font-size: clamp(1.2rem, 5vw, 2.5rem);
+}
+

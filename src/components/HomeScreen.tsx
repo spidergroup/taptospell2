@@ -1,0 +1,174 @@
+import React from 'react';
+import {
+  type CategoryName,
+  type GradeLevel,
+  type NumericGrade,
+  HIGH_SCHOOL_CATEGORIES,
+  getHighSchoolCategoryLabel,
+  getWordsPerLevel,
+} from '../data/words';
+import type { GameState } from '../lib/storage';
+import { PlayIcon } from './Icons';
+
+export interface HomeScreenProps {
+  selectedGrade: GradeLevel;
+  savedGame: GameState | null;
+  onSelectGradeAndStart: (grade: NumericGrade) => void;
+  onSelectHighSchool: () => void;
+  onStartHighSchoolCategory: (category: CategoryName) => void;
+  onContinueGame: () => void;
+}
+
+const GRADE_OPTIONS: Array<{ grade: NumericGrade; label: string }> = [
+  { grade: 1, label: '1st Grade' },
+  { grade: 2, label: '2nd Grade' },
+  { grade: 3, label: '3rd Grade' },
+  { grade: 4, label: '4th Grade' },
+  { grade: 5, label: '5th Grade' },
+  { grade: 6, label: '6th Grade' },
+];
+
+export function formatContinueDetails(savedGame: GameState): string {
+  if (savedGame.grade === 'high_school') {
+    const label = getHighSchoolCategoryLabel(String(savedGame.category));
+    return `${label} • High School • Level ${savedGame.level}`;
+  }
+  const catStr = String(savedGame.category || `Grade ${savedGame.grade}`);
+  if (catStr === `Grade ${savedGame.grade}`) {
+    return `Grade ${savedGame.grade} • Level ${savedGame.level}`;
+  }
+  return `${catStr} • Grade ${savedGame.grade} • Level ${savedGame.level}`;
+}
+
+export function HomeScreen({
+  selectedGrade,
+  savedGame,
+  onSelectGradeAndStart,
+  onSelectHighSchool,
+  onStartHighSchoolCategory,
+  onContinueGame,
+}: HomeScreenProps) {
+  const isHighSchoolSelected = selectedGrade === 'high_school';
+
+  return (
+    <div
+      id="home-screen"
+      className="flex-1 flex flex-col items-center p-4 md:p-8 overflow-y-auto w-full h-full z-10 relative bg-slate-900"
+    >
+      <div className="w-full max-w-5xl flex flex-col items-center pb-12">
+        {/* Title */}
+        <h1 className="text-5xl md:text-7xl font-black mb-6 md:mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 drop-shadow-lg py-2">
+          TapToSpell!
+        </h1>
+
+        {/* Continue Game Banner */}
+        {savedGame && savedGame.isActive && (
+          <div
+            id="continue-banner"
+            className="flex mb-8 w-full max-w-2xl bg-gradient-to-r from-green-500 to-emerald-700 rounded-3xl p-6 shadow-[0_8px_0_#065f46] border-2 border-green-300 flex-col md:flex-row items-center justify-between gap-4"
+          >
+            <div className="text-center md:text-left">
+              <h2 className="text-2xl font-bold text-white mb-1">Game in Progress!</h2>
+              <p id="continue-details" className="text-green-100 font-semibold text-lg">
+                {formatContinueDetails(savedGame)}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={onContinueGame}
+              className="btn-3d bg-white text-green-700 font-bold text-xl px-8 py-4 rounded-2xl shadow-[0_6px_0_#d1d5db] w-full md:w-auto flex-shrink-0 hover:bg-green-50 flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <PlayIcon className="w-5 h-5" />
+              <span>Continue</span>
+            </button>
+          </div>
+        )}
+
+        {/* Grade Selection (Grades 1–6 immediately start a game; High School reveals categories) */}
+        <div className="bg-slate-800 p-6 rounded-3xl border-2 border-slate-700 shadow-xl mb-10 w-full max-w-4xl flex flex-col items-center">
+          <p className="text-xl text-slate-300 font-bold mb-2">Select Grade Level to Play:</p>
+          <p className="text-sm text-slate-400 mb-5 text-center">
+            Tap Grades 1–6 to start immediately, or choose High School to pick a topic category!
+          </p>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
+            {GRADE_OPTIONS.map(({ grade, label }) => {
+              const isSelected = selectedGrade === grade;
+              const wordsCount = getWordsPerLevel(grade);
+              return (
+                <button
+                  key={grade}
+                  type="button"
+                  id={`btn-pref-${grade}`}
+                  onClick={() => onSelectGradeAndStart(grade)}
+                  className={
+                    isSelected
+                      ? 'btn-3d py-4 px-3 rounded-2xl font-bold text-lg lg:text-xl bg-blue-600 text-white border-2 border-blue-400 shadow-[0_6px_0_#1e3a8a] transform scale-105 z-10 transition-all cursor-pointer'
+                      : 'btn-3d py-4 px-3 rounded-2xl font-bold text-lg lg:text-xl bg-slate-700 text-slate-300 border-2 border-slate-600 shadow-[0_4px_0_#334155] transition-all hover:bg-slate-600 cursor-pointer'
+                  }
+                >
+                  {label}
+                  <br />
+                  <span
+                    className={`text-sm font-normal ${
+                      isSelected ? 'text-blue-200' : 'text-slate-400'
+                    }`}
+                  >
+                    ({wordsCount} words / level)
+                  </span>
+                </button>
+              );
+            })}
+
+            <button
+              type="button"
+              id="btn-pref-high_school"
+              onClick={onSelectHighSchool}
+              className={
+                isHighSchoolSelected
+                  ? 'btn-3d col-span-2 sm:col-span-3 lg:col-span-2 py-4 px-3 rounded-2xl font-bold text-lg lg:text-xl bg-purple-600 text-white border-2 border-purple-400 shadow-[0_6px_0_#4c1d95] transform scale-105 z-10 transition-all cursor-pointer'
+                  : 'btn-3d col-span-2 sm:col-span-3 lg:col-span-2 py-4 px-3 rounded-2xl font-bold text-lg lg:text-xl bg-slate-700 text-slate-300 border-2 border-slate-600 shadow-[0_4px_0_#334155] transition-all hover:bg-slate-600 cursor-pointer'
+              }
+            >
+              🎓 High School
+              <br />
+              <span
+                className={`text-sm font-normal ${
+                  isHighSchoolSelected ? 'text-purple-200' : 'text-slate-400'
+                }`}
+              >
+                ({getWordsPerLevel('high_school')} words / level • 7 Categories)
+              </span>
+            </button>
+          </div>
+        </div>
+
+        {/* High School Category Selection */}
+        {isHighSchoolSelected && (
+          <div id="high-school-categories" className="w-full max-w-4xl flex flex-col items-center">
+            <h2 className="text-3xl font-bold mb-6 text-slate-200 text-center">
+              Select a High School Category!
+            </h2>
+            <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {HIGH_SCHOOL_CATEGORIES.map((cat) => (
+                <button
+                  key={cat.key}
+                  type="button"
+                  id={`btn-cat-${cat.key}`}
+                  onClick={() => onStartHighSchoolCategory(cat.label)}
+                  className={`btn-3d flex flex-col items-center justify-center p-6 bg-gradient-to-b ${cat.gradientClass} rounded-3xl ${cat.shadowClass} border-2 ${cat.borderClass} hover:brightness-110 cursor-pointer`}
+                >
+                  <span className="text-6xl mb-3">{cat.emoji}</span>
+                  <span className="font-black text-2xl drop-shadow-md text-center leading-tight">
+                    {cat.label}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
