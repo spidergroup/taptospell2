@@ -5,4 +5,6 @@ dist/
 .env.*
 *.log
 public/app.js
+public/styles.css
+public/fonts/
 
