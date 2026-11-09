@@ -7,6 +7,7 @@ import {
   getHighSchoolCategoryLabel,
   getWordsPerLevel,
 } from '../data/words';
+import { getAllSeoPages } from '../lib/seo';
 import type { GameState } from '../lib/storage';
 import { PlayIcon } from './Icons';
 
@@ -49,22 +50,27 @@ export function HomeScreen({
   onContinueGame,
 }: HomeScreenProps) {
   const isHighSchoolSelected = selectedGrade === 'high_school';
+  const seoPages = getAllSeoPages();
 
   return (
-    <div
+    <main
       id="home-screen"
+      aria-label="TapToSpell Home Screen"
       className="flex-1 flex flex-col items-center p-4 md:p-8 overflow-y-auto w-full h-full z-10 relative bg-slate-900"
     >
       <div className="w-full max-w-5xl flex flex-col items-center pb-12">
-        {/* Title */}
-        <h1 className="text-5xl md:text-7xl font-black mb-6 md:mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 drop-shadow-lg py-2">
-          TapToSpell!
-        </h1>
+        {/* Title Header */}
+        <header className="w-full flex flex-col items-center">
+          <h1 className="text-5xl md:text-7xl font-black mb-6 md:mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 drop-shadow-lg py-2">
+            TapToSpell!
+          </h1>
+        </header>
 
         {/* Continue Game Banner */}
         {savedGame && savedGame.isActive && (
-          <div
+          <section
             id="continue-banner"
+            aria-label="Resume Saved Game"
             className="flex mb-8 w-full max-w-2xl bg-gradient-to-r from-green-500 to-emerald-700 rounded-3xl p-6 shadow-[0_8px_0_#065f46] border-2 border-green-300 flex-col md:flex-row items-center justify-between gap-4"
           >
             <div className="text-center md:text-left">
@@ -81,12 +87,15 @@ export function HomeScreen({
               <PlayIcon className="w-5 h-5" />
               <span>Continue</span>
             </button>
-          </div>
+          </section>
         )}
 
         {/* Grade Selection (Grades 1–6 immediately start a game; High School reveals categories) */}
-        <div className="bg-slate-800 p-6 rounded-3xl border-2 border-slate-700 shadow-xl mb-10 w-full max-w-4xl flex flex-col items-center">
-          <p className="text-xl text-slate-300 font-bold mb-2">Select Grade Level to Play:</p>
+        <section
+          aria-label="Select Grade Level"
+          className="bg-slate-800 p-6 rounded-3xl border-2 border-slate-700 shadow-xl mb-10 w-full max-w-4xl flex flex-col items-center"
+        >
+          <h2 className="text-xl text-slate-300 font-bold mb-2">Select Grade Level to Play:</h2>
           <p className="text-sm text-slate-400 mb-5 text-center">
             Tap Grades 1–6 to start immediately, or choose High School to pick a topic category!
           </p>
@@ -141,11 +150,15 @@ export function HomeScreen({
               </span>
             </button>
           </div>
-        </div>
+        </section>
 
         {/* High School Category Selection */}
         {isHighSchoolSelected && (
-          <div id="high-school-categories" className="w-full max-w-4xl flex flex-col items-center">
+          <section
+            id="high-school-categories"
+            aria-label="High School Topic Categories"
+            className="w-full max-w-4xl flex flex-col items-center"
+          >
             <h2 className="text-3xl font-bold mb-6 text-slate-200 text-center">
               Select a High School Category!
             </h2>
@@ -158,17 +171,59 @@ export function HomeScreen({
                   onClick={() => onStartHighSchoolCategory(cat.label)}
                   className={`btn-3d flex flex-col items-center justify-center p-6 bg-gradient-to-b ${cat.gradientClass} rounded-3xl ${cat.shadowClass} border-2 ${cat.borderClass} hover:brightness-110 cursor-pointer`}
                 >
-                  <span className="text-6xl mb-3">{cat.emoji}</span>
+                  <span className="text-6xl mb-3" aria-hidden="true">
+                    {cat.emoji}
+                  </span>
                   <span className="font-black text-2xl drop-shadow-md text-center leading-tight">
                     {cat.label}
                   </span>
                 </button>
               ))}
             </div>
-          </div>
+          </section>
         )}
+
+        {/* Crawlable SEO Curriculum Directory & Internal Links */}
+        <footer
+          aria-label="Spelling Curriculum Directory"
+          className="mt-12 pt-6 border-t border-slate-800/80 w-full max-w-4xl text-center text-xs text-slate-500"
+        >
+          <p className="mb-3 font-semibold text-slate-400">
+            TapToSpell Free Online Spelling &amp; Vocabulary Curriculum (3,875+ Words)
+          </p>
+          <nav aria-label="Grade and Category Spelling Pages" className="flex flex-wrap justify-center gap-x-4 gap-y-2">
+            {seoPages.map((p) => (
+              <a
+                key={p.path}
+                href={p.path}
+                onClick={(e) => {
+                  if (p.path === '/') {
+                    e.preventDefault();
+                    return;
+                  }
+                  if (p.path === '/high-school') {
+                    e.preventDefault();
+                    onSelectHighSchool();
+                    return;
+                  }
+                  if (p.grade && p.grade !== 'high_school') {
+                    e.preventDefault();
+                    onSelectGradeAndStart(p.grade);
+                    return;
+                  }
+                  if (p.grade === 'high_school' && p.category) {
+                    e.preventDefault();
+                    onStartHighSchoolCategory(p.category);
+                  }
+                }}
+                className="hover:text-slate-300 underline decoration-slate-700 underline-offset-2 transition-colors"
+              >
+                {p.heading}
+              </a>
+            ))}
+          </nav>
+        </footer>
       </div>
-    </div>
+    </main>
   );
 }
-

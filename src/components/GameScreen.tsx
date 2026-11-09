@@ -1,5 +1,6 @@
 import React from 'react';
 import { TOTAL_LEVELS, getWordsPerLevel } from '../data/words';
+import { getSeoForGameSession } from '../lib/seo';
 import type { GameState } from '../lib/storage';
 import { HouseIcon, LightbulbIcon, VolumeHighIcon } from './Icons';
 
@@ -26,6 +27,7 @@ export function GameScreen({
   const targetWord = currentWordObj?.w ?? '';
   const wordEmoji = currentWordObj?.i ?? '🍎';
   const totalWords = getWordsPerLevel(gameState.grade);
+  const pageSeo = getSeoForGameSession(gameState.grade, gameState.category, gameState.level);
 
   const keyCount = gameState.keyboardKeys.length;
   const keySizeClasses =
@@ -36,9 +38,16 @@ export function GameScreen({
   const hintsDisabled = gameState.hintsRemaining <= 0;
 
   return (
-    <div id="game-screen" className="flex flex-1 w-full h-full flex-col bg-slate-900 z-10 relative">
+    <main
+      id="game-screen"
+      aria-label={pageSeo.heading}
+      className="flex flex-1 w-full h-full flex-col bg-slate-900 z-10 relative"
+    >
+      {/* Screen-reader accessible SEO heading for the active grade/category game */}
+      <h1 className="sr-only">{pageSeo.heading}</h1>
+
       {/* Top HUD (Strict Shrink-0) */}
-      <div className="shrink-0 w-full p-2 flex justify-between items-center bg-slate-800 shadow-md h-14 md:h-16 z-20 border-b border-slate-700">
+      <header className="shrink-0 w-full p-2 flex justify-between items-center bg-slate-800 shadow-md h-14 md:h-16 z-20 border-b border-slate-700">
         {/* Left: Progress */}
         <div className="flex items-center gap-2">
           <div className="bg-indigo-900/80 px-2 py-1 md:px-3 md:py-1.5 rounded-lg border border-indigo-500/50">
@@ -74,14 +83,20 @@ export function GameScreen({
             <HouseIcon />
           </button>
         </div>
-      </div>
+      </header>
 
       {/* Middle Area (Flexible, Image + Slots) */}
-      <div className="flex-1 min-h-0 flex flex-col items-center justify-center p-2 w-full max-w-5xl mx-auto gap-2 md:gap-4">
+      <section
+        aria-label="Word Clue and Spelling Slots"
+        className="flex-1 min-h-0 flex flex-col items-center justify-center p-2 w-full max-w-5xl mx-auto gap-2 md:gap-4"
+      >
         {/* Animated Image Container */}
         <div className="flex-1 min-h-0 flex items-center justify-center w-full">
           <div
             id="word-image"
+            role="button"
+            tabIndex={0}
+            aria-label="Listen to word pronunciation"
             onClick={onSpeakWord}
             className="cursor-pointer text-[12vh] md:text-[20vh] animate-pulse-slow drop-shadow-[0_15px_15px_rgba(0,0,0,0.6)] leading-none object-contain max-h-[40vh] flex items-center justify-center"
           >
@@ -130,10 +145,13 @@ export function GameScreen({
             );
           })}
         </div>
-      </div>
+      </section>
 
       {/* Bottom Controls (Strict Shrink-0, Keyboard + Hint/Sound) */}
-      <div className="shrink-0 flex flex-col items-center justify-end px-2 pb-2 md:pb-4 w-full gap-2">
+      <section
+        aria-label="On-Screen Keyboard and Game Actions"
+        className="shrink-0 flex flex-col items-center justify-end px-2 pb-2 md:pb-4 w-full gap-2"
+      >
         {/* Keyboard */}
         <div
           id="keyboard"
@@ -210,8 +228,7 @@ export function GameScreen({
             <span>Listen</span>
           </button>
         </div>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
-

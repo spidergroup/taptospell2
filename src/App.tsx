@@ -33,6 +33,12 @@ import {
   typeLetterState,
 } from './lib/gameplay';
 import {
+  getAllSeoPages,
+  getSeoForGameSession,
+  resolveSeoForPathname,
+  updateDocumentSeo,
+} from './lib/seo';
+import {
   type GameState,
   clearSaveState,
   createInitialGameState,
@@ -42,10 +48,68 @@ import {
   saveGradePref,
 } from './lib/storage';
 
-export function App() {
-  const [screen, setScreen] = useState<'home' | 'game'>('home');
-  const [userPrefGrade, setUserPrefGrade] = useState<GradeLevel>(2);
-  const [gameState, setGameState] = useState<GameState>(() => createInitialGameState(2));
+export interface AppProps {
+  initialPath?: string;
+}
+
+function deriveInitialRouteState(initialPath?: string): {
+  screen: 'home' | 'game';
+  grade: GradeLevel;
+  gameState: GameState;
+} {
+  const path =
+    initialPath ?? (typeof window !== 'undefined' ? window.location.pathname : '/');
+  const routeSeo = resolveSeoForPathname(path);
+
+  if (routeSeo && routeSeo.path === '/high-school') {
+    return {
+      screen: 'home',
+      grade: 'high_school',
+      gameState: createInitialGameState('high_school'),
+    };
+  }
+
+  if (routeSeo && routeSeo.grade && routeSeo.category) {
+    const { words, wordPoolQueue } = generateLevelWords(
+      routeSeo.category,
+      routeSeo.grade,
+      1,
+      []
+    );
+    const seeded = initWordState({
+      isActive: true,
+      category: routeSeo.category,
+      grade: routeSeo.grade,
+      level: 1,
+      score: 0,
+      wordIndex: 0,
+      currentLevelWords: words,
+      wordPoolQueue,
+      keyboardKeys: [],
+      filledSlots: [],
+      usedKeyIndices: [],
+      hintsRemaining: 0,
+      showErrors: false,
+    });
+    return {
+      screen: 'game',
+      grade: routeSeo.grade,
+      gameState: seeded,
+    };
+  }
+
+  return {
+    screen: 'home',
+    grade: 2,
+    gameState: createInitialGameState(2),
+  };
+}
+
+export function App({ initialPath }: AppProps = {}) {
+  const initialRoute = deriveInitialRouteState(initialPath);
+  const [screen, setScreen] = useState<'home' | 'game'>(initialRoute.screen);
+  const [userPrefGrade, setUserPrefGrade] = useState<GradeLevel>(initialRoute.grade);
+  const [gameState, setGameState] = useState<GameState>(initialRoute.gameState);
   const [savedGameBanner, setSavedGameBanner] = useState<GameState | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isShaking, setIsShaking] = useState(false);
@@ -66,6 +130,30 @@ export function App() {
   const checkWinTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const speakTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const shakeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const syncUrlAndSeo = useCallback(
+    (nextScreen: 'home' | 'game', grade: GradeLevel, category?: CategoryName, level?: number) => {
+      const seoPage =
+        nextScreen === 'game'
+          ? getSeoForGameSession(grade, category, level)
+          : grade === 'high_school'
+            ? resolveSeoForPathname('/high-school') ?? getAllSeoPages()[0]
+            : getAllSeoPages()[0];
+
+      updateDocumentSeo(seoPage);
+
+      if (typeof window !== 'undefined' && window.history && window.location) {
+        if (window.location.pathname !== seoPage.path) {
+          try {
+            window.history.pushState({}, '', seoPage.path);
+          } catch {
+            // Ignore pushState restrictions in sandboxed environments
+          }
+        }
+      }
+    },
+    []
+  );
 
   const clearAllTimers = useCallback(() => {
     if (countdownIntervalRef.current) {
@@ -93,13 +181,28 @@ export function App() {
 
   useEffect(() => {
     initSpeechVoices();
-    const pref = loadGradePref();
-    setUserPrefGrade(pref);
 
-    const saved = loadSavedGame();
-    if (saved && saved.isActive) {
-      setGameState(saved);
-      setSavedGameBanner(saved);
+    const currentPath = typeof window !== 'undefined' ? window.location.pathname : '/';
+    const directSeoRoute = resolveSeoForPathname(currentPath);
+
+    if (directSeoRoute && directSeoRoute.grade && directSeoRoute.category) {
+      saveGradePref(directSeoRoute.grade);
+      saveGameState(gameStateRef.current);
+      updateDocumentSeo(directSeoRoute);
+      const firstWord = gameStateRef.current.currentLevelWords[0]?.w;
+      if (firstWord) {
+        speakTimeoutRef.current = setTimeout(() => speakWord(firstWord), 300);
+      }
+    } else {
+      const pref = directSeoRoute?.path === '/high-school' ? 'high_school' : loadGradePref();
+      setUserPrefGrade(pref);
+
+      const saved = loadSavedGame();
+      if (saved && saved.isActive) {
+        setGameState(saved);
+        setSavedGameBanner(saved);
+      }
+      updateDocumentSeo(directSeoRoute ?? getAllSeoPages()[0]);
     }
 
     return () => {
@@ -125,13 +228,14 @@ export function App() {
       setGameState(prepared);
       gameStateRef.current = prepared;
       saveGameState(prepared);
+      syncUrlAndSeo('game', prepared.grade, prepared.category, prepared.level);
 
       const currentWord = prepared.currentLevelWords[prepared.wordIndex]?.w;
       if (currentWord) {
         scheduleAutoSpeak(currentWord);
       }
     },
-    [scheduleAutoSpeak]
+    [scheduleAutoSpeak, syncUrlAndSeo]
   );
 
   const triggerLevelComplete = useCallback(
@@ -175,6 +279,7 @@ export function App() {
           setIsTransitioning(false);
           isTransitioningRef.current = false;
           setScreen('home');
+          syncUrlAndSeo('home', userPrefGrade);
         } else {
           const nextLevel = completedState.level + 1;
           const { words, wordPoolQueue } = generateLevelWords(
@@ -197,7 +302,7 @@ export function App() {
         }
       }, 5000);
     },
-    [loadWordIntoGame, userPrefGrade]
+    [loadWordIntoGame, syncUrlAndSeo, userPrefGrade]
   );
 
   const runCheckWin = useCallback(
@@ -320,7 +425,8 @@ export function App() {
     setUserPrefGrade('high_school');
     saveGradePref('high_school');
     playGradeSelectSound();
-  }, []);
+    syncUrlAndSeo('home', 'high_school');
+  }, [syncUrlAndSeo]);
 
   const handleStartHighSchoolCategory = useCallback(
     (category: CategoryName) => {
@@ -353,7 +459,8 @@ export function App() {
     saveGameState(current);
     setSavedGameBanner(current.isActive ? current : null);
     setScreen('home');
-  }, [clearAllTimers]);
+    syncUrlAndSeo('home', userPrefGrade);
+  }, [clearAllTimers, syncUrlAndSeo, userPrefGrade]);
 
   const handleTypeLetter = useCallback(
     (char: string, keyIndex: number) => {
