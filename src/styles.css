@@ -101,11 +101,52 @@ body {
   display: none;
 }
 
-/* Word Box sizing using clamp for responsive single-row text */
+/* Word Box sizing using container-query slot size */
 .word-box-text {
   font-size: clamp(1.25rem, 4.5vw, 3.25rem);
 }
 
 .word-box-text-compact {
   font-size: clamp(0.95rem, 3.5vw, 2.5rem);
+}
+
+.word-slot-box {
+  width: var(--slot-size, 4rem);
+  font-size: calc(var(--slot-size, 4rem) * 0.56);
+}
+
+/* Sideways phone (landscape) layout: split image/clue left, slots/keyboard right */
+@media (orientation: landscape) and (max-height: 500px) {
+  .game-landscape-hud {
+    height: 2.75rem !important;
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+  }
+
+  .game-landscape-body {
+    flex-direction: row !important;
+    align-items: stretch !important;
+    gap: 0.5rem !important;
+    padding: 0.25rem 0.75rem !important;
+  }
+
+  .game-landscape-left {
+    width: 36% !important;
+    flex: none !important;
+    justify-content: center !important;
+    gap: 0.35rem !important;
+    padding: 0.25rem !important;
+  }
+
+  .game-landscape-emoji {
+    font-size: clamp(3rem, 22vh, 5.5rem) !important;
+  }
+
+  .game-landscape-right {
+    width: 64% !important;
+    flex: 1 1 0% !important;
+    justify-content: space-evenly !important;
+    gap: 0.35rem !important;
+    padding-bottom: 0.25rem !important;
+  }
 }

@@ -196,45 +196,48 @@ export function HomeScreen({
         {/* Crawlable SEO Curriculum Directory & Internal Links */}
         <footer
           aria-label="Spelling Curriculum Directory"
-          className="mt-12 pt-6 border-t border-slate-800/80 w-full text-center text-xs sm:text-sm text-slate-400"
+          className="mt-10 pt-5 border-t border-slate-800/80 w-full text-center text-xs sm:text-sm text-slate-400"
         >
-          <p className="mb-3 font-bold text-slate-300">
-            TapToSpell Free Online Spelling &amp; Vocabulary Curriculum (3,875+ Words)
-          </p>
-          <nav
-            aria-label="Grade and Category Spelling Pages"
-            className="flex flex-wrap justify-center gap-x-4 gap-y-2.5"
-          >
-            {seoPages.map((p) => (
-              <a
-                key={p.path}
-                href={p.path}
-                onClick={(e) => {
-                  if (p.path === '/') {
-                    e.preventDefault();
-                    return;
-                  }
-                  if (p.path === '/high-school') {
-                    e.preventDefault();
-                    onSelectHighSchool();
-                    return;
-                  }
-                  if (p.grade && p.grade !== 'high_school') {
-                    e.preventDefault();
-                    onSelectGradeAndStart(p.grade);
-                    return;
-                  }
-                  if (p.grade === 'high_school' && p.category) {
-                    e.preventDefault();
-                    onStartHighSchoolCategory(p.category);
-                  }
-                }}
-                className="hover:text-white underline decoration-slate-600 underline-offset-2 transition-colors"
-              >
-                {p.heading}
-              </a>
-            ))}
-          </nav>
+          <details className="group">
+            <summary className="cursor-pointer list-none inline-flex items-center gap-2 font-bold text-slate-300 hover:text-white px-4 py-2 rounded-full bg-slate-800/70 border border-slate-700/80 transition-colors">
+              <span>More: Browse All Grade &amp; Category Pages (3,875+ Words)</span>
+              <span className="text-xs text-slate-400 group-open:rotate-180 transition-transform">▼</span>
+            </summary>
+            <nav
+              aria-label="Grade and Category Spelling Pages"
+              className="mt-4 flex flex-wrap justify-center gap-x-4 gap-y-2.5"
+            >
+              {seoPages.map((p) => (
+                <a
+                  key={p.path}
+                  href={p.path}
+                  onClick={(e) => {
+                    if (p.path === '/') {
+                      e.preventDefault();
+                      return;
+                    }
+                    if (p.path === '/high-school') {
+                      e.preventDefault();
+                      onSelectHighSchool();
+                      return;
+                    }
+                    if (p.grade && p.grade !== 'high_school') {
+                      e.preventDefault();
+                      onSelectGradeAndStart(p.grade);
+                      return;
+                    }
+                    if (p.grade === 'high_school' && p.category) {
+                      e.preventDefault();
+                      onStartHighSchoolCategory(p.category);
+                    }
+                  }}
+                  className="hover:text-white underline decoration-slate-600 underline-offset-2 transition-colors"
+                >
+                  {p.heading}
+                </a>
+              ))}
+            </nav>
+          </details>
         </footer>
       </div>
     </main>
