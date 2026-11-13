@@ -193,6 +193,45 @@ export function HomeScreen({
           </section>
         )}
 
+        {/* How to Use Tutorial Video */}
+        <section
+          id="how-to-play-video"
+          aria-label="How to Use TapToSpell Video Tutorial"
+          className="mt-10 bg-slate-800/95 p-5 sm:p-7 md:p-8 rounded-3xl border-2 border-slate-700 shadow-2xl w-full max-w-4xl flex flex-col items-center"
+        >
+          <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-3 mb-5">
+            <div className="text-center sm:text-left">
+              <h2 className="text-xl sm:text-2xl md:text-3xl text-white font-black">
+                How to Use TapToSpell
+              </h2>
+              <p className="text-sm sm:text-base text-slate-300 mt-1">
+                Watch a quick walkthrough on how to play directly here or on YouTube.
+              </p>
+            </div>
+            <a
+              id="link-youtube-howto"
+              href="https://www.youtube.com/watch?v=NR8sOxgxeV0"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-3d bg-red-600 hover:bg-red-500 text-white font-bold text-sm sm:text-base px-5 py-3 rounded-2xl border-2 border-red-400 shadow-[0_4px_0_#991b1b] flex items-center gap-2 flex-shrink-0 transition-all"
+            >
+              <PlayIcon className="w-4 h-4" />
+              <span>Watch on YouTube</span>
+            </a>
+          </div>
+          <div className="w-full aspect-video rounded-2xl overflow-hidden border-2 border-slate-700 bg-slate-950 shadow-inner">
+            <iframe
+              className="w-full h-full"
+              src="https://www.youtube.com/embed/NR8sOxgxeV0?rel=0"
+              title="How to Use TapToSpell - Tutorial Video"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+              loading="lazy"
+            />
+          </div>
+        </section>
+
         {/* Crawlable SEO Curriculum Directory & Internal Links */}
         <footer
           aria-label="Spelling Curriculum Directory"

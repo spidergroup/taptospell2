@@ -62,6 +62,12 @@ describe('seo.ts & worker.ts — Multi-Page SEO, Structured Data, Sitemap & Robo
   });
 
   it('serves SSR HTML with route-specific meta tags, canonical link, Open Graph, JSON-LD, and SEO endpoints', async () => {
+    const homeRes = await worker.fetch(new Request('https://taptospell.com/'), {});
+    expect(homeRes.status).toBe(200);
+    const homeHtml = await homeRes.text();
+    expect(homeHtml).toContain('https://www.youtube.com/watch?v=NR8sOxgxeV0');
+    expect(homeHtml).toContain('https://www.youtube.com/embed/NR8sOxgxeV0');
+
     const gradeRes = await worker.fetch(new Request('https://taptospell.com/grade/4'), {});
     expect(gradeRes.status).toBe(200);
     const gradeHtml = await gradeRes.text();
