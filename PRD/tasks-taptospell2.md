@@ -10,16 +10,19 @@
 - `src/data/words.test.ts` - Unit tests verifying `grade16.json` and `others.json` word pools, grade word counts (`2`–`8`), progressive difficulty tier transitions (`level_1` → `level_3` for Grades 1–6; `level_1` → `level_4` for High School), non-repeating shuffled queue cycling across 10 levels, and keyboard generation (`Math.max(12, targetWord.length + 5)`).
 - `src/lib/storage.ts` - `GameState` TypeScript interface and `localStorage` persistence helpers (`loadGradePref`, `saveGradePref`, `loadSavedGame`, `saveGameState`, `clearSaveState`) supporting Grades 1–6 (`1`–`6`) and High School (`'high_school'` / `7`), with legacy/corrupted JSON recovery and `usedKeyIndices` reconstruction.
 - `src/lib/storage.test.ts` - Unit tests for `localStorage` grade preferences (`1`–`6` and High School), active game state persistence, corrupted JSON fallback, and `usedKeyIndices` reconstruction.
-- `src/lib/audio.ts` - Web Audio API synthesizer (`playTone`, grade select, start game, continue, exit, type letter, remove letter, hint chime, 3-note C5–E5–G5 win fanfare, 200Hz sawtooth error buzz) and Web Speech API (`speakWord`) with `rate = 0.85`, `pitch = 1.2`, and Google English voice selection.
-- `src/lib/audio.test.ts` - Unit tests for Web Audio API tone synthesis and Web Speech API utterance configuration.
+- `src/lib/audio.ts` - Web Audio API synthesizer (`playTone`, grade select, start game, continue, exit, type letter, remove letter, hint chime, 3-note C5–E5–G5 win fanfare, 200Hz sawtooth error buzz), custom audio playback (`playWordAudio`, `stopWordAudio`), and Web Speech API (`speakWord`) with `rate = 0.85`, `pitch = 1.2`, and Google English voice selection.
+- `src/lib/audio.test.ts` - Unit tests for Web Audio API tone synthesis, custom audio loading, and Web Speech API utterance configuration.
+- `public/audio/words/` - Directory for custom word audio recordings (`<word>.mp3`) with fallback to TTS, plus `README.md` documentation.
 - `src/lib/confetti.ts` - Local `canvas-confetti` helpers for the 1-second word completion burst (`250ms` interval, `zIndex: 9999`), 5-second dual-edge level/game complete cannons (`angle: 60` at `x: 0` and `angle: 120` at `x: 1`), and `resetConfetti()` cleanup.
 - `src/lib/gameplay.ts` - Pure state functions for `typeLetter` (with `usedKeyIndices` tracking), `removeLetter`, `useHint` (smart first-wrong/empty slot detection + reclaiming needed keys from other wrong slots), `handlePhysicalKeyAction`, and `evaluateSpelling`.
-- `src/lib/gameplay.test.ts` - Unit tests for duplicate letter key tracking (`usedKeyIndices`), smart hints with key reclamation, physical keyboard input rules, and spelling win/error evaluation.
-- `src/components/Icons.tsx` - Local inline SVG icon components (`PlayIcon`, `HouseIcon`, `VolumeHighIcon`, `LightbulbIcon`) replacing external FontAwesome CDN icons.
+- `src/lib/gameplay.test.ts` - Unit tests for duplicate letter key tracking (`usedKeyIndices`), smart hints with key reclamation, physical keyboard input rules, progressive initial hints calculation, and spelling win/error evaluation.
+- `src/lib/seo.ts` - SEO metadata generation (title, description, canonical, Open Graph, Twitter cards, JSON-LD Schema.org structured data, sitemap.xml, robots.txt).
+- `src/lib/seo.test.ts` - Unit tests for SEO meta tags, Open Graph, JSON-LD, sitemap, and robots.txt.
+- `src/components/Icons.tsx` - Local inline SVG icon components (`PlayIcon`, `HouseIcon`, `VolumeHighIcon`, `VolumeMuteIcon`, `KeyboardIcon`, `LightbulbIcon`, `ChevronDownIcon`) replacing external FontAwesome CDN icons.
 - `src/components/HomeScreen.tsx` - Home Screen UI with gradient `"TapToSpell!"` heading, conditional `"Game in Progress!"` Continue Banner, Grade Level Selector (**Grades 1–6** which immediately launch a game for that grade + **High School** which reveals the category grid), and the 7 High School Category Selection cards (**Colors**, **Animals**, **Everyday Life**, **Nature**, **Places**, **Movies**, **Fruits**).
-- `src/components/GameScreen.tsx` - Full-viewport locked Game Screen (`h-[100dvh] w-screen overflow-hidden`) with Top HUD (`LEVEL`, `WORD`, `SCORE`, red Home button), Middle Play Area (pulsing clickable emoji and interactive Answer Slots with error glow & shake), and Bottom Controls (adaptive On-Screen Keyboard, Hint button with badge, and Listen button).
+- `src/components/GameScreen.tsx` - Full-viewport locked Game Screen (`h-[100dvh] w-screen overflow-hidden`) with Top HUD (interactive Level selector 1–10 `LEVEL <level> ▾`, `WORD`, `SCORE`, sound toggle, layout toggle, red Home button), Middle Play Area (pulsing clickable emoji and interactive Answer Slots with error glow & shake), and Bottom Controls (adaptive On-Screen Keyboard or QWERTY layout, Hint button with badge, and Listen button).
 - `src/components/LevelOverlay.tsx` - Full-screen blurred modal (`#level-overlay`) for `"Level Complete!"` (Levels 1–9) and `"Game Complete!"` (Level 10) with the 5-second circular countdown timer badge.
-- `src/App.tsx` - Main application state container connecting `HomeScreen`, `GameScreen`, and `LevelOverlay`, managing transition locks (`isTransitioning`), countdown/confetti intervals, auto-TTS after `300ms`, and the window `keydown` listener.
+- `src/App.tsx` - Main application state container connecting `HomeScreen`, `GameScreen`, and `LevelOverlay`, managing level jumping, transition locks (`isTransitioning`), countdown/confetti intervals, custom audio / auto-TTS playback, and the window `keydown` listener.
 
 ### Notes
 
@@ -77,3 +80,28 @@ Update the file after completing each sub-task, not just after completing an ent
   - [x] 6.2 Create `src/lib/gameplay.test.ts` and `src/lib/storage.test.ts` testing duplicate key index tracking (`usedKeyIndices`), smart hint key reclamation from wrong slots, physical keyboard action resolution, win/error detection, and `localStorage` persistence/recovery.
   - [x] 6.3 Create `src/lib/audio.test.ts` testing `playTone` oscillator/gain setup and `speakWord` utterance parameters with mocked Web Audio / Speech APIs.
   - [x] 6.4 Run `npm test` and `npm run build`, verify all unit tests pass and zero external CDN requests exist in the rendered HTML/CSS/JS output.
+- [x] 7.0 Implement Audio Toggle, Keyboard Layout Modes, and Complete SEO Infrastructure
+  - [x] 7.1 Implement sound mute toggle button (`#btn-toggle-sound`) in Top HUD switching between `VolumeHighIcon` and `VolumeMuteIcon`, muting synthesized tones and speech, and persisting state in `localStorage` (`t2s_pref_muted`).
+  - [x] 7.2 Implement keyboard layout toggle button (`#btn-toggle-layout`) in Top HUD switching between dynamic letter bank (`bank`) and full QWERTY layout (`qwerty`), and persisting state in `localStorage` (`t2s_pref_layout`).
+  - [x] 7.3 Implement SEO and metadata architecture in `src/lib/seo.ts` (title, description, canonical, Open Graph, Twitter cards, Schema.org JSON-LD structured data, `/sitemap.xml`, and `/robots.txt`) and configure `src/worker.ts` to support both `GET` and `HEAD` requests.
+  - [x] 7.4 Add unit tests in `src/lib/seo.test.ts` covering meta tags, JSON-LD, sitemap, and robots.txt.
+- [x] 8.0 Implement Interactive Level Selector, Progressive Hints Scaling, Custom Audio Support, and Database Emoji Quality Audit
+  - [x] 8.1 Upgrade HUD Level badge to an interactive Level Selector (`LEVEL <level> ▾`, removing `/10`) allowing players to select and jump to any level (1–10) at any time with immediate state reset (clearing confetti, timers, active speech).
+  - [x] 8.2 Implement progressive hint calculation in `src/lib/storage.ts` via `calculateInitialHints(wordLength, level)`:
+    - Levels 1–4: `hints = wordLength - 1`
+    - Levels 5–6: `hints = wordLength - 2`
+    - Levels 7–8: `hints = wordLength - 3`
+    - Levels 9–10: `hints = wordLength - 4`
+    - Guaranteed minimum floor of 1 hint remaining for all multi-character words (`wordLength >= 2`), with unit test coverage in `src/lib/gameplay.test.ts`.
+  - [x] 8.3 Implement custom word audio support in `src/lib/audio.ts` (`playWordAudio` and `stopWordAudio`) with automatic checking for local audio files (`/audio/words/<word>.mp3` and `WordEntry.audio`) and fallback to Web Speech API `speakWord`, plus documentation in `public/audio/words/README.md`.
+  - [x] 8.4 Perform comprehensive database emoji quality audit across `data/grade16.json` (387 icons updated) and `data/others.json` (106 icons updated):
+    - Fix corrupted / mojibake characters (`andeliers` -> `💡`, `鑷` -> `✂️`, `亭` -> `🏛️`, `枣` -> `🍒`, flag `🇯🇲` -> `🍈`, `🇻🇦` -> `🏛️`).
+    - Fix misleading or mismatched noun associations (e.g. `AN: 🍎` -> `💬`, `ANOTHER: 🍪` -> `💬`, `EACH: 🍎` -> `💬`, `BIG: 🐘` -> `💬`, `DRAGONFLY: 🐉` -> `🪰`, `AARDVARK: 🐜` -> `🐾`, `KIWI: 🥝` -> `🐦`, `DURIAN: 🦔` -> `🍈`).
+    - Standardize abstract concepts, prepositions, and adverbs to speech bubble `💬`.
+  - [x] 8.5 Verify full compilation (`npm run build`) and complete test suite passes (`npm test`), confirming all 25 unit tests pass with zero errors.
+  - [x] 8.6 Resolve mobile/iPad/iOS Safari sound playback issues:
+    - Implement `unlockAudio()` and `setupAudioUnlockListeners()` capturing early user interactions (`touchstart`, `touchend`, `pointerdown`, `click`, `keydown`) to resume suspended `AudioContext` with a silent buffer.
+    - Set `navigator.audioSession.type = 'playback'` and play an inaudible HTML5 audio element to switch iOS WebKit's audio channel from ambient to playback, preventing iPad Control Center mute / hardware silent switch from silencing game audio.
+    - Prime Web Speech API on the initial user interaction with a silent utterance to unlock `speechSynthesis` on iOS Safari.
+    - Retain active `SpeechSynthesisUtterance` globally on `window` to prevent WebKit's JavaScriptCore from prematurely garbage collecting utterances during speech.
+    - Implement `public/audio/words/manifest.json` generation (`build:audio`) so `playWordAudio` directly and synchronously invokes `speakWord` for words without custom recordings, avoiding async 404 delays that invalidate iOS user activation.

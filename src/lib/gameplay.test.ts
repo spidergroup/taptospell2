@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import {
   applySmartHintState,
+  calculateInitialHints,
   evaluateSpelling,
+  initWordState,
   removeLetterState,
   resolvePhysicalKeyAction,
   typeLetterState,
@@ -107,6 +109,54 @@ describe('gameplay.ts — Duplicate-Key Tracking, Smart Hints & Physical Keyboar
     state = removeLetterState(state, 2);
     state = typeLetterState(state, 'T', 2).state;
     expect(evaluateSpelling(state)).toBe('correct');
+  });
+
+  it('calculates progressive hint counts based on level difficulty with a 1-hint floor', () => {
+    // Word length 6 (e.g., 'BANANA')
+    // Level 1-4: length - 1 = 5
+    expect(calculateInitialHints(6, 1)).toBe(5);
+    expect(calculateInitialHints(6, 2)).toBe(5);
+    expect(calculateInitialHints(6, 3)).toBe(5);
+    expect(calculateInitialHints(6, 4)).toBe(5);
+
+    // Level 5-6: length - 2 = 4
+    expect(calculateInitialHints(6, 5)).toBe(4);
+    expect(calculateInitialHints(6, 6)).toBe(4);
+
+    // Level 7-8: length - 3 = 3
+    expect(calculateInitialHints(6, 7)).toBe(3);
+    expect(calculateInitialHints(6, 8)).toBe(3);
+
+    // Level 9-10: length - 4 = 2
+    expect(calculateInitialHints(6, 9)).toBe(2);
+    expect(calculateInitialHints(6, 10)).toBe(2);
+
+    // Short word (length 3, e.g. 'CAT')
+    // Level 1-4: 3 - 1 = 2
+    expect(calculateInitialHints(3, 1)).toBe(2);
+    // Level 5-6: 3 - 2 = 1
+    expect(calculateInitialHints(3, 5)).toBe(1);
+    // Level 7-8: 3 - 3 = 0 -> clamped to 1 hint floor
+    expect(calculateInitialHints(3, 7)).toBe(1);
+    // Level 9-10: 3 - 4 = -1 -> clamped to 1 hint floor
+    expect(calculateInitialHints(3, 9)).toBe(1);
+
+    // Edge case: single letter word
+    expect(calculateInitialHints(1, 1)).toBe(0);
+
+    // initWordState applies calculateInitialHints for the active level
+    const baseState = { ...makeTestState('ELEPHANT', []), filledSlots: [] };
+    const lvl1Init = initWordState({ ...baseState, level: 1 });
+    expect(lvl1Init.hintsRemaining).toBe(7); // 8 - 1 = 7
+
+    const lvl5Init = initWordState({ ...baseState, level: 5 });
+    expect(lvl5Init.hintsRemaining).toBe(6); // 8 - 2 = 6
+
+    const lvl8Init = initWordState({ ...baseState, level: 8 });
+    expect(lvl8Init.hintsRemaining).toBe(5); // 8 - 3 = 5
+
+    const lvl10Init = initWordState({ ...baseState, level: 10 });
+    expect(lvl10Init.hintsRemaining).toBe(4); // 8 - 4 = 4
   });
 });
 

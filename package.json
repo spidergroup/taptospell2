@@ -5,10 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "npm run build && wrangler dev",
+    "build:audio": "node -e \"const fs=require('fs'),path=require('path');const dir='public/audio/words';fs.mkdirSync(dir,{recursive:true});const files=fs.readdirSync(dir).filter(f=>f.endsWith('.mp3')).map(f=>path.basename(f,'.mp3').toLowerCase());fs.writeFileSync(path.join(dir,'manifest.json'),JSON.stringify(files));\"",
     "build:fonts": "node -e \"const fs=require('fs'),path=require('path');fs.mkdirSync('public/fonts',{recursive:true});for(const w of [600,700,800,900]){for(const ext of ['woff2','woff']){const f='nunito-latin-'+w+'-normal.'+ext;fs.copyFileSync(path.join('node_modules/@fontsource/nunito/files',f),path.join('public/fonts',f));}}\"",
     "build:css": "npm run build:fonts && tailwindcss -i src/styles.css -o public/styles.css --minify",
     "build:client": "esbuild src/client.tsx --bundle --format=esm --minify --outfile=public/app.js",
-    "build": "npm run build:css && npm run build:client",
+    "build": "npm run build:audio && npm run build:css && npm run build:client",
     "start": "wrangler dev",
     "deploy": "npm run build && wrangler deploy",
     "test": "vitest run",

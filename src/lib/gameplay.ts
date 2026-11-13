@@ -1,7 +1,11 @@
 import { generateKeyboard } from '../data/words';
-import { type GameState, reconstructUsedKeyIndices } from './storage';
+import {
+  calculateInitialHints,
+  type GameState,
+  reconstructUsedKeyIndices,
+} from './storage';
 
-export { reconstructUsedKeyIndices, generateKeyboard };
+export { reconstructUsedKeyIndices, generateKeyboard, calculateInitialHints };
 
 export interface TypeLetterResult {
   state: GameState;
@@ -19,7 +23,7 @@ export function initWordState(state: GameState): GameState {
       ...state,
       filledSlots: new Array(targetWord.length).fill(null),
       usedKeyIndices: new Array(targetWord.length).fill(null),
-      hintsRemaining: Math.max(0, targetWord.length - 1),
+      hintsRemaining: calculateInitialHints(targetWord.length, state.level),
       showErrors: false,
       keyboardKeys: generateKeyboard(targetWord),
     };
@@ -93,16 +97,17 @@ export interface SmartHintResult {
   state: GameState;
   applied: boolean;
   slotIndex: number;
+  keyIndex: number;
 }
 
 export function applySmartHintState(state: GameState): SmartHintResult {
   if (state.hintsRemaining <= 0) {
-    return { state, applied: false, slotIndex: -1 };
+    return { state, applied: false, slotIndex: -1, keyIndex: -1 };
   }
 
   const currentWordObj = state.currentLevelWords[state.wordIndex];
   if (!currentWordObj) {
-    return { state, applied: false, slotIndex: -1 };
+    return { state, applied: false, slotIndex: -1, keyIndex: -1 };
   }
 
   const targetWord = currentWordObj.w;
@@ -146,11 +151,12 @@ export function applySmartHintState(state: GameState): SmartHintResult {
         },
         applied: true,
         slotIndex: i,
+        keyIndex: keyIndex !== -1 ? keyIndex : -1,
       };
     }
   }
 
-  return { state, applied: false, slotIndex: -1 };
+  return { state, applied: false, slotIndex: -1, keyIndex: -1 };
 }
 
 export const useHint = applySmartHintState;

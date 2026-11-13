@@ -44,6 +44,7 @@ export interface WordEntry {
   w: string;
   i: string;
   examples?: string[];
+  audio?: string;
 }
 
 export type WordItem = WordEntry;
