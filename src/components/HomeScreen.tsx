@@ -210,7 +210,7 @@ export function HomeScreen({
             </div>
             <a
               id="link-youtube-howto"
-              href="https://www.youtube.com/watch?v=NR8sOxgxeV0"
+              href="https://www.youtube.com/watch?v=AU_HuIjqcT8"
               target="_blank"
               rel="noopener noreferrer"
               className="btn-3d bg-red-600 hover:bg-red-500 text-white font-bold text-sm sm:text-base px-5 py-3 rounded-2xl border-2 border-red-400 shadow-[0_4px_0_#991b1b] flex items-center gap-2 flex-shrink-0 transition-all"
@@ -222,7 +222,7 @@ export function HomeScreen({
           <div className="w-full aspect-video rounded-2xl overflow-hidden border-2 border-slate-700 bg-slate-950 shadow-inner">
             <iframe
               className="w-full h-full"
-              src="https://www.youtube.com/embed/NR8sOxgxeV0?rel=0"
+              src="https://www.youtube.com/embed/AU_HuIjqcT8?rel=0"
               title="How to Use TapToSpell - Tutorial Video"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerPolicy="strict-origin-when-cross-origin"
