@@ -73,6 +73,12 @@ export function renderHtmlDocument(
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <script async src="https://www.googletagmanager.com/gtm.js?id=GTM-T5F7LZ59"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  </script>
   <title>${escapeHtmlAttr(page.title)}</title>
   <meta name="description" content="${escapeHtmlAttr(page.description)}" />
   <meta name="keywords" content="${escapeHtmlAttr(page.keywords.join(', '))}" />

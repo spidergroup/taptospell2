@@ -66,6 +66,7 @@ describe('seo.ts & worker.ts — Multi-Page SEO, Structured Data, Sitemap & Robo
     expect(gradeRes.status).toBe(200);
     const gradeHtml = await gradeRes.text();
     expect(gradeHtml).toContain('<title>4th Grade Spelling Game (357 Curriculum Words) | TapToSpell</title>');
+    expect(gradeHtml).toContain('googletagmanager.com/gtm.js?id=GTM-T5F7LZ59');
     expect(gradeHtml).toContain('<link rel="canonical" href="https://taptospell.com/grade/4" />');
     expect(gradeHtml).toContain('property="og:url" content="https://taptospell.com/grade/4"');
     expect(gradeHtml).toContain('application/ld+json');
