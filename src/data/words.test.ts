@@ -16,9 +16,9 @@ describe('words.ts — WORD_POOLS, Progressive Difficulty & Queue Cycling', () =
     expect(TOTAL_LEVELS).toBe(10);
 
     const expectedCounts = {
-      grade_1: { level_1: 110, level_2: 130, level_3: 75 },
-      grade_2: { level_1: 74, level_2: 76, level_3: 68 },
-      grade_3: { level_1: 79, level_2: 80, level_3: 69 },
+      grade_1: { level_1: 110, level_2: 129, level_3: 75 },
+      grade_2: { level_1: 73, level_2: 76, level_3: 68 },
+      grade_3: { level_1: 78, level_2: 80, level_3: 69 },
       grade_4: { level_1: 97, level_2: 134, level_3: 126 },
       grade_5: { level_1: 97, level_2: 158, level_3: 160 },
       grade_6: { level_1: 98, level_2: 153, level_3: 180 },
@@ -31,7 +31,7 @@ describe('words.ts — WORD_POOLS, Progressive Difficulty & Queue Cycling', () =
       expect(pool.level_3.length).toBe(tiers.level_3);
 
       for (const entry of [...pool.level_1, ...pool.level_2, ...pool.level_3]) {
-        expect(entry.w).toBe(entry.w.toUpperCase());
+        expect(entry.w).toMatch(/^[A-Z]+$/);
         expect(entry.i.length).toBeGreaterThan(0);
       }
     }
@@ -55,7 +55,7 @@ describe('words.ts — WORD_POOLS, Progressive Difficulty & Queue Cycling', () =
       nature: { level_1: 41, level_2: 79, level_3: 93, level_4: 90 },
       places: { level_1: 38, level_2: 76, level_3: 103, level_4: 103 },
       movies: { level_1: 39, level_2: 73, level_3: 80, level_4: 58 },
-      fruits: { level_1: 20, level_2: 46, level_3: 59, level_4: 106 },
+      fruits: { level_1: 20, level_2: 46, level_3: 59, level_4: 105 },
     } as const;
 
     for (const [catKey, tiers] of Object.entries(expectedCounts)) {
@@ -64,6 +64,10 @@ describe('words.ts — WORD_POOLS, Progressive Difficulty & Queue Cycling', () =
       expect(pool.level_2.length).toBe(tiers.level_2);
       expect(pool.level_3.length).toBe(tiers.level_3);
       expect(pool.level_4.length).toBe(tiers.level_4);
+
+      for (const entry of [...pool.level_1, ...pool.level_2, ...pool.level_3, ...pool.level_4]) {
+        expect(entry.w).toMatch(/^[A-Z]+$/);
+      }
     }
   });
 

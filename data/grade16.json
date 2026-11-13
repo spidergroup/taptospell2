@@ -1046,14 +1046,6 @@
           ]
         },
         {
-          "w": "CAN'T",
-          "i": "🚫",
-          "examples": [
-            "I can't find my red shoe.",
-            "A fish can't walk on land."
-          ]
-        },
-        {
           "w": "CARRY",
           "i": "📦",
           "examples": [
@@ -2713,14 +2705,6 @@
           "examples": [
             "She does her homework right after school ends.",
             "What time does the school bus get here?"
-          ]
-        },
-        {
-          "w": "DON'T",
-          "i": "🚫",
-          "examples": [
-            "Please don't run near the wet swimming pool.",
-            "I don't like to eat sour green lemons."
           ]
         },
         {
@@ -4761,14 +4745,6 @@
           "examples": [
             "My brother has a huge interest in dinosaurs and fossils.",
             "The mystery story held the interest of the whole class."
-          ]
-        },
-        {
-          "w": "ISN'T",
-          "i": "🚫",
-          "examples": [
-            "It isn't polite to talk while the teacher is speaking.",
-            "My little sister isn't old enough to ride that bike."
           ]
         },
         {

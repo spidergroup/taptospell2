@@ -72,16 +72,16 @@
         }
       },
       "fruits": {
-        "total": 231,
+        "total": 230,
         "by_level": {
           "level_1": 20,
           "level_2": 46,
           "level_3": 59,
-          "level_4": 106
+          "level_4": 105
         }
       }
     },
-    "total_words": 2011
+    "total_words": 1819
   },
   "data": {
     "colors": {
@@ -13910,14 +13910,6 @@
           "examples": [
             "Also known as the Indian gooseberry, the small green amla fruit is exceptionally rich in vitamin C and has a sharp, astringent taste.",
             "In traditional Ayurvedic practices, dried and powdered amla is used in both culinary chutneys and herbal tonics."
-          ]
-        },
-        {
-          "w": "ARAÇA",
-          "i": "🟡",
-          "examples": [
-            "Closely related to the common guava, the Brazilian araça is a small, tart yellow berry that makes an aromatic tropical jam.",
-            "Because the delicate skin of the araça bruises easily after harvest, the fruit is rarely exported and is mostly consumed locally."
           ]
         },
         {

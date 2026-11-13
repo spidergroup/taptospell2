@@ -118,11 +118,13 @@ export const HIGH_SCHOOL_CATEGORIES: HighSchoolCategoryMeta[] = [
 ];
 
 function normalizeWordEntries(entries: Array<{ w: string; i: string; examples?: string[] }>): WordEntry[] {
-  return entries.map((entry) => ({
-    w: entry.w.trim().toUpperCase(),
-    i: entry.i,
-    ...(entry.examples ? { examples: entry.examples } : {}),
-  }));
+  return entries
+    .map((entry) => ({
+      w: entry.w.trim().toUpperCase(),
+      i: entry.i,
+      ...(entry.examples ? { examples: entry.examples } : {}),
+    }))
+    .filter((entry) => /^[A-Z]+$/.test(entry.w));
 }
 
 type GradeTierMap = Record<'level_1' | 'level_2' | 'level_3', WordEntry[]>;
