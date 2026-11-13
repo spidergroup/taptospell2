@@ -62,10 +62,10 @@ export function HomeScreen({
       aria-label="TapToSpell Home Screen"
       className="flex-1 flex flex-col items-center p-4 sm:p-6 md:p-8 overflow-y-auto w-full h-full z-10 relative bg-slate-900"
     >
-      <div className="w-full max-w-5xl flex flex-col items-center pb-12">
+      <div className="w-full max-w-6xl flex flex-col items-center pb-12">
         {/* Title Header */}
         <header className="w-full flex flex-col items-center">
-          <h1 className="text-5xl md:text-7xl font-black mb-6 md:mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 drop-shadow-lg py-2">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-5 sm:mb-7 md:mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 drop-shadow-lg py-2">
             TapToSpell!
           </h1>
         </header>
@@ -88,7 +88,7 @@ export function HomeScreen({
             <button
               type="button"
               onClick={onContinueGame}
-              className="btn-3d bg-white text-green-700 font-bold text-xl px-8 py-4 rounded-2xl shadow-[0_6px_0_#d1d5db] w-full md:w-auto flex-shrink-0 hover:bg-green-50 flex items-center justify-center gap-2 cursor-pointer"
+              className="btn-3d bg-white text-green-700 font-black text-xl sm:text-2xl px-8 py-4 sm:px-10 sm:py-5 rounded-2xl shadow-[0_6px_0_#d1d5db] w-full sm:w-auto flex-shrink-0 hover:bg-green-50 flex items-center justify-center gap-3 cursor-pointer"
             >
               <PlayIcon className="w-5 h-5 sm:w-6 sm:h-6" />
               <span>Continue</span>
@@ -120,8 +120,8 @@ export function HomeScreen({
                   onClick={() => onSelectGradeAndStart(grade)}
                   className={
                     isSelected
-                      ? 'btn-3d py-4 px-3 rounded-2xl font-bold text-lg lg:text-xl bg-blue-600 text-white border-2 border-blue-400 shadow-[0_6px_0_#1e3a8a] transform scale-105 z-10 transition-all cursor-pointer'
-                      : 'btn-3d py-4 px-3 rounded-2xl font-bold text-lg lg:text-xl bg-slate-700 text-slate-300 border-2 border-slate-600 shadow-[0_4px_0_#334155] transition-all hover:bg-slate-600 cursor-pointer'
+                      ? 'btn-3d flex flex-col items-center justify-center py-5 px-4 sm:py-7 sm:px-5 rounded-2xl sm:rounded-3xl font-black text-xl sm:text-2xl md:text-3xl bg-blue-600 text-white border-2 border-blue-300 ring-4 ring-blue-400/40 shadow-[0_6px_0_#1e3a8a] transition-all cursor-pointer'
+                      : 'btn-3d flex flex-col items-center justify-center py-5 px-4 sm:py-7 sm:px-5 rounded-2xl sm:rounded-3xl font-black text-xl sm:text-2xl md:text-3xl bg-slate-700 text-white border-2 border-slate-500 shadow-[0_6px_0_#334155] transition-all hover:bg-slate-600 cursor-pointer'
                   }
                 >
                   <span>{label}</span>
@@ -132,7 +132,7 @@ export function HomeScreen({
                         : 'bg-slate-800/80 text-slate-200'
                     }`}
                   >
-                    ({wordsCount} words / level)
+                    {wordsCount} words / level
                   </span>
                 </button>
               );
@@ -144,8 +144,8 @@ export function HomeScreen({
               onClick={onSelectHighSchool}
               className={
                 isHighSchoolSelected
-                  ? 'btn-3d col-span-2 sm:col-span-3 lg:col-span-2 py-4 px-3 rounded-2xl font-bold text-lg lg:text-xl bg-purple-600 text-white border-2 border-purple-400 shadow-[0_6px_0_#4c1d95] transform scale-105 z-10 transition-all cursor-pointer'
-                  : 'btn-3d col-span-2 sm:col-span-3 lg:col-span-2 py-4 px-3 rounded-2xl font-bold text-lg lg:text-xl bg-slate-700 text-slate-300 border-2 border-slate-600 shadow-[0_4px_0_#334155] transition-all hover:bg-slate-600 cursor-pointer'
+                  ? 'btn-3d col-span-2 sm:col-span-3 lg:col-span-2 flex flex-col items-center justify-center py-5 px-4 sm:py-7 sm:px-6 rounded-2xl sm:rounded-3xl font-black text-xl sm:text-2xl md:text-3xl bg-purple-600 text-white border-2 border-purple-300 ring-4 ring-purple-400/40 shadow-[0_6px_0_#4c1d95] transition-all cursor-pointer'
+                  : 'btn-3d col-span-2 sm:col-span-3 lg:col-span-2 flex flex-col items-center justify-center py-5 px-4 sm:py-7 sm:px-6 rounded-2xl sm:rounded-3xl font-black text-xl sm:text-2xl md:text-3xl bg-slate-700 text-white border-2 border-slate-500 shadow-[0_6px_0_#334155] transition-all hover:bg-slate-600 cursor-pointer'
               }
             >
               <span>🎓 High School</span>
@@ -156,7 +156,7 @@ export function HomeScreen({
                     : 'bg-slate-800/80 text-slate-200'
                 }`}
               >
-                ({getWordsPerLevel('high_school')} words / level • 7 Categories)
+                {getWordsPerLevel('high_school')} words / level • 7 Categories
               </span>
             </button>
           </div>
@@ -179,7 +179,7 @@ export function HomeScreen({
                   type="button"
                   id={`btn-cat-${cat.key}`}
                   onClick={() => onStartHighSchoolCategory(cat.label)}
-                  className={`btn-3d flex flex-col items-center justify-center p-6 bg-gradient-to-b ${cat.gradientClass} rounded-3xl ${cat.shadowClass} border-2 ${cat.borderClass} hover:brightness-110 cursor-pointer`}
+                  className={`btn-3d flex flex-col items-center justify-center p-5 sm:p-7 md:p-8 bg-gradient-to-b ${cat.gradientClass} rounded-3xl ${cat.shadowClass} border-2 ${cat.borderClass} hover:brightness-110 cursor-pointer min-h-[140px] sm:min-h-[170px]`}
                 >
                   <span className="text-5xl sm:text-6xl md:text-7xl mb-3" aria-hidden="true">
                     {cat.emoji}
