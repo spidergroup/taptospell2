@@ -16,6 +16,7 @@ import {
   playContinueGameSound,
   playExitHomeSound,
   playGradeSelectSound,
+  playLetterAudio,
   playRemoveLetterSound,
   playStartGameSound,
   playTypeLetterSound,
@@ -530,6 +531,7 @@ export function App({ initialPath, initialRoute }: AppProps = {}) {
       if (slotIndex === -1) return;
 
       playTypeLetterSound(slotIndex);
+      playLetterAudio(char);
       setGameState(updated);
       gameStateRef.current = updated;
       saveGameState(updated);

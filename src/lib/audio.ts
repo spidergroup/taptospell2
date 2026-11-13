@@ -10,6 +10,7 @@ let manifestLoaded = false;
 let customAudioWords = new Set<string>();
 let activeUtterance: SpeechSynthesisUtterance | null = null;
 let activeAudio: HTMLAudioElement | null = null;
+let activeLetterAudio: HTMLAudioElement | null = null;
 
 // Silent 1-sample WAV data URI to switch iOS Safari's audio session to Media/Playback
 const SILENT_WAV_DATA_URI =
@@ -177,6 +178,7 @@ export function resetAudioContextForTesting(): void {
   customAudioWords = new Set<string>();
   activeUtterance = null;
   activeAudio = null;
+  activeLetterAudio = null;
   if (typeof window !== 'undefined' && window.localStorage) {
     try {
       window.localStorage.removeItem(AUDIO_MUTED_KEY);
@@ -344,6 +346,15 @@ export function stopWordAudio(): void {
     }
     activeAudio = null;
   }
+  if (activeLetterAudio) {
+    try {
+      activeLetterAudio.pause();
+      activeLetterAudio.currentTime = 0;
+    } catch {
+      // ignore
+    }
+    activeLetterAudio = null;
+  }
   activeUtterance = null;
   const g = (typeof window !== 'undefined' ? window : globalThis) as unknown as {
     speechSynthesis?: SpeechSynthesis;
@@ -355,6 +366,66 @@ export function stopWordAudio(): void {
       // ignore
     }
   }
+}
+
+export function speakLetter(letter: string): void {
+  const clean = letter.trim().toLowerCase();
+  if (!/^[a-z]$/.test(clean) || getAudioMuted()) return;
+  speakWord(clean);
+}
+
+export function playLetterAudio(letter: string): void {
+  if (!letter || getAudioMuted()) return;
+  const clean = letter.trim().toLowerCase();
+  if (!/^[a-z]$/.test(clean)) return;
+
+  if (activeLetterAudio) {
+    try {
+      activeLetterAudio.pause();
+      activeLetterAudio.currentTime = 0;
+    } catch {
+      // ignore
+    }
+    activeLetterAudio = null;
+  }
+
+  const g = (typeof window !== 'undefined' ? window : globalThis) as unknown as {
+    Audio?: typeof Audio;
+  };
+
+  const audioSrc = `/audio/letters/${clean}.mp3`;
+
+  if (g.Audio) {
+    try {
+      const audio = new g.Audio(audioSrc);
+      activeLetterAudio = audio;
+
+      let fallbackTriggered = false;
+      const triggerFallback = () => {
+        if (!fallbackTriggered) {
+          fallbackTriggered = true;
+          if (activeLetterAudio === audio) {
+            activeLetterAudio = null;
+          }
+          speakLetter(clean);
+        }
+      };
+
+      audio.addEventListener('error', triggerFallback, { once: true });
+
+      const playPromise = audio.play();
+      if (playPromise !== undefined && typeof playPromise.catch === 'function') {
+        playPromise.catch(() => {
+          triggerFallback();
+        });
+      }
+      return;
+    } catch {
+      // Fall through to speakLetter on instantiation failure
+    }
+  }
+
+  speakLetter(clean);
 }
 
 export function playWordAudio(word: string, customAudioUrl?: string): void {

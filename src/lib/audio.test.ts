@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   getAudioMuted,
   playGradeSelectSound,
+  playLetterAudio,
   playTone,
   playWordAudio,
   resetAudioContextForTesting,
@@ -269,5 +270,38 @@ describe('audio.ts — Web Audio API Synthesizer & Web Speech API TTS', () => {
       expect(playSpy).not.toHaveBeenCalled();
       expect(speakSpy).toHaveBeenCalled();
     });
+  });
+
+  it('plays /audio/letters/<char>.mp3 for tapped letters and falls back to speech on error', () => {
+    const createdSrcs: string[] = [];
+    const playSpy = vi.fn().mockResolvedValue(undefined);
+    const pauseSpy = vi.fn();
+
+    class MockAudio {
+      src: string;
+      currentTime = 0;
+      play = playSpy;
+      pause = pauseSpy;
+      constructor(src: string) {
+        this.src = src;
+        createdSrcs.push(src);
+      }
+      addEventListener() {}
+    }
+
+    Object.defineProperty(globalThis, 'Audio', {
+      value: MockAudio,
+      configurable: true,
+      writable: true,
+    });
+
+    playLetterAudio('B');
+    expect(createdSrcs).toEqual(['/audio/letters/b.mp3']);
+    expect(playSpy).toHaveBeenCalledTimes(1);
+
+    // Tapping a second letter pauses the previous letter audio first
+    playLetterAudio('C');
+    expect(pauseSpy).toHaveBeenCalledTimes(1);
+    expect(createdSrcs).toEqual(['/audio/letters/b.mp3', '/audio/letters/c.mp3']);
   });
 });
