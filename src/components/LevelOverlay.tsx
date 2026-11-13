@@ -33,8 +33,8 @@ export function LevelOverlay({ visible, level, score, timeLeft }: LevelOverlayPr
       </p>
 
       {/* Timer ring */}
-      <div className="relative w-32 h-32 flex items-center justify-center rounded-full bg-slate-800 border-8 border-slate-700 shadow-2xl">
-        <span id="overlay-timer" className="text-6xl font-black text-amber-400">
+      <div className="relative w-32 h-32 sm:w-40 sm:h-40 flex items-center justify-center rounded-full bg-slate-800 border-8 border-slate-700 shadow-2xl">
+        <span id="overlay-timer" className="text-6xl sm:text-7xl font-black text-amber-400">
           {timeLeft}
         </span>
       </div>

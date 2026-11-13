@@ -93,7 +93,7 @@
         },
         {
           "w": "BACK",
-          "i": "🔙",
+          "i": "⬅️",
           "examples": [
             "Please give the red ball back.",
             "We will go back home soon."
@@ -541,7 +541,7 @@
         },
         {
           "w": "OFF",
-          "i": "📴",
+          "i": "🌑",
           "examples": [
             "Turn off the big light now.",
             "The frog jumped off the log."
@@ -549,7 +549,7 @@
         },
         {
           "w": "ON",
-          "i": "🔛",
+          "i": "💡",
           "examples": [
             "The cat is on the bed.",
             "Put the hat on your head."
@@ -757,7 +757,7 @@
         },
         {
           "w": "TOP",
-          "i": "🔝",
+          "i": "⬆️",
           "examples": [
             "The bird is at the top.",
             "Put the star on top now."
@@ -959,7 +959,7 @@
         },
         {
           "w": "BACK",
-          "i": "🔙",
+          "i": "⬅️",
           "examples": [
             "Give the ball back to me.",
             "We came back home today."
@@ -2973,7 +2973,7 @@
         },
         {
           "w": "OFF",
-          "i": "📴",
+          "i": "🌑",
           "examples": [
             "Please turn off the light before you sleep.",
             "The playful kitten jumped off the soft couch."

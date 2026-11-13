@@ -78,6 +78,10 @@ body {
 
 /* Word Box sizing using clamp for responsive single-row text */
 .word-box-text {
-  font-size: clamp(1.2rem, 5vw, 2.5rem);
+  font-size: clamp(1.25rem, 4.5vw, 3.25rem);
+}
+
+.word-box-text-compact {
+  font-size: clamp(0.95rem, 3.5vw, 2.5rem);
 }
 

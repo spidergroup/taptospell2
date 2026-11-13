@@ -56,12 +56,12 @@ export function HomeScreen({
     <main
       id="home-screen"
       aria-label="TapToSpell Home Screen"
-      className="flex-1 flex flex-col items-center p-4 md:p-8 overflow-y-auto w-full h-full z-10 relative bg-slate-900"
+      className="flex-1 flex flex-col items-center p-4 sm:p-6 md:p-8 overflow-y-auto w-full h-full z-10 relative bg-slate-900"
     >
-      <div className="w-full max-w-5xl flex flex-col items-center pb-12">
+      <div className="w-full max-w-6xl flex flex-col items-center pb-12">
         {/* Title Header */}
         <header className="w-full flex flex-col items-center">
-          <h1 className="text-5xl md:text-7xl font-black mb-6 md:mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 drop-shadow-lg py-2">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black mb-5 sm:mb-7 md:mb-8 text-center text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 drop-shadow-lg py-2">
             TapToSpell!
           </h1>
         </header>
@@ -71,20 +71,22 @@ export function HomeScreen({
           <section
             id="continue-banner"
             aria-label="Resume Saved Game"
-            className="flex mb-8 w-full max-w-2xl bg-gradient-to-r from-green-500 to-emerald-700 rounded-3xl p-6 shadow-[0_8px_0_#065f46] border-2 border-green-300 flex-col md:flex-row items-center justify-between gap-4"
+            className="flex mb-8 w-full max-w-4xl bg-gradient-to-r from-green-500 to-emerald-700 rounded-3xl p-5 sm:p-7 shadow-[0_8px_0_#065f46] border-2 border-green-300 flex-col sm:flex-row items-center justify-between gap-4"
           >
-            <div className="text-center md:text-left">
-              <h2 className="text-2xl font-bold text-white mb-1">Game in Progress!</h2>
-              <p id="continue-details" className="text-green-100 font-semibold text-lg">
+            <div className="text-center sm:text-left">
+              <h2 className="text-2xl sm:text-3xl font-black text-white mb-1">
+                Game in Progress!
+              </h2>
+              <p id="continue-details" className="text-green-50 font-bold text-base sm:text-xl">
                 {formatContinueDetails(savedGame)}
               </p>
             </div>
             <button
               type="button"
               onClick={onContinueGame}
-              className="btn-3d bg-white text-green-700 font-bold text-xl px-8 py-4 rounded-2xl shadow-[0_6px_0_#d1d5db] w-full md:w-auto flex-shrink-0 hover:bg-green-50 flex items-center justify-center gap-2 cursor-pointer"
+              className="btn-3d bg-white text-green-700 font-black text-xl sm:text-2xl px-8 py-4 sm:px-10 sm:py-5 rounded-2xl shadow-[0_6px_0_#d1d5db] w-full sm:w-auto flex-shrink-0 hover:bg-green-50 flex items-center justify-center gap-3 cursor-pointer"
             >
-              <PlayIcon className="w-5 h-5" />
+              <PlayIcon className="w-5 h-5 sm:w-6 sm:h-6" />
               <span>Continue</span>
             </button>
           </section>
@@ -93,14 +95,16 @@ export function HomeScreen({
         {/* Grade Selection (Grades 1–6 immediately start a game; High School reveals categories) */}
         <section
           aria-label="Select Grade Level"
-          className="bg-slate-800 p-6 rounded-3xl border-2 border-slate-700 shadow-xl mb-10 w-full max-w-4xl flex flex-col items-center"
+          className="bg-slate-800/95 p-5 sm:p-7 md:p-8 rounded-3xl border-2 border-slate-700 shadow-2xl mb-10 w-full flex flex-col items-center"
         >
-          <h2 className="text-xl text-slate-300 font-bold mb-2">Select Grade Level to Play:</h2>
-          <p className="text-sm text-slate-400 mb-5 text-center">
-            Tap Grades 1–6 to start immediately, or choose High School to pick a topic category!
+          <h2 className="text-xl sm:text-2xl md:text-3xl text-white font-black mb-2 text-center">
+            Select Grade Level to Play
+          </h2>
+          <p className="text-sm sm:text-base text-slate-300 mb-6 text-center max-w-2xl">
+            Tap Grades 1–6 to start immediately, or choose High School to pick a topic category.
           </p>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-5 w-full">
             {GRADE_OPTIONS.map(({ grade, label }) => {
               const isSelected = selectedGrade === grade;
               const wordsCount = getWordsPerLevel(grade);
@@ -112,18 +116,19 @@ export function HomeScreen({
                   onClick={() => onSelectGradeAndStart(grade)}
                   className={
                     isSelected
-                      ? 'btn-3d py-4 px-3 rounded-2xl font-bold text-lg lg:text-xl bg-blue-600 text-white border-2 border-blue-400 shadow-[0_6px_0_#1e3a8a] transform scale-105 z-10 transition-all cursor-pointer'
-                      : 'btn-3d py-4 px-3 rounded-2xl font-bold text-lg lg:text-xl bg-slate-700 text-slate-300 border-2 border-slate-600 shadow-[0_4px_0_#334155] transition-all hover:bg-slate-600 cursor-pointer'
+                      ? 'btn-3d flex flex-col items-center justify-center py-5 px-4 sm:py-7 sm:px-5 rounded-2xl sm:rounded-3xl font-black text-xl sm:text-2xl md:text-3xl bg-blue-600 text-white border-2 border-blue-300 ring-4 ring-blue-400/40 shadow-[0_6px_0_#1e3a8a] transition-all cursor-pointer'
+                      : 'btn-3d flex flex-col items-center justify-center py-5 px-4 sm:py-7 sm:px-5 rounded-2xl sm:rounded-3xl font-black text-xl sm:text-2xl md:text-3xl bg-slate-700 text-white border-2 border-slate-500 shadow-[0_6px_0_#334155] transition-all hover:bg-slate-600 cursor-pointer'
                   }
                 >
-                  {label}
-                  <br />
+                  <span>{label}</span>
                   <span
-                    className={`text-sm font-normal ${
-                      isSelected ? 'text-blue-200' : 'text-slate-400'
+                    className={`mt-2 px-3 py-1 rounded-full text-xs sm:text-sm font-bold ${
+                      isSelected
+                        ? 'bg-blue-800/70 text-blue-100'
+                        : 'bg-slate-800/80 text-slate-200'
                     }`}
                   >
-                    ({wordsCount} words / level)
+                    {wordsCount} words / level
                   </span>
                 </button>
               );
@@ -135,18 +140,19 @@ export function HomeScreen({
               onClick={onSelectHighSchool}
               className={
                 isHighSchoolSelected
-                  ? 'btn-3d col-span-2 sm:col-span-3 lg:col-span-2 py-4 px-3 rounded-2xl font-bold text-lg lg:text-xl bg-purple-600 text-white border-2 border-purple-400 shadow-[0_6px_0_#4c1d95] transform scale-105 z-10 transition-all cursor-pointer'
-                  : 'btn-3d col-span-2 sm:col-span-3 lg:col-span-2 py-4 px-3 rounded-2xl font-bold text-lg lg:text-xl bg-slate-700 text-slate-300 border-2 border-slate-600 shadow-[0_4px_0_#334155] transition-all hover:bg-slate-600 cursor-pointer'
+                  ? 'btn-3d col-span-2 sm:col-span-3 lg:col-span-2 flex flex-col items-center justify-center py-5 px-4 sm:py-7 sm:px-6 rounded-2xl sm:rounded-3xl font-black text-xl sm:text-2xl md:text-3xl bg-purple-600 text-white border-2 border-purple-300 ring-4 ring-purple-400/40 shadow-[0_6px_0_#4c1d95] transition-all cursor-pointer'
+                  : 'btn-3d col-span-2 sm:col-span-3 lg:col-span-2 flex flex-col items-center justify-center py-5 px-4 sm:py-7 sm:px-6 rounded-2xl sm:rounded-3xl font-black text-xl sm:text-2xl md:text-3xl bg-slate-700 text-white border-2 border-slate-500 shadow-[0_6px_0_#334155] transition-all hover:bg-slate-600 cursor-pointer'
               }
             >
-              🎓 High School
-              <br />
+              <span>🎓 High School</span>
               <span
-                className={`text-sm font-normal ${
-                  isHighSchoolSelected ? 'text-purple-200' : 'text-slate-400'
+                className={`mt-2 px-3.5 py-1 rounded-full text-xs sm:text-sm font-bold ${
+                  isHighSchoolSelected
+                    ? 'bg-purple-800/70 text-purple-100'
+                    : 'bg-slate-800/80 text-slate-200'
                 }`}
               >
-                ({getWordsPerLevel('high_school')} words / level • 7 Categories)
+                {getWordsPerLevel('high_school')} words / level • 7 Categories
               </span>
             </button>
           </div>
@@ -157,24 +163,24 @@ export function HomeScreen({
           <section
             id="high-school-categories"
             aria-label="High School Topic Categories"
-            className="w-full max-w-4xl flex flex-col items-center"
+            className="w-full flex flex-col items-center"
           >
-            <h2 className="text-3xl font-bold mb-6 text-slate-200 text-center">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black mb-6 text-white text-center">
               Select a High School Category!
             </h2>
-            <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
               {HIGH_SCHOOL_CATEGORIES.map((cat) => (
                 <button
                   key={cat.key}
                   type="button"
                   id={`btn-cat-${cat.key}`}
                   onClick={() => onStartHighSchoolCategory(cat.label)}
-                  className={`btn-3d flex flex-col items-center justify-center p-6 bg-gradient-to-b ${cat.gradientClass} rounded-3xl ${cat.shadowClass} border-2 ${cat.borderClass} hover:brightness-110 cursor-pointer`}
+                  className={`btn-3d flex flex-col items-center justify-center p-5 sm:p-7 md:p-8 bg-gradient-to-b ${cat.gradientClass} rounded-3xl ${cat.shadowClass} border-2 ${cat.borderClass} hover:brightness-110 cursor-pointer min-h-[140px] sm:min-h-[170px]`}
                 >
-                  <span className="text-6xl mb-3" aria-hidden="true">
+                  <span className="text-5xl sm:text-6xl md:text-7xl mb-3" aria-hidden="true">
                     {cat.emoji}
                   </span>
-                  <span className="font-black text-2xl drop-shadow-md text-center leading-tight">
+                  <span className="font-black text-xl sm:text-2xl md:text-3xl drop-shadow-md text-center leading-tight">
                     {cat.label}
                   </span>
                 </button>
@@ -186,12 +192,15 @@ export function HomeScreen({
         {/* Crawlable SEO Curriculum Directory & Internal Links */}
         <footer
           aria-label="Spelling Curriculum Directory"
-          className="mt-12 pt-6 border-t border-slate-800/80 w-full max-w-4xl text-center text-xs text-slate-500"
+          className="mt-12 pt-6 border-t border-slate-800/80 w-full text-center text-xs sm:text-sm text-slate-400"
         >
-          <p className="mb-3 font-semibold text-slate-400">
+          <p className="mb-3 font-bold text-slate-300">
             TapToSpell Free Online Spelling &amp; Vocabulary Curriculum (3,875+ Words)
           </p>
-          <nav aria-label="Grade and Category Spelling Pages" className="flex flex-wrap justify-center gap-x-4 gap-y-2">
+          <nav
+            aria-label="Grade and Category Spelling Pages"
+            className="flex flex-wrap justify-center gap-x-4 gap-y-2.5"
+          >
             {seoPages.map((p) => (
               <a
                 key={p.path}
@@ -216,7 +225,7 @@ export function HomeScreen({
                     onStartHighSchoolCategory(p.category);
                   }
                 }}
-                className="hover:text-slate-300 underline decoration-slate-700 underline-offset-2 transition-colors"
+                className="hover:text-white underline decoration-slate-600 underline-offset-2 transition-colors"
               >
                 {p.heading}
               </a>
