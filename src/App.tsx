@@ -616,7 +616,7 @@ export function App({ initialPath, initialRoute }: AppProps = {}) {
     const current = gameStateRef.current;
     const wordObj = current.currentLevelWords[current.wordIndex];
     if (wordObj?.w) {
-      playWordAudio(wordObj.w, wordObj.audio, wordObj.examples?.[0]);
+      playWordAudio(wordObj.w, wordObj.audio);
     }
   }, []);
 
