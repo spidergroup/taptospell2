@@ -16,8 +16,8 @@ import {
   playContinueGameSound,
   playExitHomeSound,
   playGradeSelectSound,
-  playLetterAudio,
   playRemoveLetterSound,
+  playSentenceAudio,
   playStartGameSound,
   playTypeLetterSound,
   playUseHintSound,
@@ -246,7 +246,7 @@ export function App({ initialPath, initialRoute }: AppProps = {}) {
       const firstWordObj = gameStateRef.current.currentLevelWords[0];
       if (firstWordObj?.w) {
         speakTimeoutRef.current = setTimeout(
-          () => playWordAudio(firstWordObj.w, firstWordObj.audio),
+          () => playWordAudio(firstWordObj.w, firstWordObj.audio, firstWordObj.examples?.[0]),
           300
         );
       }
@@ -267,14 +267,17 @@ export function App({ initialPath, initialRoute }: AppProps = {}) {
     };
   }, [clearAllTimers]);
 
-  const scheduleAutoSpeak = useCallback((word: string, customAudio?: string) => {
-    if (speakTimeoutRef.current) {
-      clearTimeout(speakTimeoutRef.current);
-    }
-    speakTimeoutRef.current = setTimeout(() => {
-      playWordAudio(word, customAudio);
-    }, 300);
-  }, []);
+  const scheduleAutoSpeak = useCallback(
+    (word: string, customAudio?: string, exampleSentence?: string) => {
+      if (speakTimeoutRef.current) {
+        clearTimeout(speakTimeoutRef.current);
+      }
+      speakTimeoutRef.current = setTimeout(() => {
+        playWordAudio(word, customAudio, exampleSentence);
+      }, 300);
+    },
+    []
+  );
 
   const loadWordIntoGame = useCallback(
     (incomingState: GameState) => {
@@ -291,7 +294,7 @@ export function App({ initialPath, initialRoute }: AppProps = {}) {
 
       const currentWordObj = prepared.currentLevelWords[prepared.wordIndex];
       if (currentWordObj?.w) {
-        scheduleAutoSpeak(currentWordObj.w, currentWordObj.audio);
+        scheduleAutoSpeak(currentWordObj.w, currentWordObj.audio, currentWordObj.examples?.[0]);
       }
     },
     [scheduleAutoSpeak, syncUrlAndSeo]
@@ -531,7 +534,6 @@ export function App({ initialPath, initialRoute }: AppProps = {}) {
       if (slotIndex === -1) return;
 
       playTypeLetterSound(slotIndex);
-      playLetterAudio(char);
       setGameState(updated);
       gameStateRef.current = updated;
       saveGameState(updated);
@@ -614,6 +616,17 @@ export function App({ initialPath, initialRoute }: AppProps = {}) {
     const current = gameStateRef.current;
     const wordObj = current.currentLevelWords[current.wordIndex];
     if (wordObj?.w) {
+      playWordAudio(wordObj.w, wordObj.audio, wordObj.examples?.[0]);
+    }
+  }, []);
+
+  const handleSpeakCurrentSentence = useCallback(() => {
+    const current = gameStateRef.current;
+    const wordObj = current.currentLevelWords[current.wordIndex];
+    const sentence = wordObj?.examples?.[0];
+    if (sentence) {
+      playSentenceAudio(sentence);
+    } else if (wordObj?.w) {
       playWordAudio(wordObj.w, wordObj.audio);
     }
   }, []);
@@ -668,6 +681,7 @@ export function App({ initialPath, initialRoute }: AppProps = {}) {
           onSelectLevel={handleSelectLevel}
           onExitToHome={handleExitToHome}
           onSpeakWord={handleSpeakCurrentWord}
+          onSpeakSentence={handleSpeakCurrentSentence}
           onTypeLetter={handleTypeLetter}
           onRemoveLetter={handleRemoveLetter}
           onUseHint={handleUseHint}

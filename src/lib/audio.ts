@@ -8,9 +8,11 @@ let isAudioUnlocked = false;
 let unlockListenersAttached = false;
 let manifestLoaded = false;
 let customAudioWords = new Set<string>();
+let sentenceManifestLoaded = false;
+let customAudioSentences = new Set<string>();
 let activeUtterance: SpeechSynthesisUtterance | null = null;
 let activeAudio: HTMLAudioElement | null = null;
-let activeLetterAudio: HTMLAudioElement | null = null;
+let pendingSentenceTimeout: ReturnType<typeof setTimeout> | null = null;
 
 // Silent 1-sample WAV data URI to switch iOS Safari's audio session to Media/Playback
 const SILENT_WAV_DATA_URI =
@@ -69,6 +71,33 @@ export function registerCustomWordAudio(words: string[]): void {
 export function hasCustomAudio(word: string, customAudioUrl?: string): boolean {
   if (customAudioUrl) return true;
   return customAudioWords.has(word.toLowerCase());
+}
+
+export function getSentenceAudioKey(sentence: string): string {
+  const clean = sentence
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '');
+  let h = 0x811c9dc5;
+  for (let i = 0; i < clean.length; i++) {
+    h ^= clean.charCodeAt(i);
+    h = Math.imul(h, 0x01000193) >>> 0;
+  }
+  const prefix = clean.slice(0, 24).replace(/_+$/, '');
+  return `${prefix}_${h.toString(16).padStart(8, '0')}`;
+}
+
+export function registerCustomSentenceAudio(keys: string[]): void {
+  sentenceManifestLoaded = true;
+  for (const k of keys) {
+    if (k) customAudioSentences.add(k.toLowerCase());
+  }
+}
+
+export function hasCustomSentenceAudio(sentence: string): boolean {
+  if (!sentence) return false;
+  return customAudioSentences.has(getSentenceAudioKey(sentence));
 }
 
 /**
@@ -166,19 +195,33 @@ export function setupAudioUnlockListeners(): void {
         }
       })
       .catch(() => {});
+
+    fetch('/audio/sentences/manifest.json')
+      .then((res) => (res.ok ? res.json() : []))
+      .then((list) => {
+        if (Array.isArray(list)) {
+          registerCustomSentenceAudio(list);
+        }
+      })
+      .catch(() => {});
   }
 }
 
 export function resetAudioContextForTesting(): void {
+  if (pendingSentenceTimeout) {
+    clearTimeout(pendingSentenceTimeout);
+    pendingSentenceTimeout = null;
+  }
   sharedAudioCtx = null;
   memoryMuted = false;
   isAudioUnlocked = false;
   unlockListenersAttached = false;
   manifestLoaded = false;
   customAudioWords = new Set<string>();
+  sentenceManifestLoaded = false;
+  customAudioSentences = new Set<string>();
   activeUtterance = null;
   activeAudio = null;
-  activeLetterAudio = null;
   if (typeof window !== 'undefined' && window.localStorage) {
     try {
       window.localStorage.removeItem(AUDIO_MUTED_KEY);
@@ -274,7 +317,7 @@ export function playWordCorrectFanfare(): ReturnType<typeof setTimeout>[] {
   return [t1, t2];
 }
 
-export function speakWord(word: string): void {
+export function speakWord(word: string, onComplete?: () => void): void {
   if (!word || getAudioMuted()) return;
   const g = (typeof window !== 'undefined' ? window : globalThis) as unknown as {
     speechSynthesis?: SpeechSynthesis;
@@ -309,6 +352,11 @@ export function speakWord(word: string): void {
     const voices = synth.getVoices ? synth.getVoices() : [];
     const chosenVoice =
       voices.find((v) => v.lang.startsWith('en-') && v.name.includes('Google')) ||
+      voices.find(
+        (v) =>
+          v.lang.startsWith('en-') &&
+          (v.name.includes('Natural') || v.name.includes('Online') || v.name.includes('Samantha'))
+      ) ||
       voices.find((v) => v.lang === 'en-US' && !v.name.toLowerCase().includes('compact')) ||
       voices.find((v) => v.lang === 'en-US') ||
       voices.find((v) => v.lang.startsWith('en'));
@@ -318,6 +366,79 @@ export function speakWord(word: string): void {
     }
 
     // Store in activeUtterance and window to prevent WebKit premature GC bug
+    activeUtterance = utterance;
+    if (typeof window !== 'undefined') {
+      (window as unknown as { __t2s_utterance?: SpeechSynthesisUtterance | null }).__t2s_utterance = utterance;
+    }
+
+    utterance.onend = () => {
+      if (activeUtterance === utterance) {
+        activeUtterance = null;
+        onComplete?.();
+      }
+    };
+    utterance.onerror = () => {
+      if (activeUtterance === utterance) activeUtterance = null;
+    };
+
+    synth.speak(utterance);
+  } catch {
+    // ignore
+  }
+}
+
+export function speakSentence(sentence: string): void {
+  if (!sentence || getAudioMuted()) return;
+  const g = (typeof window !== 'undefined' ? window : globalThis) as unknown as {
+    speechSynthesis?: SpeechSynthesis;
+    SpeechSynthesisUtterance?: typeof SpeechSynthesisUtterance;
+  };
+  const synth = g.speechSynthesis;
+  const UtteranceCtor = g.SpeechSynthesisUtterance;
+  if (!synth || !UtteranceCtor) return;
+
+  if (sharedAudioCtx && sharedAudioCtx.state === 'suspended') {
+    const p = sharedAudioCtx.resume();
+    if (p && typeof p.catch === 'function') {
+      p.catch(() => {});
+    }
+  }
+
+  if (typeof synth.cancel === 'function') {
+    try {
+      synth.cancel();
+    } catch {
+      // ignore
+    }
+  }
+
+  try {
+    const utterance = new UtteranceCtor(sentence.trim());
+    utterance.lang = 'en-US';
+    utterance.rate = 0.92;
+    utterance.pitch = 1.05;
+
+    const voices = synth.getVoices ? synth.getVoices() : [];
+    const chosenVoice =
+      voices.find(
+        (v) =>
+          v.lang.startsWith('en-') &&
+          (v.name.includes('Natural') || v.name.includes('Online'))
+      ) ||
+      voices.find((v) => v.lang.startsWith('en-') && v.name.includes('Google')) ||
+      voices.find(
+        (v) =>
+          v.lang.startsWith('en-') &&
+          (v.name.includes('Samantha') || v.name.includes('Ava'))
+      ) ||
+      voices.find((v) => v.lang === 'en-US' && !v.name.toLowerCase().includes('compact')) ||
+      voices.find((v) => v.lang === 'en-US') ||
+      voices.find((v) => v.lang.startsWith('en'));
+
+    if (chosenVoice) {
+      utterance.voice = chosenVoice;
+    }
+
     activeUtterance = utterance;
     if (typeof window !== 'undefined') {
       (window as unknown as { __t2s_utterance?: SpeechSynthesisUtterance | null }).__t2s_utterance = utterance;
@@ -337,6 +458,10 @@ export function speakWord(word: string): void {
 }
 
 export function stopWordAudio(): void {
+  if (pendingSentenceTimeout) {
+    clearTimeout(pendingSentenceTimeout);
+    pendingSentenceTimeout = null;
+  }
   if (activeAudio) {
     try {
       activeAudio.pause();
@@ -345,15 +470,6 @@ export function stopWordAudio(): void {
       // ignore
     }
     activeAudio = null;
-  }
-  if (activeLetterAudio) {
-    try {
-      activeLetterAudio.pause();
-      activeLetterAudio.currentTime = 0;
-    } catch {
-      // ignore
-    }
-    activeLetterAudio = null;
   }
   activeUtterance = null;
   const g = (typeof window !== 'undefined' ? window : globalThis) as unknown as {
@@ -368,46 +484,35 @@ export function stopWordAudio(): void {
   }
 }
 
-export function speakLetter(letter: string): void {
-  const clean = letter.trim().toLowerCase();
-  if (!/^[a-z]$/.test(clean) || getAudioMuted()) return;
-  speakWord(clean);
-}
-
-export function playLetterAudio(letter: string): void {
-  if (!letter || getAudioMuted()) return;
-  const clean = letter.trim().toLowerCase();
-  if (!/^[a-z]$/.test(clean)) return;
-
-  if (activeLetterAudio) {
-    try {
-      activeLetterAudio.pause();
-      activeLetterAudio.currentTime = 0;
-    } catch {
-      // ignore
-    }
-    activeLetterAudio = null;
-  }
+export function playSentenceAudio(sentence: string): void {
+  if (!sentence || getAudioMuted()) return;
+  stopWordAudio();
 
   const g = (typeof window !== 'undefined' ? window : globalThis) as unknown as {
     Audio?: typeof Audio;
   };
 
-  const audioSrc = `/audio/letters/${clean}.mp3`;
+  if (sentenceManifestLoaded && !hasCustomSentenceAudio(sentence)) {
+    speakSentence(sentence);
+    return;
+  }
+
+  const key = getSentenceAudioKey(sentence);
+  const audioSrc = `/audio/sentences/${key}.mp3`;
 
   if (g.Audio) {
     try {
       const audio = new g.Audio(audioSrc);
-      activeLetterAudio = audio;
+      activeAudio = audio;
 
       let fallbackTriggered = false;
       const triggerFallback = () => {
         if (!fallbackTriggered) {
           fallbackTriggered = true;
-          if (activeLetterAudio === audio) {
-            activeLetterAudio = null;
+          if (activeAudio === audio) {
+            activeAudio = null;
           }
-          speakLetter(clean);
+          speakSentence(sentence);
         }
       };
 
@@ -421,16 +526,31 @@ export function playLetterAudio(letter: string): void {
       }
       return;
     } catch {
-      // Fall through to speakLetter on instantiation failure
+      // Fall through to speakSentence on instantiation failure
     }
   }
 
-  speakLetter(clean);
+  speakSentence(sentence);
 }
 
-export function playWordAudio(word: string, customAudioUrl?: string): void {
+export function playWordAudio(
+  word: string,
+  customAudioUrl?: string,
+  exampleSentence?: string
+): void {
   if (!word || getAudioMuted()) return;
   stopWordAudio();
+
+  const scheduleExampleSentence = () => {
+    if (!exampleSentence || getAudioMuted()) return;
+    if (pendingSentenceTimeout) {
+      clearTimeout(pendingSentenceTimeout);
+    }
+    pendingSentenceTimeout = setTimeout(() => {
+      pendingSentenceTimeout = null;
+      playSentenceAudio(exampleSentence);
+    }, 220);
+  };
 
   const g = (typeof window !== 'undefined' ? window : globalThis) as unknown as {
     Audio?: typeof Audio;
@@ -440,7 +560,7 @@ export function playWordAudio(word: string, customAudioUrl?: string): void {
   // This skips the 404 network request and preserves user activation on iOS Safari.
   const hasCustom = hasCustomAudio(word, customAudioUrl);
   if (manifestLoaded && !hasCustom) {
-    speakWord(word);
+    speakWord(word, scheduleExampleSentence);
     return;
   }
 
@@ -458,11 +578,21 @@ export function playWordAudio(word: string, customAudioUrl?: string): void {
           if (activeAudio === audio) {
             activeAudio = null;
           }
-          speakWord(word);
+          speakWord(word, scheduleExampleSentence);
         }
       };
 
       audio.addEventListener('error', triggerFallback, { once: true });
+      audio.addEventListener(
+        'ended',
+        () => {
+          if (activeAudio === audio) {
+            activeAudio = null;
+          }
+          scheduleExampleSentence();
+        },
+        { once: true }
+      );
 
       const playPromise = audio.play();
       if (playPromise !== undefined && typeof playPromise.catch === 'function') {
@@ -476,7 +606,7 @@ export function playWordAudio(word: string, customAudioUrl?: string): void {
     }
   }
 
-  speakWord(word);
+  speakWord(word, scheduleExampleSentence);
 }
 
 export function initSpeechVoices(): void {

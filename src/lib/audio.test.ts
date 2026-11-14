@@ -1,8 +1,9 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   getAudioMuted,
+  getSentenceAudioKey,
   playGradeSelectSound,
-  playLetterAudio,
+  playSentenceAudio,
   playTone,
   playWordAudio,
   resetAudioContextForTesting,
@@ -272,21 +273,24 @@ describe('audio.ts — Web Audio API Synthesizer & Web Speech API TTS', () => {
     });
   });
 
-  it('plays /audio/letters/<char>.mp3 for tapped letters and falls back to speech on error', () => {
-    const createdSrcs: string[] = [];
-    const playSpy = vi.fn().mockResolvedValue(undefined);
-    const pauseSpy = vi.fn();
+  it('plays /audio/sentences/<key>.mp3 and chains example sentence after word finishes', () => {
+    vi.useFakeTimers();
+    const createdAudios: Array<{ src: string; listeners: Record<string, Function[]> }> = [];
 
     class MockAudio {
       src: string;
       currentTime = 0;
-      play = playSpy;
-      pause = pauseSpy;
+      listeners: Record<string, Function[]> = {};
+      play = vi.fn().mockResolvedValue(undefined);
+      pause = vi.fn();
       constructor(src: string) {
         this.src = src;
-        createdSrcs.push(src);
+        createdAudios.push({ src, listeners: this.listeners });
       }
-      addEventListener() {}
+      addEventListener(event: string, handler: Function) {
+        if (!this.listeners[event]) this.listeners[event] = [];
+        this.listeners[event].push(handler);
+      }
     }
 
     Object.defineProperty(globalThis, 'Audio', {
@@ -295,13 +299,26 @@ describe('audio.ts — Web Audio API Synthesizer & Web Speech API TTS', () => {
       writable: true,
     });
 
-    playLetterAudio('B');
-    expect(createdSrcs).toEqual(['/audio/letters/b.mp3']);
-    expect(playSpy).toHaveBeenCalledTimes(1);
+    const sentence = 'I see a big red dog.';
+    const expectedKey = getSentenceAudioKey(sentence);
+    expect(expectedKey).toBe('i_see_a_big_red_dog_35d8aa70');
 
-    // Tapping a second letter pauses the previous letter audio first
-    playLetterAudio('C');
-    expect(pauseSpy).toHaveBeenCalledTimes(1);
-    expect(createdSrcs).toEqual(['/audio/letters/b.mp3', '/audio/letters/c.mp3']);
+    playWordAudio('DOG', undefined, sentence);
+    expect(createdAudios).toHaveLength(1);
+    expect(createdAudios[0].src).toBe('/audio/words/dog.mp3');
+
+    // Simulate word audio finishing
+    createdAudios[0].listeners['ended']?.forEach((cb) => cb());
+    vi.advanceTimersByTime(250);
+
+    expect(createdAudios).toHaveLength(2);
+    expect(createdAudios[1].src).toBe(`/audio/sentences/${expectedKey}.mp3`);
+
+    // Direct sentence tap
+    playSentenceAudio(sentence);
+    expect(createdAudios).toHaveLength(3);
+    expect(createdAudios[2].src).toBe(`/audio/sentences/${expectedKey}.mp3`);
+
+    vi.useRealTimers();
   });
 });

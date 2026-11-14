@@ -23,6 +23,7 @@ export interface GameScreenProps {
   onSelectLevel?: (level: number) => void;
   onExitToHome: () => void;
   onSpeakWord: () => void;
+  onSpeakSentence?: () => void;
   onTypeLetter: (char: string, keyIndex: number) => void;
   onRemoveLetter: (slotIndex: number) => void;
   onUseHint: () => void;
@@ -61,6 +62,7 @@ export function GameScreen({
   onSelectLevel,
   onExitToHome,
   onSpeakWord,
+  onSpeakSentence,
   onTypeLetter,
   onRemoveLetter,
   onUseHint,
@@ -240,9 +242,16 @@ export function GameScreen({
             </div>
 
             {maskedExample && (
-              <p className="relative z-10 shrink-0 text-slate-100 font-bold text-sm sm:text-lg md:text-xl text-center max-w-2xl px-4 py-1.5 rounded-2xl bg-slate-800/85 border border-slate-700 leading-snug">
+              <button
+                id="word-example-sentence"
+                type="button"
+                aria-label="Listen to example sentence"
+                title="Tap to hear example sentence"
+                onClick={onSpeakSentence ?? onSpeakWord}
+                className="relative z-10 shrink-0 text-slate-100 hover:text-cyan-100 font-bold text-sm sm:text-lg md:text-xl text-center max-w-2xl px-4 py-1.5 rounded-2xl bg-slate-800/85 hover:bg-slate-800 border border-slate-700 hover:border-cyan-500/60 active:scale-[0.98] transition-all leading-snug cursor-pointer touch-manipulation"
+              >
                 “{maskedExample}”
-              </p>
+              </button>
             )}
 
             <button
