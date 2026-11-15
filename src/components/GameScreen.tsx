@@ -217,11 +217,11 @@ export function GameScreen({
       </header>
 
       {/* Main Play + Controls Container (Stacks vertically in portrait; 2-column in sideways phone landscape) */}
-      <div className="game-landscape-body flex-1 min-h-0 flex flex-col w-full overflow-hidden">
+      <div className="game-landscape-body flex-1 min-h-0 flex flex-col w-full overflow-y-auto overflow-x-hidden">
         {/* Clue Area (Emoji + Masked Sentence + Tap-to-hear cue) */}
         <section
           aria-label="Word Clue"
-          className="game-landscape-left flex-1 min-h-0 flex flex-col items-center justify-evenly px-3 py-2 sm:p-4 w-full max-w-6xl mx-auto gap-2 sm:gap-3"
+          className="game-landscape-left flex-1 shrink-0 flex flex-col items-center justify-evenly px-3 py-2 sm:p-4 w-full max-w-6xl mx-auto gap-2 sm:gap-3"
         >
           <div className="shrink-0 flex flex-col items-center justify-center w-full gap-1.5 sm:gap-2.5">
             <div

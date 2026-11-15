@@ -23,7 +23,7 @@ export function initWordState(state: GameState): GameState {
       ...state,
       filledSlots: new Array(targetWord.length).fill(null),
       usedKeyIndices: new Array(targetWord.length).fill(null),
-      hintsRemaining: calculateInitialHints(targetWord.length, state.level),
+      hintsRemaining: calculateInitialHints(targetWord.length, state.level, state.grade),
       showErrors: false,
       keyboardKeys: generateKeyboard(targetWord),
     };

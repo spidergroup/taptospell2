@@ -14,7 +14,8 @@
       "nature",
       "places",
       "movies",
-      "fruits"
+      "fruits",
+      "academic"
     ],
     "word_counts": {
       "colors": {
@@ -79,9 +80,18 @@
           "level_3": 59,
           "level_4": 105
         }
+      },
+      "academic": {
+        "total": 265,
+        "by_level": {
+          "level_1": 40,
+          "level_2": 52,
+          "level_3": 78,
+          "level_4": 95
+        }
       }
     },
-    "total_words": 1819
+    "total_words": 2084
   },
   "data": {
     "colors": {
@@ -14702,6 +14712,2136 @@
           "examples": [
             "The yumberry, scientifically known as Myrica rubra, is a bumpy crimson fruit native to eastern Asia that possesses a tart flavor profile reminiscent of pomegranates and cranberries.",
             "Because the delicate flesh of a fresh yumberry spoils within days of harvesting, the exotic fruit is rarely exported whole and is instead commonly processed into antioxidant-rich juices or dried snacks."
+          ]
+        }
+      ]
+    },
+    "academic": {
+      "level_1": [
+        {
+          "w": "ABUNDANT",
+          "i": "🌾",
+          "examples": [
+            "The valley had an abundant harvest this autumn.",
+            "Clean water is abundant in the mountain streams."
+          ]
+        },
+        {
+          "w": "ACCURATE",
+          "i": "🎯",
+          "examples": [
+            "Make sure your measurements are accurate before cutting.",
+            "The weather forecast was remarkably accurate today."
+          ]
+        },
+        {
+          "w": "ACHIEVEMENT",
+          "i": "🏆",
+          "examples": [
+            "Graduating with honors was her proudest achievement.",
+            "Landing on the moon was a historic human achievement."
+          ]
+        },
+        {
+          "w": "ACQUIRE",
+          "i": "🤝",
+          "examples": [
+            "It takes years of practice to acquire fluency in a language.",
+            "The museum hopes to acquire the rare painting."
+          ]
+        },
+        {
+          "w": "ADAPT",
+          "i": "🦎",
+          "examples": [
+            "Animals must adapt to survive in harsh climates.",
+            "Students quickly adapt to the new school schedule."
+          ]
+        },
+        {
+          "w": "ADEQUATE",
+          "i": "✅",
+          "examples": [
+            "Pack an adequate supply of food for the camping trip.",
+            "The hall provided adequate seating for all guests."
+          ]
+        },
+        {
+          "w": "ADVANTAGE",
+          "i": "🚀",
+          "examples": [
+            "Knowing two languages is a big advantage in travel.",
+            "The home team had a clear advantage on their own field."
+          ]
+        },
+        {
+          "w": "ANALYZE",
+          "i": "🔬",
+          "examples": [
+            "Scientists analyze data carefully before drawing conclusions.",
+            "We will analyze the poem in English class tomorrow."
+          ]
+        },
+        {
+          "w": "ANNUAL",
+          "i": "📅",
+          "examples": [
+            "Our town hosts an annual music festival every summer.",
+            "The company published its annual financial report."
+          ]
+        },
+        {
+          "w": "APPARENT",
+          "i": "👀",
+          "examples": [
+            "Her excitement was apparent from the moment she smiled.",
+            "It soon became apparent that we had taken the wrong trail."
+          ]
+        },
+        {
+          "w": "APPROACH",
+          "i": "🚶",
+          "examples": [
+            "The hikers slowed down as they began to approach the summit.",
+            "We need a fresh approach to solve this math problem."
+          ]
+        },
+        {
+          "w": "APPROPRIATE",
+          "i": "👔",
+          "examples": [
+            "Wear appropriate footwear when hiking on rocky trails.",
+            "Please use an appropriate tone during the formal debate."
+          ]
+        },
+        {
+          "w": "ARGUMENT",
+          "i": "⚖️",
+          "examples": [
+            "She presented a strong argument supported by facts.",
+            "They settled their argument with a calm discussion."
+          ]
+        },
+        {
+          "w": "ASSUME",
+          "i": "💭",
+          "examples": [
+            "Do not assume the test will be easy without studying.",
+            "I assume the train will arrive on time."
+          ]
+        },
+        {
+          "w": "AUTHORITY",
+          "i": "🏛️",
+          "examples": [
+            "The principal has the authority to approve school events.",
+            "She is a respected authority on ancient history."
+          ]
+        },
+        {
+          "w": "BENEFIT",
+          "i": "🎁",
+          "examples": [
+            "Daily exercise brings a lasting benefit to your health.",
+            "Everyone in the neighborhood will benefit from the new park."
+          ]
+        },
+        {
+          "w": "CATEGORY",
+          "i": "🗂️",
+          "examples": [
+            "Place each library book into the correct category.",
+            "This film won an award in the animation category."
+          ]
+        },
+        {
+          "w": "CHALLENGE",
+          "i": "⛰️",
+          "examples": [
+            "Climbing the steep peak was a thrilling challenge.",
+            "The teacher gave us a bonus challenge at the end of the quiz."
+          ]
+        },
+        {
+          "w": "CIRCUMSTANCE",
+          "i": "🔄",
+          "examples": [
+            "Under no circumstance should you leave the camp alone.",
+            "Every circumstance was considered before making the decision."
+          ]
+        },
+        {
+          "w": "COMMUNITY",
+          "i": "🏘️",
+          "examples": [
+            "The whole community volunteered to clean up the beach.",
+            "A strong sense of community makes a neighborhood welcoming."
+          ]
+        },
+        {
+          "w": "ABSTRACT",
+          "i": "🎨",
+          "examples": [
+            "The gallery featured an abstract painting full of bright shapes.",
+            "Justice can feel like an abstract concept until you see it in action."
+          ]
+        },
+        {
+          "w": "ACCESSIBLE",
+          "i": "♿",
+          "examples": [
+            "The new library ramp makes the building accessible to everyone.",
+            "The author explains complex science in accessible language."
+          ]
+        },
+        {
+          "w": "ACCOMPLISH",
+          "i": "🌟",
+          "examples": [
+            "With steady effort, you can accomplish your goals.",
+            "We managed to accomplish the entire project before Friday."
+          ]
+        },
+        {
+          "w": "ADVOCATE",
+          "i": "📣",
+          "examples": [
+            "He became a passionate advocate for clean energy.",
+            "Many doctors advocate getting eight hours of sleep each night."
+          ]
+        },
+        {
+          "w": "AESTHETIC",
+          "i": "🖼️",
+          "examples": [
+            "The minimalist cafe had a calm, modern aesthetic.",
+            "They chose the lamps for their aesthetic appeal as well as light."
+          ]
+        },
+        {
+          "w": "AMBITION",
+          "i": "🔥",
+          "examples": [
+            "Her ambition is to design bridges that withstand earthquakes.",
+            "He pursued his career with quiet ambition and hard work."
+          ]
+        },
+        {
+          "w": "ASPECT",
+          "i": "🧩",
+          "examples": [
+            "We examined every aspect of the science experiment.",
+            "Teamwork is my favorite aspect of playing soccer."
+          ]
+        },
+        {
+          "w": "ASSESS",
+          "i": "📋",
+          "examples": [
+            "Teachers assess student progress through projects and quizzes.",
+            "Stop to assess the weather before sailing out."
+          ]
+        },
+        {
+          "w": "ATTITUDE",
+          "i": "😊",
+          "examples": [
+            "A positive attitude helps you bounce back from setbacks.",
+            "He approached the difficult task with a helpful attitude."
+          ]
+        },
+        {
+          "w": "CAPACITY",
+          "i": "🔋",
+          "examples": [
+            "The stadium reached its full capacity of fifty thousand fans.",
+            "Solar batteries have the capacity to store power overnight."
+          ]
+        },
+        {
+          "w": "CHARACTERISTIC",
+          "i": "🧬",
+          "examples": [
+            "Curiosity is a common characteristic of great inventors.",
+            "Bright feathers are a characteristic trait of the male peacock."
+          ]
+        },
+        {
+          "w": "CIRCUMFERENCE",
+          "i": "⭕",
+          "examples": [
+            "We measured the circumference of the oak tree trunk.",
+            "Multiply the diameter by pi to find the circumference of a circle."
+          ]
+        },
+        {
+          "w": "COLLABORATE",
+          "i": "🤲",
+          "examples": [
+            "The two classes will collaborate on the Earth Day mural.",
+            "Musicians from around the world love to collaborate online."
+          ]
+        },
+        {
+          "w": "COMPASSION",
+          "i": "❤️",
+          "examples": [
+            "She showed deep compassion for the injured stray dog.",
+            "Volunteers work with compassion to help families in need."
+          ]
+        },
+        {
+          "w": "COMPONENT",
+          "i": "⚙️",
+          "examples": [
+            "Each tiny component inside the watch must fit precisely.",
+            "Trust is an essential component of any friendship."
+          ]
+        },
+        {
+          "w": "COMPREHENSIVE",
+          "i": "📚",
+          "examples": [
+            "The textbook offers a comprehensive guide to world history.",
+            "We completed a comprehensive review before the final exam."
+          ]
+        },
+        {
+          "w": "CONCENTRATE",
+          "i": "🧠",
+          "examples": [
+            "Turn off the music so you can concentrate on reading.",
+            "It is hard to concentrate when the hallway is noisy."
+          ]
+        },
+        {
+          "w": "CONCEPT",
+          "i": "💡",
+          "examples": [
+            "Gravity is a basic concept in physics.",
+            "The designer sketched a new concept for the electric bike."
+          ]
+        },
+        {
+          "w": "CONCLUSION",
+          "i": "🏁",
+          "examples": [
+            "In conclusion, recycling reduces waste and saves energy.",
+            "The detective reached a logical conclusion from the clues."
+          ]
+        },
+        {
+          "w": "CONFLICT",
+          "i": "⚡",
+          "examples": [
+            "The novel explores a conflict between duty and personal dreams.",
+            "Good leaders resolve conflict through fair dialogue."
+          ]
+        }
+      ],
+      "level_2": [
+        {
+          "w": "ACKNOWLEDGMENT",
+          "i": "🙏",
+          "examples": [
+            "She gave a brief acknowledgment to her mentors in her speech.",
+            "The letter included an acknowledgment of our application."
+          ]
+        },
+        {
+          "w": "ADOLESCENT",
+          "i": "🧑",
+          "examples": [
+            "Adolescent readers often enjoy stories about finding their voice.",
+            "Regular sleep is especially important during adolescent growth."
+          ]
+        },
+        {
+          "w": "ALTERNATIVE",
+          "i": "🔀",
+          "examples": [
+            "Cycling is a healthy alternative to driving short distances.",
+            "If the trail is closed, we have an alternative route."
+          ]
+        },
+        {
+          "w": "AMBIGUOUS",
+          "i": "❓",
+          "examples": [
+            "The ending of the story was deliberately ambiguous.",
+            "Avoid ambiguous wording when writing instructions."
+          ]
+        },
+        {
+          "w": "AMENDMENT",
+          "i": "📜",
+          "examples": [
+            "The committee proposed an amendment to update the club rules.",
+            "The constitutional amendment guaranteed new voting rights."
+          ]
+        },
+        {
+          "w": "ANONYMOUS",
+          "i": "🎭",
+          "examples": [
+            "An anonymous donor funded the new school band instruments.",
+            "The survey responses remain completely anonymous."
+          ]
+        },
+        {
+          "w": "ANTICIPATE",
+          "i": "🔮",
+          "examples": [
+            "We anticipate heavy traffic before the holiday weekend.",
+            "Good chess players anticipate their opponent’s next move."
+          ]
+        },
+        {
+          "w": "APPARATUS",
+          "i": "🧪",
+          "examples": [
+            "The chemistry lab has new apparatus for testing water purity.",
+            "Gymnasts train on specialized apparatus like the balance beam."
+          ]
+        },
+        {
+          "w": "APPRECIATE",
+          "i": "💐",
+          "examples": [
+            "I truly appreciate your help with the science fair display.",
+            "Over time, you learn to appreciate classical music."
+          ]
+        },
+        {
+          "w": "ASSIGNMENT",
+          "i": "📝",
+          "examples": [
+            "The history assignment is due on Wednesday morning.",
+            "She finished her reading assignment early."
+          ]
+        },
+        {
+          "w": "AUTHENTIC",
+          "i": "🏺",
+          "examples": [
+            "The museum displayed an authentic Roman coin from the first century.",
+            "The restaurant serves authentic homemade pasta."
+          ]
+        },
+        {
+          "w": "BOUNDARY",
+          "i": "🚧",
+          "examples": [
+            "The river forms a natural boundary between the two towns.",
+            "Setting a healthy boundary protects your study time."
+          ]
+        },
+        {
+          "w": "BUREAUCRACY",
+          "i": "🏢",
+          "examples": [
+            "Applying for the permit involved navigating layers of bureaucracy.",
+            "They worked to simplify the bureaucracy so aid arrived faster."
+          ]
+        },
+        {
+          "w": "CONSEQUENCE",
+          "i": "🌊",
+          "examples": [
+            "Every choice carries a consequence, whether large or small.",
+            "Rising sea levels are a serious consequence of warming oceans."
+          ]
+        },
+        {
+          "w": "CONSISTENT",
+          "i": "📏",
+          "examples": [
+            "Consistent daily practice leads to steady improvement.",
+            "Her test scores remained consistent throughout the semester."
+          ]
+        },
+        {
+          "w": "CONTRAST",
+          "i": "🌗",
+          "examples": [
+            "The dark sky created a sharp contrast with the bright snow.",
+            "Compare and contrast the two poems in your essay."
+          ]
+        },
+        {
+          "w": "CONTROVERSY",
+          "i": "🗣️",
+          "examples": [
+            "The new zoning plan sparked a lively controversy at town hall.",
+            "The referee’s late call caused considerable controversy."
+          ]
+        },
+        {
+          "w": "CONVENTIONAL",
+          "i": "🕰️",
+          "examples": [
+            "Solar cars challenge conventional ideas about transportation.",
+            "She prefers conventional notebooks over digital tablets."
+          ]
+        },
+        {
+          "w": "ADVERSITY",
+          "i": "🌧️",
+          "examples": [
+            "The team showed courage in the face of adversity.",
+            "Overcoming adversity often builds lasting resilience."
+          ]
+        },
+        {
+          "w": "ALLEGATION",
+          "i": "📰",
+          "examples": [
+            "The newspaper investigated the allegation carefully.",
+            "He denied every allegation made against his company."
+          ]
+        },
+        {
+          "w": "ANALYSIS",
+          "i": "📊",
+          "examples": [
+            "Her analysis of the survey data revealed a clear trend.",
+            "A closer analysis showed why the bridge design worked."
+          ]
+        },
+        {
+          "w": "ASSERTION",
+          "i": "☝️",
+          "examples": [
+            "Back up every assertion in your essay with solid evidence.",
+            "His bold assertion surprised the entire panel."
+          ]
+        },
+        {
+          "w": "BIAS",
+          "i": "⚖️",
+          "examples": [
+            "Journalists strive to report news without personal bias.",
+            "Blind tasting helps remove bias when judging recipes."
+          ]
+        },
+        {
+          "w": "COHERENT",
+          "i": "🔗",
+          "examples": [
+            "She wrote a coherent summary that was easy to follow.",
+            "After resting, he gave a clear and coherent explanation."
+          ]
+        },
+        {
+          "w": "COMPELLING",
+          "i": "🧲",
+          "examples": [
+            "The documentary presented a compelling case for ocean conservation.",
+            "She told a compelling story that held everyone’s attention."
+          ]
+        },
+        {
+          "w": "CONCLUSIVE",
+          "i": "🔏",
+          "examples": [
+            "The lab results provided conclusive proof of the theory.",
+            "Without conclusive evidence, the mystery remained unsolved."
+          ]
+        },
+        {
+          "w": "CONSENSUS",
+          "i": "🤝",
+          "examples": [
+            "The council reached a consensus after two hours of debate.",
+            "Scientific consensus supports wearing seatbelts."
+          ]
+        },
+        {
+          "w": "CONTEXT",
+          "i": "📖",
+          "examples": [
+            "Understanding historical context makes old speeches clearer.",
+            "A quote can be misunderstood when taken out of context."
+          ]
+        },
+        {
+          "w": "CONTRADICT",
+          "i": "↔️",
+          "examples": [
+            "The witness’s new statement seemed to contradict his earlier notes.",
+            "Do not contradict the data without running another test."
+          ]
+        },
+        {
+          "w": "CREDIBLE",
+          "i": "🛡️",
+          "examples": [
+            "Always cite credible sources in a research paper.",
+            "Her explanation sounded completely credible to the jury."
+          ]
+        },
+        {
+          "w": "DIVERSE",
+          "i": "🌍",
+          "examples": [
+            "The botanical garden holds a diverse collection of plants.",
+            "A diverse team brings many creative perspectives."
+          ]
+        },
+        {
+          "w": "ELIMINATE",
+          "i": "🧹",
+          "examples": [
+            "Checking your work helps eliminate careless errors.",
+            "The new filter can eliminate impurities from drinking water."
+          ]
+        },
+        {
+          "w": "EMPIRICAL",
+          "i": "🔭",
+          "examples": [
+            "Scientists rely on empirical evidence gathered through observation.",
+            "The study offered empirical support for the new teaching method."
+          ]
+        },
+        {
+          "w": "ETHICAL",
+          "i": "🧭",
+          "examples": [
+            "Doctors follow strict ethical standards to protect patients.",
+            "Choosing fair-trade goods is an ethical consumer decision."
+          ]
+        },
+        {
+          "w": "EVIDENCE",
+          "i": "🔍",
+          "examples": [
+            "Fossils provide strong evidence of life millions of years ago.",
+            "The lawyer presented physical evidence to the court."
+          ]
+        },
+        {
+          "w": "ACUMEN",
+          "i": "🦉",
+          "examples": [
+            "Her business acumen helped the small shop grow rapidly.",
+            "Political acumen is needed to build broad coalitions."
+          ]
+        },
+        {
+          "w": "ADVOCACY",
+          "i": "📢",
+          "examples": [
+            "Their advocacy led to safer bike lanes across the city.",
+            "Youth advocacy has raised awareness about climate change."
+          ]
+        },
+        {
+          "w": "ARTICULATION",
+          "i": "🎙️",
+          "examples": [
+            "Clear articulation makes a speech easy to understand.",
+            "The dancer’s articulation of movement was graceful."
+          ]
+        },
+        {
+          "w": "AUTHENTICITY",
+          "i": "💎",
+          "examples": [
+            "Experts verified the authenticity of the antique map.",
+            "Readers value the authenticity of her memoir."
+          ]
+        },
+        {
+          "w": "BUREAUCRATIC",
+          "i": "🗄️",
+          "examples": [
+            "Bureaucratic delays slowed down the passport renewal.",
+            "They streamlined the bureaucratic process into one form."
+          ]
+        },
+        {
+          "w": "COLLABORATION",
+          "i": "🤝",
+          "examples": [
+            "The mural was a collaboration between local artists and students.",
+            "International collaboration accelerated the medical discovery."
+          ]
+        },
+        {
+          "w": "COMPETENCE",
+          "i": "🏅",
+          "examples": [
+            "He demonstrated great competence in repairing complex engines.",
+            "Training builds both confidence and competence."
+          ]
+        },
+        {
+          "w": "CONVERGENCE",
+          "i": "🔀",
+          "examples": [
+            "The town sits at the convergence of two major rivers.",
+            "Modern smartphones show a convergence of camera and computer tech."
+          ]
+        },
+        {
+          "w": "DILIGENCE",
+          "i": "🐝",
+          "examples": [
+            "Through quiet diligence, she mastered every piece on the piano.",
+            "Inspectors checked each bridge cable with diligence."
+          ]
+        },
+        {
+          "w": "DISPOSITION",
+          "i": "☀️",
+          "examples": [
+            "Her cheerful disposition brightened the entire classroom.",
+            "A calm disposition helps during high-pressure exams."
+          ]
+        },
+        {
+          "w": "ELOQUENT",
+          "i": "🪶",
+          "examples": [
+            "The valedictorian delivered an eloquent farewell address.",
+            "His eloquent defense moved everyone in the auditorium."
+          ]
+        },
+        {
+          "w": "EXEMPTION",
+          "i": "🎫",
+          "examples": [
+            "Students with high averages earned an exemption from the quiz.",
+            "The historic building received an exemption from the new rule."
+          ]
+        },
+        {
+          "w": "FEASIBLE",
+          "i": "🛠️",
+          "examples": [
+            "Building a community garden on the empty lot is completely feasible.",
+            "Is it feasible to finish the hike before sunset?"
+          ]
+        },
+        {
+          "w": "INCENTIVE",
+          "i": "🥕",
+          "examples": [
+            "A cash prize gave students an extra incentive to enter the contest.",
+            "Tax credits provide an incentive for installing solar panels."
+          ]
+        },
+        {
+          "w": "INTEGRITY",
+          "i": "🛡️",
+          "examples": [
+            "A person of integrity keeps promises even when no one is watching.",
+            "Structural integrity kept the bridge safe during the storm."
+          ]
+        },
+        {
+          "w": "LEGITIMACY",
+          "i": "📜",
+          "examples": [
+            "Voters questioned the legitimacy of the rushed ballot.",
+            "Peer review adds legitimacy to scientific research."
+          ]
+        },
+        {
+          "w": "VIABILITY",
+          "i": "🌱",
+          "examples": [
+            "Engineers tested the viability of wind power on the island.",
+            "Good soil is essential for the viability of young crops."
+          ]
+        }
+      ],
+      "level_3": [
+        {
+          "w": "ACCOMMODATE",
+          "i": "🏨",
+          "examples": [
+            "The large auditorium can accommodate five hundred guests.",
+            "We adjusted the schedule to accommodate everyone’s classes."
+          ]
+        },
+        {
+          "w": "ACCUMULATE",
+          "i": "🏔️",
+          "examples": [
+            "Snow began to accumulate on the rooftops overnight.",
+            "Dust can accumulate quickly on unused bookshelves."
+          ]
+        },
+        {
+          "w": "ACQUAINTANCE",
+          "i": "👋",
+          "examples": [
+            "She is a friendly acquaintance from my summer camp.",
+            "He made the acquaintance of several local authors."
+          ]
+        },
+        {
+          "w": "ARCHAEOLOGY",
+          "i": "🏺",
+          "examples": [
+            "Archaeology helps us uncover how ancient civilizations lived.",
+            "She plans to study archaeology and dig at historic sites."
+          ]
+        },
+        {
+          "w": "BENEFICIAL",
+          "i": "🌿",
+          "examples": [
+            "Regular walking is beneficial for both mood and stamina.",
+            "Bees play a beneficial role in pollinating fruit trees."
+          ]
+        },
+        {
+          "w": "CONSCIENCE",
+          "i": "🧭",
+          "examples": [
+            "His conscience told him to return the lost wallet.",
+            "She acted with a clear conscience after telling the truth."
+          ]
+        },
+        {
+          "w": "CONSCIOUS",
+          "i": "👁️",
+          "examples": [
+            "He made a conscious effort to listen more carefully.",
+            "The patient was fully conscious after the minor procedure."
+          ]
+        },
+        {
+          "w": "DETERIORATE",
+          "i": "📉",
+          "examples": [
+            "Wooden fences deteriorate faster in damp climates.",
+            "Without repairs, the old road will continue to deteriorate."
+          ]
+        },
+        {
+          "w": "EMBARRASSMENT",
+          "i": "😳",
+          "examples": [
+            "Forgetting his lines caused a brief moment of embarrassment.",
+            "She laughed off the embarrassment of tripping on stage."
+          ]
+        },
+        {
+          "w": "EXAGGERATE",
+          "i": "📢",
+          "examples": [
+            "Fishermen sometimes exaggerate the size of the fish they caught.",
+            "Do not exaggerate the problem when writing a lab report."
+          ]
+        },
+        {
+          "w": "EXISTENCE",
+          "i": "🌌",
+          "examples": [
+            "Astronomers confirmed the existence of a distant planet.",
+            "The rare flower’s existence depends on protecting its marsh."
+          ]
+        },
+        {
+          "w": "HIERARCHY",
+          "i": "🪜",
+          "examples": [
+            "The chart shows the hierarchy of roles in the orchestra.",
+            "Bees live in a strict social hierarchy inside the hive."
+          ]
+        },
+        {
+          "w": "HYPOTHESIS",
+          "i": "🧪",
+          "examples": [
+            "We tested our hypothesis by growing plants under different lights.",
+            "A good hypothesis can be proven or disproven by experiment."
+          ]
+        },
+        {
+          "w": "INDISPENSABLE",
+          "i": "🔑",
+          "examples": [
+            "A sturdy compass is indispensable when hiking off-trail.",
+            "Her organizational skills made her indispensable to the team."
+          ]
+        },
+        {
+          "w": "INQUISITIVE",
+          "i": "🔎",
+          "examples": [
+            "The inquisitive child asked how stars produce light.",
+            "An inquisitive mind drives every great scientific breakthrough."
+          ]
+        },
+        {
+          "w": "IRRELEVANT",
+          "i": "🗑️",
+          "examples": [
+            "Leave out irrelevant details so your essay stays focused.",
+            "His comment about lunch was irrelevant to the math lesson."
+          ]
+        },
+        {
+          "w": "MILLENNIUM",
+          "i": "⏳",
+          "examples": [
+            "A millennium spans one thousand years of history.",
+            "People celebrated across the globe at the turn of the millennium."
+          ]
+        },
+        {
+          "w": "MISCELLANEOUS",
+          "i": "🧰",
+          "examples": [
+            "The drawer held miscellaneous items like tape, keys, and string.",
+            "Sort the miscellaneous receipts into monthly folders."
+          ]
+        },
+        {
+          "w": "PERSEVERANCE",
+          "i": "🧗",
+          "examples": [
+            "It took years of perseverance to climb all the highest peaks.",
+            "Her perseverance paid off when she finally solved the puzzle."
+          ]
+        },
+        {
+          "w": "QUESTIONNAIRE",
+          "i": "📝",
+          "examples": [
+            "Students filled out a short questionnaire about school lunches.",
+            "The researcher mailed a questionnaire to two hundred households."
+          ]
+        },
+        {
+          "w": "CONNOTATION",
+          "i": "💬",
+          "examples": [
+            "The word home carries a warm connotation of comfort.",
+            "Choose words whose connotation fits the mood of your poem."
+          ]
+        },
+        {
+          "w": "CONTRADICTION",
+          "i": "⚡",
+          "examples": [
+            "Saying you love silence while blasting music is a contradiction.",
+            "The editor spotted a contradiction between chapters two and five."
+          ]
+        },
+        {
+          "w": "CORRESPONDENCE",
+          "i": "✉️",
+          "examples": [
+            "The museum preserved the author’s letters and correspondence.",
+            "There was close correspondence between the two test results."
+          ]
+        },
+        {
+          "w": "CREDIBILITY",
+          "i": "🎖️",
+          "examples": [
+            "Citing real data strengthens a speaker’s credibility.",
+            "Breaking a promise can quickly damage someone’s credibility."
+          ]
+        },
+        {
+          "w": "CRITERION",
+          "i": "📏",
+          "examples": [
+            "Originality was the main criterion for winning the art prize.",
+            "Safety is our most important criterion when choosing gear."
+          ]
+        },
+        {
+          "w": "DEDUCTION",
+          "i": "🕵️",
+          "examples": [
+            "Through careful deduction, the detective identified the culprit.",
+            "Logic and deduction helped us solve the riddle."
+          ]
+        },
+        {
+          "w": "DEFICIENCY",
+          "i": "🍊",
+          "examples": [
+            "A deficiency of vitamin C can weaken the immune system.",
+            "The inspection found a minor deficiency in the wiring."
+          ]
+        },
+        {
+          "w": "DEMONSTRATE",
+          "i": "🧑‍🏫",
+          "examples": [
+            "The coach will demonstrate the proper swimming stroke.",
+            "These charts demonstrate how quickly renewable energy grew."
+          ]
+        },
+        {
+          "w": "DISCRIMINATION",
+          "i": "⚖️",
+          "examples": [
+            "Laws exist to protect workers from unfair discrimination.",
+            "Trained tasters show fine discrimination between tea flavors."
+          ]
+        },
+        {
+          "w": "DISTINCTION",
+          "i": "🏅",
+          "examples": [
+            "She graduated with high distinction in biology.",
+            "Make a clear distinction between facts and opinions."
+          ]
+        },
+        {
+          "w": "EMPHASIS",
+          "i": "❗",
+          "examples": [
+            "The course places strong emphasis on clear writing.",
+            "He spoke with extra emphasis on the final warning."
+          ]
+        },
+        {
+          "w": "EQUIVALENT",
+          "i": "🟰",
+          "examples": [
+            "Four quarters are equivalent to one whole dollar.",
+            "This electric motor has power equivalent to a small engine."
+          ]
+        },
+        {
+          "w": "EVALUATION",
+          "i": "📋",
+          "examples": [
+            "The program underwent a thorough evaluation after one year.",
+            "Wait for the teacher’s evaluation before revising your draft."
+          ]
+        },
+        {
+          "w": "EVOLUTION",
+          "i": "🦋",
+          "examples": [
+            "The museum exhibit traces the evolution of birds from dinosaurs.",
+            "Technology has seen rapid evolution over the past decade."
+          ]
+        },
+        {
+          "w": "EXCEPTIONAL",
+          "i": "🌠",
+          "examples": [
+            "Her exceptional violin solo earned a standing ovation.",
+            "The chef uses exceptional ingredients from local farms."
+          ]
+        },
+        {
+          "w": "FRAMEWORK",
+          "i": "🏗️",
+          "examples": [
+            "The outline provided a clear framework for our research paper.",
+            "Steel beams form the framework of the skyscraper."
+          ]
+        },
+        {
+          "w": "FUNDAMENTAL",
+          "i": "🧱",
+          "examples": [
+            "Reading comprehension is a fundamental skill for every subject.",
+            "Gravity is one of the fundamental forces of nature."
+          ]
+        },
+        {
+          "w": "ILLUSTRATION",
+          "i": "🎨",
+          "examples": [
+            "The biology book includes a detailed illustration of a cell.",
+            "Her story served as a vivid illustration of kindness."
+          ]
+        },
+        {
+          "w": "IMPLICATION",
+          "i": "🕸️",
+          "examples": [
+            "Consider the environmental implication of every new factory.",
+            "By implication, his silence meant he agreed with the plan."
+          ]
+        },
+        {
+          "w": "INTERPRETATION",
+          "i": "🎭",
+          "examples": [
+            "Each actor brings a fresh interpretation to the classic role.",
+            "What is your interpretation of the poem’s final line?"
+          ]
+        },
+        {
+          "w": "ACQUIESCENCE",
+          "i": "🙇",
+          "examples": [
+            "His quiet acquiescence signaled that he accepted the terms.",
+            "Silent acquiescence is not the same as enthusiastic support."
+          ]
+        },
+        {
+          "w": "ADVERSARIAL",
+          "i": "⚔️",
+          "examples": [
+            "The two lawyers took an adversarial stance in the courtroom.",
+            "Switching to teamwork replaced the adversarial mood."
+          ]
+        },
+        {
+          "w": "AMBIVALENCE",
+          "i": "🤷",
+          "examples": [
+            "She felt deep ambivalence about moving away from her hometown.",
+            "His ambivalence showed in how slowly he made the choice."
+          ]
+        },
+        {
+          "w": "ANOMALY",
+          "i": "🛸",
+          "examples": [
+            "The warm winter day was a strange weather anomaly.",
+            "Scientists studied the magnetic anomaly beneath the ocean floor."
+          ]
+        },
+        {
+          "w": "ARTICULATE",
+          "i": "🗣️",
+          "examples": [
+            "She is an articulate speaker who explains complex ideas simply.",
+            "Try to articulate your concerns calmly during the meeting."
+          ]
+        },
+        {
+          "w": "AUTONOMOUS",
+          "i": "🤖",
+          "examples": [
+            "Autonomous rovers explore the surface of Mars on their own.",
+            "The university operates as an autonomous institution."
+          ]
+        },
+        {
+          "w": "CATEGORICAL",
+          "i": "📌",
+          "examples": [
+            "The witness gave a categorical denial of the rumor.",
+            "Botanists use categorical systems to classify every plant."
+          ]
+        },
+        {
+          "w": "CIRCUMSPECT",
+          "i": "🧐",
+          "examples": [
+            "Be circumspect when sharing personal details online.",
+            "A circumspect investor studies risks before buying."
+          ]
+        },
+        {
+          "w": "CONJECTURE",
+          "i": "💭",
+          "examples": [
+            "Without fossils, the creature’s color remains pure conjecture.",
+            "His explanation was clever, though mostly conjecture."
+          ]
+        },
+        {
+          "w": "CORRELATION",
+          "i": "📈",
+          "examples": [
+            "Studies show a correlation between reading daily and vocabulary growth.",
+            "Correlation alone does not prove that one event caused another."
+          ]
+        },
+        {
+          "w": "DISCREPANCY",
+          "i": "🔎",
+          "examples": [
+            "The accountant noticed a discrepancy between the two ledgers.",
+            "We checked the scales to explain the discrepancy in weight."
+          ]
+        },
+        {
+          "w": "ELABORATION",
+          "i": "✍️",
+          "examples": [
+            "That brief answer needs further elaboration with examples.",
+            "Her elaboration made the historical timeline crystal clear."
+          ]
+        },
+        {
+          "w": "EXTRAPOLATE",
+          "i": "📐",
+          "examples": [
+            "Economists extrapolate future trends from current sales data.",
+            "Be careful not to extrapolate too far beyond the sample."
+          ]
+        },
+        {
+          "w": "FEASIBILITY",
+          "i": "📊",
+          "examples": [
+            "The city funded a feasibility study for the high-speed rail line.",
+            "Engineers reviewed the feasibility of tunneling under the bay."
+          ]
+        },
+        {
+          "w": "HYPOTHETICAL",
+          "i": "🔮",
+          "examples": [
+            "Let us consider a hypothetical scenario where gravity doubles.",
+            "The debate focused on a hypothetical budget crisis."
+          ]
+        },
+        {
+          "w": "INFERENCE",
+          "i": "🧩",
+          "examples": [
+            "From the wet pavement, we made the inference that it had rained.",
+            "Good readers use inference to understand unstated feelings."
+          ]
+        },
+        {
+          "w": "INNOVATIVE",
+          "i": "💡",
+          "examples": [
+            "The students designed an innovative filter for ocean plastic.",
+            "Her innovative teaching style kept everyone engaged."
+          ]
+        },
+        {
+          "w": "LEGISLATION",
+          "i": "🏛️",
+          "examples": [
+            "New legislation aims to protect endangered coastal wetlands.",
+            "The senate debated the education legislation all afternoon."
+          ]
+        },
+        {
+          "w": "METHODOLOGY",
+          "i": "🔬",
+          "examples": [
+            "Explain your research methodology clearly in the science report.",
+            "A sound methodology ensures experiments can be repeated."
+          ]
+        },
+        {
+          "w": "PERSPECTIVE",
+          "i": "🌄",
+          "examples": [
+            "Seeing the valley from the ridge gave us a whole new perspective.",
+            "Listening to others broadens your perspective on the issue."
+          ]
+        },
+        {
+          "w": "ABSTRACTION",
+          "i": "🖼️",
+          "examples": [
+            "Geometric abstraction uses shapes and lines rather than realistic scenes.",
+            "Software engineers rely on abstraction to simplify complex code."
+          ]
+        },
+        {
+          "w": "AMELIORATE",
+          "i": "🩹",
+          "examples": [
+            "Community clinics help ameliorate shortages in rural healthcare.",
+            "Planting shade trees can ameliorate summer heat in cities."
+          ]
+        },
+        {
+          "w": "ANACHRONISM",
+          "i": "⌚",
+          "examples": [
+            "A wristwatch in a medieval movie is an obvious anachronism.",
+            "The old telegraph office seemed like an anachronism downtown."
+          ]
+        },
+        {
+          "w": "ANTITHESIS",
+          "i": "☯️",
+          "examples": [
+            "Calm patience is the antithesis of reckless haste.",
+            "His quiet generosity was the antithesis of greed."
+          ]
+        },
+        {
+          "w": "APPROBATION",
+          "i": "👏",
+          "examples": [
+            "The young pianist beamed at the audience’s warm approbation.",
+            "The proposal won widespread approbation from the faculty."
+          ]
+        },
+        {
+          "w": "BELLIGERENT",
+          "i": "😠",
+          "examples": [
+            "The referee warned the player for his belligerent attitude.",
+            "Peace talks stalled due to belligerent rhetoric."
+          ]
+        },
+        {
+          "w": "CIRCUMLOCUTION",
+          "i": "🌀",
+          "examples": [
+            "Instead of circumlocution, give a direct and concise answer.",
+            "Politicians sometimes use circumlocution to avoid tough questions."
+          ]
+        },
+        {
+          "w": "CONCOMITANT",
+          "i": "🤝",
+          "examples": [
+            "With greater freedom comes concomitant responsibility.",
+            "Increased traffic is a concomitant effect of rapid urban growth."
+          ]
+        },
+        {
+          "w": "DEFERENCE",
+          "i": "🙇",
+          "examples": [
+            "Out of deference to the elders, everyone stood when they entered.",
+            "He listened with quiet deference to his mentor’s advice."
+          ]
+        },
+        {
+          "w": "DISAMBIGUATION",
+          "i": "🔍",
+          "examples": [
+            "The glossary includes disambiguation for words with two meanings.",
+            "Clear labels provide disambiguation between similar models."
+          ]
+        },
+        {
+          "w": "EPHEMERAL",
+          "i": "🫧",
+          "examples": [
+            "Cherry blossoms are famous for their ephemeral spring beauty.",
+            "Social media trends are often intense but ephemeral."
+          ]
+        },
+        {
+          "w": "EXACERBATE",
+          "i": "🔥",
+          "examples": [
+            "Dry winds can exacerbate wildfire conditions in late summer.",
+            "Ignoring the leak will only exacerbate the water damage."
+          ]
+        },
+        {
+          "w": "EXONERATE",
+          "i": "⚖️",
+          "examples": [
+            "New evidence helped exonerate the wrongly accused citizen.",
+            "The investigation was expected to exonerate the captain."
+          ]
+        },
+        {
+          "w": "INTRANSIGENT",
+          "i": "🪨",
+          "examples": [
+            "Both sides remained intransigent, refusing to compromise.",
+            "An intransigent stance made negotiations nearly impossible."
+          ]
+        },
+        {
+          "w": "JUXTAPOSE",
+          "i": "🌗",
+          "examples": [
+            "The exhibit will juxtapose ancient pottery with modern sculpture.",
+            "Authors juxtapose contrasting characters to highlight themes."
+          ]
+        },
+        {
+          "w": "MAGNITUDE",
+          "i": "🌋",
+          "examples": [
+            "Few expected a storm of such destructive magnitude.",
+            "Astronomers measure a star’s brightness by its magnitude."
+          ]
+        },
+        {
+          "w": "METICULOUS",
+          "i": "🖌️",
+          "examples": [
+            "She kept meticulous notes throughout the chemistry lab.",
+            "Watchmakers do meticulous work with tiny gears."
+          ]
+        },
+        {
+          "w": "PRAGMATIC",
+          "i": "🛠️",
+          "examples": [
+            "We need a pragmatic plan that fits our actual budget.",
+            "He took a pragmatic approach and fixed the roof before painting."
+          ]
+        }
+      ],
+      "level_4": [
+        {
+          "w": "ABBREVIATION",
+          "i": "✂️",
+          "examples": [
+            "NASA is a well-known abbreviation for the space agency.",
+            "Check the style guide before using an unfamiliar abbreviation."
+          ]
+        },
+        {
+          "w": "ANNIHILATION",
+          "i": "💥",
+          "examples": [
+            "Conservationists worked to prevent the annihilation of the reef.",
+            "The ancient city faced near annihilation after the eruption."
+          ]
+        },
+        {
+          "w": "APPREHENSIVE",
+          "i": "😟",
+          "examples": [
+            "She felt apprehensive before stepping onto the debate stage.",
+            "Hikers grew apprehensive as dark storm clouds gathered."
+          ]
+        },
+        {
+          "w": "CIRCUMSTANTIAL",
+          "i": "🕵️",
+          "examples": [
+            "The case relied mostly on circumstantial clues rather than video.",
+            "Circumstantial evidence suggested someone had entered the room."
+          ]
+        },
+        {
+          "w": "COEXISTENCE",
+          "i": "🕊️",
+          "examples": [
+            "Peaceful coexistence between wildlife and towns takes planning.",
+            "The treaty promoted long-term coexistence along the border."
+          ]
+        },
+        {
+          "w": "CONSCIENTIOUS",
+          "i": "📚",
+          "examples": [
+            "A conscientious student double-checks every citation.",
+            "The carpenter did conscientious work on the staircase."
+          ]
+        },
+        {
+          "w": "CONTINGENCY",
+          "i": "☂️",
+          "examples": [
+            "Always pack rain gear as a contingency plan for mountain hikes.",
+            "The event organizers prepared a contingency budget."
+          ]
+        },
+        {
+          "w": "ENTREPRENEUR",
+          "i": "💼",
+          "examples": [
+            "The young entrepreneur launched a bakery using local grains.",
+            "Every entrepreneur learns how to manage risk and adapt."
+          ]
+        },
+        {
+          "w": "EXHILARATING",
+          "i": "🎢",
+          "examples": [
+            "Skiing down the sunlit slope was an exhilarating experience.",
+            "The orchestra finished with an exhilarating finale."
+          ]
+        },
+        {
+          "w": "INADVERTENTLY",
+          "i": "🙈",
+          "examples": [
+            "He inadvertently deleted the draft before saving a backup.",
+            "The open gate inadvertently let the sheep into the garden."
+          ]
+        },
+        {
+          "w": "INCOMPREHENSIBLE",
+          "i": "🌀",
+          "examples": [
+            "Without a key, the coded message looked incomprehensible.",
+            "The rapid technical jargon was incomprehensible to beginners."
+          ]
+        },
+        {
+          "w": "INCONSEQUENTIAL",
+          "i": "🪶",
+          "examples": [
+            "Do not waste energy worrying about inconsequential details.",
+            "The minor delay proved inconsequential to the final schedule."
+          ]
+        },
+        {
+          "w": "METAMORPHOSIS",
+          "i": "🦋",
+          "examples": [
+            "A caterpillar undergoes a remarkable metamorphosis into a butterfly.",
+            "The old warehouse went through a complete metamorphosis into a library."
+          ]
+        },
+        {
+          "w": "MISCONCEPTION",
+          "i": "💭",
+          "examples": [
+            "It is a common misconception that bats are completely blind.",
+            "The experiment cleared up our misconception about how heat travels."
+          ]
+        },
+        {
+          "w": "PREJUDICE",
+          "i": "⚖️",
+          "examples": [
+            "Education helps communities overcome fear and prejudice.",
+            "Judge each idea on its merits without prejudice."
+          ]
+        },
+        {
+          "w": "PRONUNCIATION",
+          "i": "🗣️",
+          "examples": [
+            "Listening to native speakers improves your pronunciation.",
+            "The dictionary lists the pronunciation right beside each word."
+          ]
+        },
+        {
+          "w": "SOPHISTICATED",
+          "i": "🎻",
+          "examples": [
+            "Modern telescopes use sophisticated mirrors to image distant galaxies.",
+            "The novel weaves a sophisticated plot across three generations."
+          ]
+        },
+        {
+          "w": "SUBSTANTIATE",
+          "i": "📑",
+          "examples": [
+            "Please substantiate your claim with two peer-reviewed studies.",
+            "Receipts helped substantiate the travel expenses."
+          ]
+        },
+        {
+          "w": "ALLEVIATION",
+          "i": "🕊️",
+          "examples": [
+            "The charity focused on poverty alleviation and clean water.",
+            "Warm tea brought quick alleviation to her sore throat."
+          ]
+        },
+        {
+          "w": "ANTAGONISTIC",
+          "i": "😤",
+          "examples": [
+            "An antagonistic tone rarely persuades anyone in a debate.",
+            "The two rival coaches had an antagonistic relationship."
+          ]
+        },
+        {
+          "w": "ARBITRARY",
+          "i": "🎲",
+          "examples": [
+            "Choosing winners by coin flip felt completely arbitrary.",
+            "The deadline seemed arbitrary rather than based on the workload."
+          ]
+        },
+        {
+          "w": "CONFLAGRATION",
+          "i": "🔥",
+          "examples": [
+            "Firefighters battled the massive conflagration through the night.",
+            "Dry brush turned a small spark into a dangerous conflagration."
+          ]
+        },
+        {
+          "w": "CONSCIENTIOUSNESS",
+          "i": "🏅",
+          "examples": [
+            "Her conscientiousness earned the trust of the entire lab.",
+            "Success in medicine requires skill and conscientiousness."
+          ]
+        },
+        {
+          "w": "DELETERIOUS",
+          "i": "☣️",
+          "examples": [
+            "Polluted runoff has a deleterious effect on river ecosystems.",
+            "Lack of sleep can have deleterious consequences for focus."
+          ]
+        },
+        {
+          "w": "DISILLUSIONMENT",
+          "i": "🥀",
+          "examples": [
+            "Broken promises led to widespread disillusionment among voters.",
+            "The character’s disillusionment drives the novel’s turning point."
+          ]
+        },
+        {
+          "w": "ENTREPRENEURIAL",
+          "i": "🚀",
+          "examples": [
+            "The school club encourages entrepreneurial thinking and teamwork.",
+            "Her entrepreneurial spirit turned a hobby into a thriving studio."
+          ]
+        },
+        {
+          "w": "EPISTEMOLOGY",
+          "i": "🧠",
+          "examples": [
+            "Epistemology explores how we know what is true.",
+            "In philosophy class, we discussed epistemology and scientific proof."
+          ]
+        },
+        {
+          "w": "EQUIVOCATION",
+          "i": "🌫️",
+          "examples": [
+            "Give a straight answer instead of hiding behind equivocation.",
+            "The contract left no room for equivocation."
+          ]
+        },
+        {
+          "w": "IDIOSYNCRASY",
+          "i": "🎨",
+          "examples": [
+            "Wearing mismatched socks was his harmless idiosyncrasy.",
+            "Every old typewriter has its own mechanical idiosyncrasy."
+          ]
+        },
+        {
+          "w": "INCONTROVERTIBLE",
+          "i": "🪨",
+          "examples": [
+            "The fossils offered incontrovertible proof of ancient sea life.",
+            "Video footage provided incontrovertible evidence of the goal."
+          ]
+        },
+        {
+          "w": "JUXTAPOSITION",
+          "i": "🌗",
+          "examples": [
+            "The juxtaposition of snow and palm trees amazed the travelers.",
+            "The film uses a sharp juxtaposition of comedy and sorrow."
+          ]
+        },
+        {
+          "w": "MAGNANIMOUS",
+          "i": "👑",
+          "examples": [
+            "The champion was magnanimous in victory, praising her opponent.",
+            "It was magnanimous of him to forgive the mistake immediately."
+          ]
+        },
+        {
+          "w": "PERFUNCTORY",
+          "i": "🥱",
+          "examples": [
+            "He gave a perfunctory nod without looking up from his book.",
+            "A perfunctory inspection missed the crack in the pipe."
+          ]
+        },
+        {
+          "w": "PERSPICACIOUS",
+          "i": "🦉",
+          "examples": [
+            "The perspicacious editor spotted the flaw on the first read.",
+            "Her perspicacious questions got straight to the heart of the issue."
+          ]
+        },
+        {
+          "w": "PRECARIOUS",
+          "i": "🧗",
+          "examples": [
+            "The mountain goat stood on a precarious ledge above the canyon.",
+            "Without steady funding, the theater’s future looked precarious."
+          ]
+        },
+        {
+          "w": "RECONCILIATION",
+          "i": "🤝",
+          "examples": [
+            "Honest conversation paved the way for reconciliation.",
+            "The two chapters ended with a moving reconciliation."
+          ]
+        },
+        {
+          "w": "SURREPTITIOUS",
+          "i": "🤫",
+          "examples": [
+            "She took a surreptitious glance at the surprise gift box.",
+            "The spy made a surreptitious exit through the side alley."
+          ]
+        },
+        {
+          "w": "UBIQUITOUS",
+          "i": "📱",
+          "examples": [
+            "Smartphones have become ubiquitous in modern daily life.",
+            "Coffee shops are ubiquitous along the downtown avenue."
+          ]
+        },
+        {
+          "w": "ACQUIESCE",
+          "i": "🙇",
+          "examples": [
+            "Rather than argue, he decided to acquiesce to the group’s choice.",
+            "She refused to acquiesce to unfair rules."
+          ]
+        },
+        {
+          "w": "ANACHRONISTIC",
+          "i": "🏰",
+          "examples": [
+            "Using a smartphone in a historical play feels anachronistic.",
+            "Some people consider handwritten checks slightly anachronistic."
+          ]
+        },
+        {
+          "w": "ANTEDILUVIAN",
+          "i": "🦕",
+          "examples": [
+            "The attic was full of antediluvian radios and dusty trunks.",
+            "His views on technology seemed positively antediluvian."
+          ]
+        },
+        {
+          "w": "BOURGEOISIE",
+          "i": "🏛️",
+          "examples": [
+            "History textbooks often examine the rise of the urban bourgeoisie.",
+            "The novel satirizes the manners of the nineteenth-century bourgeoisie."
+          ]
+        },
+        {
+          "w": "CAPRICIOUS",
+          "i": "🍃",
+          "examples": [
+            "Mountain weather is notoriously capricious in April.",
+            "A capricious ruler changes laws on a whim."
+          ]
+        },
+        {
+          "w": "CIRCUMSPECTION",
+          "i": "🧐",
+          "examples": [
+            "Handling fragile artifacts demands patience and circumspection.",
+            "She spoke with circumspection so no one would be offended."
+          ]
+        },
+        {
+          "w": "DICHOTOMY",
+          "i": "☯️",
+          "examples": [
+            "The essay challenges the false dichotomy between art and science.",
+            "There was a sharp dichotomy between his words and actions."
+          ]
+        },
+        {
+          "w": "DISINGENUOUS",
+          "i": "🎭",
+          "examples": [
+            "Pretending not to know the rules was a disingenuous excuse.",
+            "Critics called the misleading advertisement disingenuous."
+          ]
+        },
+        {
+          "w": "ESOTERIC",
+          "i": "📜",
+          "examples": [
+            "The lecture covered esoteric details of medieval astronomy.",
+            "Only a few specialists understood the esoteric terminology."
+          ]
+        },
+        {
+          "w": "EXCULPATORY",
+          "i": "⚖️",
+          "examples": [
+            "The defense uncovered exculpatory records that cleared her name.",
+            "Exculpatory evidence must be shared before the trial."
+          ]
+        },
+        {
+          "w": "FASTIDIOUS",
+          "i": "🧼",
+          "examples": [
+            "The chef is fastidious about keeping every knife spotless.",
+            "He is fastidious in checking grammar before publishing."
+          ]
+        },
+        {
+          "w": "IDIOSYNCRATIC",
+          "i": "🌀",
+          "examples": [
+            "The director is known for his idiosyncratic visual style.",
+            "Her idiosyncratic handwriting is instantly recognizable."
+          ]
+        },
+        {
+          "w": "INELUCTABLE",
+          "i": "⏳",
+          "examples": [
+            "Change is an ineluctable part of growing older.",
+            "The story moves toward an ineluctable conclusion."
+          ]
+        },
+        {
+          "w": "LACHRYMOSE",
+          "i": "💧",
+          "examples": [
+            "The lachrymose farewell scene left half the theater in tears.",
+            "Avoid overly lachrymose speeches at a lighthearted celebration."
+          ]
+        },
+        {
+          "w": "LOQUACIOUS",
+          "i": "🗣️",
+          "examples": [
+            "My loquacious neighbor can chat happily for an hour.",
+            "The loquacious host kept the dinner conversation lively."
+          ]
+        },
+        {
+          "w": "MELLIFLUOUS",
+          "i": "🎶",
+          "examples": [
+            "The cello produced a warm, mellifluous tone.",
+            "Her mellifluous voice made the audiobook a joy to hear."
+          ]
+        },
+        {
+          "w": "OBFUSCATION",
+          "i": "🌫️",
+          "examples": [
+            "Clear writing avoids jargon and deliberate obfuscation.",
+            "Vague numbers added obfuscation to the financial report."
+          ]
+        },
+        {
+          "w": "PERSPICUITY",
+          "i": "💎",
+          "examples": [
+            "Readers praised the perspicuity of her science essays.",
+            "Complex laws should still be written with perspicuity."
+          ]
+        },
+        {
+          "w": "RECALCITRANT",
+          "i": "🫏",
+          "examples": [
+            "The recalcitrant mule refused to cross the shallow stream.",
+            "Patient coaching helped guide the recalcitrant student."
+          ]
+        },
+        {
+          "w": "VICISSITUDE",
+          "i": "🌊",
+          "examples": [
+            "The family stayed united through every vicissitude of fortune.",
+            "History teaches us how nations adapt to each vicissitude of power."
+          ]
+        },
+        {
+          "w": "ABYSMAL",
+          "i": "🕳️",
+          "examples": [
+            "Visibility was abysmal during the thick coastal fog.",
+            "After two weeks without rain, the crop yield was abysmal."
+          ]
+        },
+        {
+          "w": "ACQUIESCENT",
+          "i": "😌",
+          "examples": [
+            "She was too acquiescent to speak up when the plan changed.",
+            "An acquiescent audience nodded along to every point."
+          ]
+        },
+        {
+          "w": "BELLWETHER",
+          "i": "🔔",
+          "examples": [
+            "Tech stocks often serve as a bellwether for the broader market.",
+            "Frogs are a bellwether species for wetland health."
+          ]
+        },
+        {
+          "w": "CAMARADERIE",
+          "i": "🏕️",
+          "examples": [
+            "Long rehearsals built strong camaraderie among the cast.",
+            "Hiking together created a lasting sense of camaraderie."
+          ]
+        },
+        {
+          "w": "CACOPHONY",
+          "i": "🎺",
+          "examples": [
+            "A cacophony of car horns echoed down the busy street.",
+            "The tuning orchestra sounded like a cheerful cacophony."
+          ]
+        },
+        {
+          "w": "CONNOISSEUR",
+          "i": "🍷",
+          "examples": [
+            "As a connoisseur of jazz, he collects rare vinyl records.",
+            "She is a connoisseur of artisan dark chocolate."
+          ]
+        },
+        {
+          "w": "DEBILITATING",
+          "i": "🤒",
+          "examples": [
+            "A debilitating migraine kept him in a dark room all day.",
+            "The drought had a debilitating impact on local farms."
+          ]
+        },
+        {
+          "w": "DESICCATION",
+          "i": "🏜️",
+          "examples": [
+            "Prolonged heat caused severe desiccation of the topsoil.",
+            "Seeds are dried carefully to survive desiccation during storage."
+          ]
+        },
+        {
+          "w": "ECCENTRICITY",
+          "i": "🎩",
+          "examples": [
+            "The inventor’s eccentricity only made his neighbors like him more.",
+            "The planet’s orbital eccentricity affects its seasonal length."
+          ]
+        },
+        {
+          "w": "EFFERVESCENCE",
+          "i": "🥂",
+          "examples": [
+            "Chilled sparkling water keeps its bright effervescence longer.",
+            "Her natural effervescence lit up every room she entered."
+          ]
+        },
+        {
+          "w": "EPIPHANY",
+          "i": "💡",
+          "examples": [
+            "While walking home, she had a sudden epiphany about the math proof.",
+            "The character’s epiphany changes the course of the play."
+          ]
+        },
+        {
+          "w": "EXQUISITE",
+          "i": "✨",
+          "examples": [
+            "The jeweler carved an exquisite silver pendant.",
+            "The sunset painted the clouds in exquisite shades of gold."
+          ]
+        },
+        {
+          "w": "FACETIOUS",
+          "i": "😜",
+          "examples": [
+            "He made a facetious remark to lighten the tense meeting.",
+            "Do not take my facetious joke seriously."
+          ]
+        },
+        {
+          "w": "GRANDILOQUENT",
+          "i": "🎩",
+          "examples": [
+            "His grandiloquent speech was full of big words and little substance.",
+            "The villain delivered a grandiloquent monologue."
+          ]
+        },
+        {
+          "w": "HARBINGER",
+          "i": "🐦",
+          "examples": [
+            "The first robin is often seen as a harbinger of spring.",
+            "Falling barometric pressure is a harbinger of a storm."
+          ]
+        },
+        {
+          "w": "INCORRIGIBLE",
+          "i": "😈",
+          "examples": [
+            "Our puppy is an incorrigible chewer of forgotten sneakers.",
+            "He is an incorrigible optimist who always sees a bright side."
+          ]
+        },
+        {
+          "w": "INDEFATIGABLE",
+          "i": "🔋",
+          "examples": [
+            "The indefatigable volunteers worked late to pack relief kits.",
+            "Her indefatigable curiosity kept her reading past midnight."
+          ]
+        },
+        {
+          "w": "KALEIDOSCOPE",
+          "i": "🔮",
+          "examples": [
+            "Turning the kaleidoscope revealed endless colorful patterns.",
+            "Autumn leaves formed a kaleidoscope of red and gold."
+          ]
+        },
+        {
+          "w": "LABYRINTH",
+          "i": "🌀",
+          "examples": [
+            "The old market was a labyrinth of narrow winding alleys.",
+            "Tax rules can feel like a confusing labyrinth."
+          ]
+        },
+        {
+          "w": "LIAISONS",
+          "i": "🤝",
+          "examples": [
+            "Student liaisons help connect clubs with the school council.",
+            "Community liaisons shared updates with every neighborhood."
+          ]
+        },
+        {
+          "w": "ONOMATOPOEIA",
+          "i": "💥",
+          "examples": [
+            "Words like buzz and splash are classic examples of onomatopoeia.",
+            "Comic books use onomatopoeia to bring sound effects to life."
+          ]
+        },
+        {
+          "w": "OSTENTATIOUS",
+          "i": "💍",
+          "examples": [
+            "The mansion’s gold gates looked overly ostentatious.",
+            "She preferred simple elegance over ostentatious jewelry."
+          ]
+        },
+        {
+          "w": "PSEUDONYM",
+          "i": "🖋️",
+          "examples": [
+            "Mark Twain was the famous pseudonym used by Samuel Clemens.",
+            "The author published her mystery novels under a pseudonym."
+          ]
+        },
+        {
+          "w": "QUINTESSENTIAL",
+          "i": "🌟",
+          "examples": [
+            "A warm apple pie is the quintessential autumn dessert.",
+            "She is the quintessential team player on and off the court."
+          ]
+        },
+        {
+          "w": "RENDEZVOUS",
+          "i": "📍",
+          "examples": [
+            "The hikers planned a midday rendezvous at the lookout tower.",
+            "The spacecraft completed a smooth orbital rendezvous."
+          ]
+        },
+        {
+          "w": "RESILIENCE",
+          "i": "🌱",
+          "examples": [
+            "Coastal mangroves show amazing resilience after hurricanes.",
+            "Practice and support help young athletes build resilience."
+          ]
+        },
+        {
+          "w": "SANGUINE",
+          "i": "☀️",
+          "examples": [
+            "Despite the early rain, they remained sanguine about the picnic.",
+            "She felt sanguine about her chances after preparing well."
+          ]
+        },
+        {
+          "w": "SIMULTANEOUS",
+          "i": "⏱️",
+          "examples": [
+            "The two runners achieved a nearly simultaneous finish.",
+            "Light and thunder happen together, though they seem less simultaneous from afar."
+          ]
+        },
+        {
+          "w": "SUPERFLUOUS",
+          "i": "✂️",
+          "examples": [
+            "Cut any superfluous adjectives to make your writing sharper.",
+            "Packing three coats for a beach trip is superfluous."
+          ]
+        },
+        {
+          "w": "SUSCEPTIBLE",
+          "i": "🛡️",
+          "examples": [
+            "Young seedlings are especially susceptible to late frost.",
+            "People without rest are more susceptible to catching colds."
+          ]
+        },
+        {
+          "w": "TENACIOUS",
+          "i": "🦀",
+          "examples": [
+            "Her tenacious defense kept the opposing team from scoring.",
+            "Ivy has a tenacious grip on old brick walls."
+          ]
+        },
+        {
+          "w": "TRANQUILITY",
+          "i": "🪷",
+          "examples": [
+            "Early morning by the lake brings pure tranquility.",
+            "The quiet garden offered tranquility away from city noise."
+          ]
+        },
+        {
+          "w": "UNPRECEDENTED",
+          "i": "🚀",
+          "examples": [
+            "The library saw an unprecedented surge in summer readers.",
+            "Scientists recorded unprecedented warmth in the Arctic ocean."
+          ]
+        },
+        {
+          "w": "VICARIOUS",
+          "i": "📖",
+          "examples": [
+            "Travel memoirs offer readers a vicarious sense of adventure.",
+            "Parents often feel vicarious pride at their children’s recitals."
+          ]
+        },
+        {
+          "w": "WHIMSICAL",
+          "i": "🎠",
+          "examples": [
+            "The storybook is filled with whimsical illustrations of flying teapots.",
+            "She wore a whimsical hat shaped like a sunflower."
+          ]
+        },
+        {
+          "w": "ZEALOUS",
+          "i": "🔥",
+          "examples": [
+            "The zealous fans cheered loudly through the entire rainstorm.",
+            "He was a zealous defender of local wildlife habitats."
+          ]
+        },
+        {
+          "w": "ZEITGEIST",
+          "i": "🕰️",
+          "examples": [
+            "That novel captured the hopeful zeitgeist of the decade.",
+            "Fashion often reflects the changing zeitgeist of a generation."
           ]
         }
       ]

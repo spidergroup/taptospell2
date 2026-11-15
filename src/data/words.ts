@@ -13,7 +13,8 @@ export type HighSchoolCategoryKey =
   | 'nature'
   | 'places'
   | 'movies'
-  | 'fruits';
+  | 'fruits'
+  | 'academic';
 
 export type HighSchoolCategoryName =
   | 'Colors'
@@ -22,7 +23,8 @@ export type HighSchoolCategoryName =
   | 'Nature'
   | 'Places'
   | 'Movies'
-  | 'Fruits';
+  | 'Fruits'
+  | 'Academic';
 
 export type GradeCategoryName =
   | 'Grade 1'
@@ -59,6 +61,14 @@ export interface HighSchoolCategoryMeta {
 }
 
 export const HIGH_SCHOOL_CATEGORIES: HighSchoolCategoryMeta[] = [
+  {
+    key: 'academic',
+    label: 'Academic',
+    emoji: '🎓',
+    gradientClass: 'from-sky-400 to-indigo-700',
+    shadowClass: 'shadow-[0_8px_0_#312e81]',
+    borderClass: 'border-sky-200',
+  },
   {
     key: 'colors',
     label: 'Colors',
@@ -213,6 +223,12 @@ export const WORD_POOLS: WordPoolsStructure = {
       level_2: normalizeWordEntries(rawOthers.fruits.level_2),
       level_3: normalizeWordEntries(rawOthers.fruits.level_3),
       level_4: normalizeWordEntries(rawOthers.fruits.level_4),
+    },
+    academic: {
+      level_1: normalizeWordEntries(rawOthers.academic.level_1),
+      level_2: normalizeWordEntries(rawOthers.academic.level_2),
+      level_3: normalizeWordEntries(rawOthers.academic.level_3),
+      level_4: normalizeWordEntries(rawOthers.academic.level_4),
     },
   },
 };

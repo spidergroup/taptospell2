@@ -14,16 +14,28 @@ export type KeyboardLayout = 'bank' | 'qwerty';
 
 /**
  * Calculates initial hints for a word based on difficulty progression across levels:
+ * For Grades 1–6 (baseReduction = 1):
  * - Level 1 to 4: hints = wordLength - 1
  * - Level 5 to 6: hints = wordLength - 2
  * - Level 7 to 8: hints = wordLength - 3
  * - Level 9 to 10: hints = wordLength - 4
+ * For High School (baseReduction = 2):
+ * - Level 1 to 4: hints = wordLength - 2
+ * - Level 5 to 6: hints = wordLength - 3
+ * - Level 7 to 8: hints = wordLength - 4
+ * - Level 9 to 10: hints = wordLength - 5
  * With a floor of 1 hint remaining (unless wordLength <= 1 where hints = 0).
  */
-export function calculateInitialHints(wordLength: number, level: number = 1): number {
+export function calculateInitialHints(
+  wordLength: number,
+  level: number = 1,
+  grade: GradeLevel = 2
+): number {
   if (wordLength <= 1) return 0;
   const clampedLevel = Math.max(1, Math.floor(level || 1));
-  const reduction = clampedLevel <= 4 ? 1 : 1 + Math.ceil((clampedLevel - 4) / 2);
+  const baseReduction = grade === 'high_school' ? 2 : 1;
+  const reduction =
+    clampedLevel <= 4 ? baseReduction : baseReduction + Math.ceil((clampedLevel - 4) / 2);
   return Math.max(1, wordLength - reduction);
 }
 
@@ -155,10 +167,10 @@ export function loadSavedGame(): GameState | null {
     if (typeof hintsRemaining !== 'number') {
       const level = typeof parsed.level === 'number' ? parsed.level : 1;
       if (targetLen > 0) {
-        hintsRemaining = calculateInitialHints(targetLen, level);
+        hintsRemaining = calculateInitialHints(targetLen, level, grade);
       } else {
         const wordsCount = getWordsPerLevel(grade);
-        hintsRemaining = calculateInitialHints(wordsCount, level);
+        hintsRemaining = calculateInitialHints(wordsCount, level, grade);
       }
     }
 

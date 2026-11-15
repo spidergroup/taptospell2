@@ -35,9 +35,9 @@ const GRADE_ORDINAL_LABELS: Record<NumericGrade, string> = {
 };
 
 const GRADE_SEO_DESCRIPTIONS: Record<NumericGrade, string> = {
-  1: 'Free interactive 1st Grade spelling game with 315 Dolch, Fry, and Common Core sight words, emoji cues, and spoken audio pronunciation.',
-  2: 'Practice 2nd Grade spelling and vocabulary with 218 curated elementary words across 3 progressive difficulty tiers, audio pronunciation, and smart hints.',
-  3: 'Master 3rd Grade spelling words with 228 curriculum vocabulary terms, multisyllabic patterns, spoken TTS audio, and tactile 3D letter tiles.',
+  1: 'Free interactive 1st Grade spelling game with 314 Dolch, Fry, and Common Core sight words, emoji cues, and spoken audio pronunciation.',
+  2: 'Practice 2nd Grade spelling and vocabulary with 217 curated elementary words across 3 progressive difficulty tiers, audio pronunciation, and smart hints.',
+  3: 'Master 3rd Grade spelling words with 227 curriculum vocabulary terms, multisyllabic patterns, spoken TTS audio, and tactile 3D letter tiles.',
   4: 'Interactive 4th Grade spelling and academic vocabulary game featuring 357 Common Core ELA words, progressive levels, and instant error feedback.',
   5: 'Build 5th Grade vocabulary and spelling skills with 415 words covering Latin/Greek roots, academic tier-2 terms, and audio-guided practice.',
   6: 'Challenge 6th Grade learners with 431 advanced elementary and middle-school transition vocabulary words across 10 progressive levels.',
@@ -51,6 +51,7 @@ const HIGH_SCHOOL_CATEGORY_SLUGS: Record<HighSchoolCategoryKey, string> = {
   places: 'places',
   movies: 'movies',
   fruits: 'fruits',
+  academic: 'academic',
 };
 
 const HIGH_SCHOOL_CATEGORY_DESCRIPTIONS: Record<HighSchoolCategoryKey, string> = {
@@ -67,15 +68,17 @@ const HIGH_SCHOOL_CATEGORY_DESCRIPTIONS: Record<HighSchoolCategoryKey, string> =
   movies:
     'High School Movies, Cinema & Storytelling spelling game with 250 film, genre, and dramatic arts vocabulary words.',
   fruits:
-    'High School Fruits, Culinary & Botanical spelling game featuring 231 common, tropical, and exotic fruit vocabulary words.',
+    'High School Fruits, Culinary & Botanical spelling game featuring 230 common, tropical, and exotic fruit vocabulary words.',
+  academic:
+    'High School Academic & SAT/ACT spelling game with 265 Grades 9–12, college-prep, and advanced literary vocabulary words across 4 difficulty tiers.',
 };
 
 export function getAllSeoPages(): PageSeoMetadata[] {
   const homePage: PageSeoMetadata = {
     path: '/',
-    title: 'TapToSpell! — Free Kids & High School Spelling Game (Grades 1–6 & 7 Topics)',
+    title: 'TapToSpell! — Free Kids & High School Spelling Game (Grades 1–6 & 8 Topics)',
     description:
-      'Interactive educational spelling and vocabulary game for Grades 1–6 and High School. Practice 3,875+ curated words with emoji visual cues, spoken audio pronunciation, and smart hints.',
+      'Interactive educational spelling and vocabulary game for Grades 1–6 and High School. Practice 4,045+ curated words with emoji visual cues, spoken audio pronunciation, and smart hints.',
     keywords: [
       'spelling game',
       'kids spelling game',
@@ -128,9 +131,9 @@ export function getAllSeoPages(): PageSeoMetadata[] {
 
   const highSchoolHubPage: PageSeoMetadata = {
     path: '/high-school',
-    title: 'High School Vocabulary & Spelling Game — 7 Topic Categories (2,011 Words) | TapToSpell',
+    title: 'High School Vocabulary & Spelling Game — 8 Topic Categories (2,084 Words) | TapToSpell',
     description:
-      'Practice 2,011 High School English spelling and vocabulary words across 7 themed categories: Colors, Animals, Everyday Life, Nature, Places, Movies, and Fruits.',
+      'Practice 2,084 High School English spelling and vocabulary words across 8 themed categories: Academic, Colors, Animals, Everyday Life, Nature, Places, Movies, and Fruits.',
     keywords: [
       'high school spelling game',
       'high school vocabulary practice',
@@ -302,7 +305,7 @@ export function buildJsonLd(page: PageSeoMetadata, origin: string = DEFAULT_BASE
           name: 'What grades and vocabulary levels are included in TapToSpell?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'TapToSpell includes Grades 1 through 6 elementary spelling curricula (1,864 words based on Dolch, Fry, Marzano, and Common Core standards) plus a High School mode with 2,011 words across 7 topic categories (Colors, Animals, Everyday Life, Nature, Places, Movies, and Fruits).',
+            text: 'TapToSpell includes Grades 1 through 6 elementary spelling curricula (1,961 words based on Dolch, Fry, Marzano, and Common Core standards) plus a High School mode with 2,084 words across 8 topic categories (Academic, Colors, Animals, Everyday Life, Nature, Places, Movies, and Fruits), offering 4,045 total curated words.',
           },
         },
         {
@@ -401,7 +404,7 @@ export function generateWebManifest(): string {
       name: 'TapToSpell! — Kids & High School Spelling Game',
       short_name: 'TapToSpell',
       description:
-        'Interactive spelling and vocabulary game for Grades 1–6 and High School with 3,875+ curated words, spoken audio pronunciation, and emoji visual cues.',
+        'Interactive spelling and vocabulary game for Grades 1–6 and High School with 4,045+ curated words, spoken audio pronunciation, and emoji visual cues.',
       start_url: '/',
       display: 'standalone',
       background_color: '#0f172a',

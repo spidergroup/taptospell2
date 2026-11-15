@@ -7,4 +7,6 @@ dist/
 public/app.js
 public/styles.css
 public/fonts/
+test-results/
+playwright-report/
 

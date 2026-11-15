@@ -48,7 +48,7 @@ const OG_IMAGE_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" heigh
   <rect x="40" y="40" width="1120" height="550" rx="36" fill="#1e293b" stroke="#334155" stroke-width="4"/>
   <text x="600" y="240" font-family="Nunito, Arial, sans-serif" font-size="108" font-weight="900" text-anchor="middle" fill="url(#titleGrad)">TapToSpell!</text>
   <text x="600" y="340" font-family="Nunito, Arial, sans-serif" font-size="40" font-weight="700" text-anchor="middle" fill="#e2e8f0">Interactive Spelling &amp; Vocabulary Game</text>
-  <text x="600" y="420" font-family="Nunito, Arial, sans-serif" font-size="32" font-weight="600" text-anchor="middle" fill="#94a3b8">Grades 1–6 Curriculum • High School 7 Topic Categories • 3,875+ Words</text>
+  <text x="600" y="420" font-family="Nunito, Arial, sans-serif" font-size="32" font-weight="600" text-anchor="middle" fill="#94a3b8">Grades 1–6 Curriculum • High School 8 Topic Categories • 4,045+ Words</text>
 </svg>`;
 
 export function renderHtmlDocument(

@@ -156,7 +156,7 @@ export function HomeScreen({
                     : 'bg-slate-800/80 text-slate-200'
                 }`}
               >
-                {getWordsPerLevel('high_school')} words / level • 7 Categories
+                {getWordsPerLevel('high_school')} words / level • {HIGH_SCHOOL_CATEGORIES.length} Categories
               </span>
             </button>
           </div>
@@ -239,7 +239,7 @@ export function HomeScreen({
         >
           <details className="group">
             <summary className="cursor-pointer list-none inline-flex items-center gap-2 font-bold text-slate-300 hover:text-white px-4 py-2 rounded-full bg-slate-800/70 border border-slate-700/80 transition-colors">
-              <span>More: Browse All Grade &amp; Category Pages (3,875+ Words)</span>
+              <span>More: Browse All Grade &amp; Category Pages (4,045+ Words)</span>
               <span className="text-xs text-slate-400 group-open:rotate-180 transition-transform">▼</span>
             </summary>
             <nav

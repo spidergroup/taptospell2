@@ -302,9 +302,13 @@ export function App({ initialPath, initialRoute }: AppProps = {}) {
 
   const triggerLevelComplete = useCallback(
     (completedState: GameState) => {
+      const isFinalLevel = completedState.level >= TOTAL_LEVELS;
+      const overlaySeconds = isFinalLevel ? 10 : 5;
+      const overlayDurationMs = overlaySeconds * 1000;
+
       setOverlayVisible(true);
       overlayVisibleRef.current = true;
-      setOverlayTimeLeft(5);
+      setOverlayTimeLeft(overlaySeconds);
 
       if (countdownIntervalRef.current) {
         clearInterval(countdownIntervalRef.current);
@@ -313,9 +317,9 @@ export function App({ initialPath, initialRoute }: AppProps = {}) {
         clearTimeout(transitionTimeoutRef.current);
       }
 
-      startLevelConfetti(5000);
+      startLevelConfetti(overlayDurationMs);
 
-      let timeLeft = 5;
+      let timeLeft = overlaySeconds;
       countdownIntervalRef.current = setInterval(() => {
         timeLeft -= 1;
         if (timeLeft >= 0) {
@@ -333,7 +337,7 @@ export function App({ initialPath, initialRoute }: AppProps = {}) {
         overlayVisibleRef.current = false;
         setIsWordSuccess(false);
 
-        if (completedState.level >= TOTAL_LEVELS) {
+        if (isFinalLevel) {
           clearSaveState();
           const resetState = createInitialGameState(userPrefGrade);
           setGameState(resetState);
@@ -363,7 +367,7 @@ export function App({ initialPath, initialRoute }: AppProps = {}) {
           };
           loadWordIntoGame(nextState);
         }
-      }, 5000);
+      }, overlayDurationMs);
     },
     [loadWordIntoGame, syncUrlAndSeo, userPrefGrade]
   );
@@ -693,6 +697,8 @@ export function App({ initialPath, initialRoute }: AppProps = {}) {
         level={gameState.level}
         score={gameState.score}
         timeLeft={overlayTimeLeft}
+        grade={gameState.grade}
+        category={gameState.category}
       />
     </>
   );

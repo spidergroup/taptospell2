@@ -10,16 +10,16 @@ import {
 } from './seo';
 
 describe('seo.ts & worker.ts — Multi-Page SEO, Structured Data, Sitemap & Robots', () => {
-  it('defines 15 unique SEO pages covering Home, Grades 1–6, High School Hub, and all 7 High School categories', () => {
+  it('defines 16 unique SEO pages covering Home, Grades 1–6, High School Hub, and all 8 High School categories', () => {
     const pages = getAllSeoPages();
-    expect(pages.length).toBe(15);
+    expect(pages.length).toBe(16);
 
     const titles = new Set(pages.map((p) => p.title));
     const descriptions = new Set(pages.map((p) => p.description));
     const paths = pages.map((p) => p.path);
 
-    expect(titles.size).toBe(15);
-    expect(descriptions.size).toBe(15);
+    expect(titles.size).toBe(16);
+    expect(descriptions.size).toBe(16);
     expect(paths).toEqual([
       '/',
       '/grade/1',
@@ -29,6 +29,7 @@ describe('seo.ts & worker.ts — Multi-Page SEO, Structured Data, Sitemap & Robo
       '/grade/5',
       '/grade/6',
       '/high-school',
+      '/high-school/academic',
       '/high-school/colors',
       '/high-school/animals',
       '/high-school/everyday-life',
@@ -67,6 +68,7 @@ describe('seo.ts & worker.ts — Multi-Page SEO, Structured Data, Sitemap & Robo
     const homeHtml = await homeRes.text();
     expect(homeHtml).toContain('https://www.youtube.com/watch?v=AU_HuIjqcT8');
     expect(homeHtml).toContain('https://www.youtube.com/embed/AU_HuIjqcT8');
+    expect(homeHtml).toContain('content="Interactive educational spelling and vocabulary game for Grades 1–6 and High School. Practice 4,045+ curated words with emoji visual cues, spoken audio pronunciation, and smart hints."');
 
     const gradeRes = await worker.fetch(new Request('https://taptospell.com/grade/4'), {});
     expect(gradeRes.status).toBe(200);

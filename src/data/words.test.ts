@@ -37,8 +37,9 @@ describe('words.ts — WORD_POOLS, Progressive Difficulty & Queue Cycling', () =
     }
   });
 
-  it('loads all 7 High School categories from data/others.json with 4 difficulty tiers each', () => {
+  it('loads all 8 High School categories from data/others.json with 4 difficulty tiers each', () => {
     expect(HIGH_SCHOOL_CATEGORIES.map((c) => c.key)).toEqual([
+      'academic',
       'colors',
       'animals',
       'everyday_life',
@@ -56,6 +57,7 @@ describe('words.ts — WORD_POOLS, Progressive Difficulty & Queue Cycling', () =
       places: { level_1: 38, level_2: 76, level_3: 103, level_4: 103 },
       movies: { level_1: 39, level_2: 73, level_3: 80, level_4: 58 },
       fruits: { level_1: 20, level_2: 46, level_3: 59, level_4: 105 },
+      academic: { level_1: 40, level_2: 52, level_3: 78, level_4: 95 },
     } as const;
 
     for (const [catKey, tiers] of Object.entries(expectedCounts)) {

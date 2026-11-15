@@ -157,6 +157,16 @@ describe('gameplay.ts — Duplicate-Key Tracking, Smart Hints & Physical Keyboar
 
     const lvl10Init = initWordState({ ...baseState, level: 10 });
     expect(lvl10Init.hintsRemaining).toBe(4); // 8 - 4 = 4
+
+    // High School starts with wordLength - 2 at Level 1-4
+    expect(calculateInitialHints(8, 1, 'high_school')).toBe(6); // 8 - 2 = 6
+    expect(calculateInitialHints(8, 4, 'high_school')).toBe(6); // 8 - 2 = 6
+    expect(calculateInitialHints(8, 5, 'high_school')).toBe(5); // 8 - 3 = 5
+    expect(calculateInitialHints(8, 7, 'high_school')).toBe(4); // 8 - 4 = 4
+    expect(calculateInitialHints(8, 9, 'high_school')).toBe(3); // 8 - 5 = 3
+
+    const hsInit = initWordState({ ...baseState, grade: 'high_school', level: 1 });
+    expect(hsInit.hintsRemaining).toBe(6); // 8 - 2 = 6
   });
 });
 
